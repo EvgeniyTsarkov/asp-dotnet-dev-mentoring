@@ -2,11 +2,6 @@
 {
     public class Supplier
     {
-        public Supplier()
-        {
-            Products = new List<Product>();
-        }
-
         public int SupplierId { get; set; }
 
         public string CompanyName { get; set; }
@@ -31,6 +26,6 @@
 
         public string HomePage { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

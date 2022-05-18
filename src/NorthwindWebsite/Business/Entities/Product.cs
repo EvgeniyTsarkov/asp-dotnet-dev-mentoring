@@ -2,11 +2,6 @@
 {
     public class Product
     {
-        public Product()
-        {
-            OrderDetails = new List<OrderDetail>();
-        }
-
         public int ProductId { get; set; }
 
         public string ProductName { get; set; } = null!;
@@ -31,6 +26,6 @@
 
         public virtual Supplier? Supplier { get; set; }
 
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }

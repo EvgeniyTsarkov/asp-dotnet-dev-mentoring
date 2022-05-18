@@ -2,11 +2,6 @@
 {
     public class Order
     {
-        public Order()
-        {
-            OrderDetails = new List<OrderDetail>();
-        }
-
         public int OrderId { get; set; }
 
         public string CustomerId { get; set; }
@@ -41,6 +36,6 @@
 
         public virtual Shipper ShipViaNavigation { get; set; }
 
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }

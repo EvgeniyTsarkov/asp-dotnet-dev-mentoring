@@ -2,13 +2,6 @@
 {
     public class Employee
     {
-        public Employee()
-        {
-            InverseReportsToNavigation = new List<Employee>();
-            Orders = new List<Order>();
-            Territories = new List<Territory>();
-        }
-
         public int EmployeeId { get; set; }
 
         public string LastName { get; set; }
@@ -47,10 +40,10 @@
 
         public virtual Employee ReportsToNavigation { get; set; }
 
-        public virtual ICollection<Employee> InverseReportsToNavigation { get; set; }
+        public virtual ICollection<Employee> InverseReportsToNavigation { get; set; } = new List<Employee>();
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-        public virtual ICollection<Territory> Territories { get; set; }
+        public virtual ICollection<Territory> Territories { get; set; } = new List<Territory>();
     }
 }

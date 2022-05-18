@@ -2,12 +2,6 @@
 {
     public class Customer
     {
-        public Customer()
-        {
-            Orders = new List<Order>();
-            CustomerTypes = new List<CustomerDemographic>();
-        }
-
         public string CustomerId { get; set; }
 
         public string CompanyName { get; set; }
@@ -30,8 +24,9 @@
 
         public string Fax { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-        public virtual ICollection<CustomerDemographic> CustomerTypes { get; set; }
+        public virtual ICollection<CustomerDemographic> CustomerTypes { get; set; } = 
+            new List<CustomerDemographic>();
     }
 }
