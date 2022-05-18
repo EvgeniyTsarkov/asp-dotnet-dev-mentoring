@@ -9,7 +9,7 @@ public static class ServicesConfiguration
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllersWithViews();
-        services.AddDbContext<NorthwindContext>();
+
         services.AddTransient<ICategoryService, CategoryService>();
     }
 }
