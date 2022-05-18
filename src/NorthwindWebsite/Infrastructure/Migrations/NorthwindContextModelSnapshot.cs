@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using NorthwindWebsite;
+using NorthwindWebsite.Infrastructure;
 
 #nullable disable
 
 namespace NorthwindWebsite.Migrations
 {
     [DbContext(typeof(NorthwindContext))]
-    [Migration("20220516201525_InitialCreate")]
-    partial class InitialCreate
+    partial class NorthwindContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

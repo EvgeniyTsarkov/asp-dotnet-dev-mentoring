@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NorthwindWebsite.Infrastructure;
 
 namespace NorthwindWebsite.Configuration
 {

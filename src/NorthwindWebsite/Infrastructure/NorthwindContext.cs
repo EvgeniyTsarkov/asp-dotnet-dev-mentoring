@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NorthwindWebsite.Entities;
 
-namespace NorthwindWebsite
+namespace NorthwindWebsite.Infrastructure
 {
     public partial class NorthwindContext : DbContext
     {
