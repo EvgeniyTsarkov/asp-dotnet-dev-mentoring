@@ -35,9 +35,9 @@ namespace NorthwindWebsite.Infrastructure
 
         public virtual DbSet<OrderDetailsExtended> OrderDetailsExtendeds { get; set; }
 
-        public virtual DbSet<OrdersSubtotal> OrderSubtotals { get; set; }
+        public virtual DbSet<OrderSubtotal> OrderSubtotals { get; set; }
 
-        public virtual DbSet<OrdersSubtotal> OrdersQries { get; set; }
+        public virtual DbSet<OrderSubtotal> OrdersQries { get; set; }
 
         public virtual DbSet<Product> Products { get; set; }
 

@@ -18,6 +18,6 @@ public class CategoriesController : Controller
             .Select(category => category.CategoryName)
             .ToList();
 
-        return View("Index", categoryNames);
+        return View("~/Presentation/Views/Categories/Index.cshtml", categoryNames);
     }
 }

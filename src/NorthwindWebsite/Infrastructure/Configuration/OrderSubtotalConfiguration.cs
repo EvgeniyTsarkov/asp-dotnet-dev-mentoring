@@ -4,9 +4,9 @@ using NorthwindWebsite.Entities;
 
 namespace NorthwindWebsite.Infrastructure.Configuration
 {
-    public class OrderSubtotalConfiguration : IEntityTypeConfiguration<OrdersSubtotal>
+    public class OrderSubtotalConfiguration : IEntityTypeConfiguration<OrderSubtotal>
     {
-        public void Configure(EntityTypeBuilder<OrdersSubtotal> builder)
+        public void Configure(EntityTypeBuilder<OrderSubtotal> builder)
         {
             builder.HasNoKey();
 
