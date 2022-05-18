@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NorthwindWebsite.Entities
+﻿namespace NorthwindWebsite.Entities
 {
-    public partial class Shipper
+    public class Shipper
     {
         public Shipper()
         {
-            Orders = new HashSet<Order>();
+            Orders = new List<Order>();
         }
 
         public int ShipperId { get; set; }
-        public string CompanyName { get; set; } = null!;
-        public string? Phone { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public string Phone { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
     }

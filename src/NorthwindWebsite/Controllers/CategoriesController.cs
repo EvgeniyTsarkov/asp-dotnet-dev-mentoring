@@ -17,6 +17,7 @@ public class CategoriesController : Controller
         var categoryNames = _categoryService.GetAll()
             .Select(category => category.CategoryName)
             .ToList();
+
         return View("Index", categoryNames);
     }
 }

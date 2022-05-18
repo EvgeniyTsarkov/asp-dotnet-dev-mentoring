@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NorthwindWebsite.Entities
+﻿namespace NorthwindWebsite.Entities
 {
-    public partial class CategorySalesFor1997
+    public class CategorySalesFor1997
     {
-        public string CategoryName { get; set; } = null!;
+        public string CategoryName { get; set; }
+
         public decimal? CategorySales { get; set; }
     }
 }

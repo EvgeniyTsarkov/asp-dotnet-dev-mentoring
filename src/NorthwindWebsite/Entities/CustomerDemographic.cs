@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NorthwindWebsite.Entities
+﻿namespace NorthwindWebsite.Entities
 {
-    public partial class CustomerDemographic
+    public class CustomerDemographic
     {
         public CustomerDemographic()
         {
-            Customers = new HashSet<Customer>();
+            Customers = new List<Customer>();
         }
 
-        public string CustomerTypeId { get; set; } = null!;
-        public string? CustomerDesc { get; set; }
+        public string CustomerTypeId { get; set; }
+
+        public string CustomerDesc { get; set; }
 
         public virtual ICollection<Customer> Customers { get; set; }
     }

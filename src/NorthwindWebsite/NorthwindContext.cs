@@ -5,10 +5,6 @@ namespace NorthwindWebsite
 {
     public partial class NorthwindContext : DbContext
     {
-        public NorthwindContext()
-        {
-        }
-
         public NorthwindContext(DbContextOptions<NorthwindContext> options)
             : base(options)
         {
@@ -150,8 +146,15 @@ namespace NorthwindWebsite
                     .WithMany(p => p.Customers)
                     .UsingEntity<Dictionary<string, object>>(
                         "CustomerCustomerDemo",
-                        l => l.HasOne<CustomerDemographic>().WithMany().HasForeignKey("CustomerTypeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_CustomerCustomerDemo"),
-                        r => r.HasOne<Customer>().WithMany().HasForeignKey("CustomerId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_CustomerCustomerDemo_Customers"),
+                        l => l.HasOne<CustomerDemographic>()
+                        .WithMany().
+                        HasForeignKey("CustomerTypeId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_CustomerCustomerDemo"),
+                        r => r.HasOne<Customer>()
+                        .WithMany().HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_CustomerCustomerDemo_Customers"),
                         j =>
                         {
                             j.HasKey("CustomerId", "CustomerTypeId").IsClustered(false);
@@ -243,8 +246,16 @@ namespace NorthwindWebsite
                     .WithMany(p => p.Employees)
                     .UsingEntity<Dictionary<string, object>>(
                         "EmployeeTerritory",
-                        l => l.HasOne<Territory>().WithMany().HasForeignKey("TerritoryId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_EmployeeTerritories_Territories"),
-                        r => r.HasOne<Employee>().WithMany().HasForeignKey("EmployeeId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK_EmployeeTerritories_Employees"),
+                        l => l.HasOne<Territory>()
+                        .WithMany()
+                        .HasForeignKey("TerritoryId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_EmployeeTerritories_Territories"),
+                        r => r.HasOne<Employee>()
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_EmployeeTerritories_Employees"),
                         j =>
                         {
                             j.HasKey("EmployeeId", "TerritoryId").IsClustered(false);

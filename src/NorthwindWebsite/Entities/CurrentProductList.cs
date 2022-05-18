@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NorthwindWebsite.Entities
+﻿namespace NorthwindWebsite.Entities
 {
-    public partial class CurrentProductList
+    public class CurrentProductList
     {
         public int ProductId { get; set; }
-        public string ProductName { get; set; } = null!;
+
+        public string ProductName { get; set; }
     }
 }
