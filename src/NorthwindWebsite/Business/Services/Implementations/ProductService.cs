@@ -14,9 +14,10 @@ namespace NorthwindWebsite.Business.Services.Implementations
             _context = context;
         }
 
-        public IEnumerable<Product> GetAll() =>
-            _context.Products.AsQueryable<Product>()
+        public async Task<IEnumerable<Product>> GetAll() =>
+            await _context.Products.AsQueryable<Product>()
                 .Include(p => p.Supplier)
-                .Include(p => p.Category);
+                .Include(p => p.Category)
+            .ToListAsync();
     }
 }

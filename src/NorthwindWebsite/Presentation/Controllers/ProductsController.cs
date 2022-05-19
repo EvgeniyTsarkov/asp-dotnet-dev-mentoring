@@ -12,9 +12,9 @@ namespace NorthwindWebsite.Presentation.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var productsList = _productService.GetAll().ToList();
+            var productsList = await _productService.GetAll();
 
             return View("~/Presentation/Views/Products/Index.cshtml", productsList);
         }

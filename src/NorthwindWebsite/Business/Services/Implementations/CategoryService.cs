@@ -1,4 +1,5 @@
-﻿using NorthwindWebsite.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
+using NorthwindWebsite.Infrastructure;
 using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Services.Interfaces;
 
@@ -13,8 +14,6 @@ public class CategoryService : ICategoryService
         _context = context;
     }
 
-    public IEnumerable<Category> GetAll()
-    {
-        return _context.Categories;
-    }
+    public async Task<IEnumerable<Category>> GetAll() =>
+        await _context.Categories.ToListAsync();
 }

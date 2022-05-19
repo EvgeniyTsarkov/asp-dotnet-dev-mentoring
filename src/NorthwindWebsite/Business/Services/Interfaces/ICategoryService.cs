@@ -4,5 +4,5 @@ namespace NorthwindWebsite.Services.Interfaces;
 
 public interface ICategoryService
 {
-    IEnumerable<Category> GetAll();
+    Task<IEnumerable<Category>> GetAll();
 }
