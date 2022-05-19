@@ -1,0 +1,13 @@
+﻿@model IList<string>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h1>Categories</h1>
+
+
+@foreach (var categoryName in Model)
+{
+    <h5>@categoryName</h5>
+}
