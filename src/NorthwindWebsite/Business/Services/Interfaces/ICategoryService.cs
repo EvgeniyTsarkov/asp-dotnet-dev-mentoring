@@ -1,4 +1,4 @@
-﻿using NorthwindWebsite.Entities;
+﻿using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Services.Interfaces;
 

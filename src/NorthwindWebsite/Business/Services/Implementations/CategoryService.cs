@@ -1,5 +1,5 @@
-﻿using NorthwindWebsite.Entities;
-using NorthwindWebsite.Infrastructure;
+﻿using NorthwindWebsite.Infrastructure;
+using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.Services.Implementations;

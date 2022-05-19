@@ -4,7 +4,7 @@ using NorthwindWebsite.Entities;
 
 namespace NorthwindWebsite.Infrastructure.Configuration
 {
-    public class SummaryOfSalesByYearController : IEntityTypeConfiguration<SummaryOfSalesByYear>
+    public class SummaryOfSalesByYearConfigurarion : IEntityTypeConfiguration<SummaryOfSalesByYear>
     {
         public void Configure(EntityTypeBuilder<SummaryOfSalesByYear> builder)
         {

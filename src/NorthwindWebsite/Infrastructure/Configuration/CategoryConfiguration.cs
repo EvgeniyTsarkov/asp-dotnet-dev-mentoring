@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NorthwindWebsite.Entities;
+using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Infrastructure.Configuration
 {

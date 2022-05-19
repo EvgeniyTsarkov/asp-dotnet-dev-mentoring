@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NorthwindWebsite.Entities;
+using NorthwindWebsite.Infrastructure.Entities;
 using System.Reflection;
 
 namespace NorthwindWebsite.Infrastructure
