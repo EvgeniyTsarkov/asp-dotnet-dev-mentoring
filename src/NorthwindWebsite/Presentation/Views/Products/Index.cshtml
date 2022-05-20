@@ -1,5 +1,6 @@
-﻿@using NorthwindWebsite.Entities
-@model IList<Product>
+﻿@using NorthwindWebsite.Business.Models
+
+@model ProductsListDto
 
 @{
     ViewData["Title"] = "Products";
@@ -26,7 +27,7 @@
                 <th class="num-value-cell">Discontinued</th>
             </tr>
 
-            @foreach (var product in Model)
+            @foreach (var product in Model.Products)
             {
                 <tr>
                     <td>@product.ProductName</td>

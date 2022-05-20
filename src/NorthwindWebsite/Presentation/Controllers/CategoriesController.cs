@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.Controllers;
@@ -14,12 +15,12 @@ public class CategoriesController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var categories = await _categoryService.GetAll();
+        CategoriesListDto categories = new CategoriesListDto();
 
-        var categoryNames = categories
-            .Select(category => category.CategoryName)
-            .ToList();
+        var categoriesList = await _categoryService.GetAll();
 
-        return View("Index", categoryNames);
+        categories.Categories = categoriesList.ToList();
+
+        return View("Index", categories);
     }
 }
