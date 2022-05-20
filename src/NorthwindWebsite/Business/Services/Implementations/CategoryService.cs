@@ -1,19 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NorthwindWebsite.Infrastructure;
-using NorthwindWebsite.Infrastructure.Entities;
+﻿using NorthwindWebsite.Infrastructure.Entities;
+using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.Services.Implementations;
 
 public class CategoryService : ICategoryService
 {
-    private readonly NorthwindContext _context;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public CategoryService(NorthwindContext context)
+    public CategoryService(ICategoryRepository categoryRepository)
     {
-        _context = context;
+        _categoryRepository = categoryRepository;
     }
 
     public async Task<IEnumerable<Category>> GetAll() =>
-        await _context.Categories.ToListAsync();
+        await _categoryRepository.GetAll();
 }

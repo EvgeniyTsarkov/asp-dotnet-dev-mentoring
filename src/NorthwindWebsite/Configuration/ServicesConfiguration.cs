@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Razor;
 using NorthwindWebsite.Business.Services.Implementations;
 using NorthwindWebsite.Business.Services.Interfaces;
+using NorthwindWebsite.Infrastructure.Repositories.Implementation;
+using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Implementations;
 using NorthwindWebsite.Services.Interfaces;
 
@@ -26,5 +28,8 @@ public static class ServicesConfiguration
 
         services.AddTransient<ICategoryService, CategoryService>();
         services.AddTransient<IProductService, ProductService>();
+
+        services.AddTransient<IProductRepository, ProductRepository>();
+        services.AddTransient<ICategoryRepository, CategoryRepository>();
     }
 }
