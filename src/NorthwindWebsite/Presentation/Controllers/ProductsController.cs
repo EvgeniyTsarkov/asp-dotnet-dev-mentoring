@@ -16,7 +16,7 @@ namespace NorthwindWebsite.Presentation.Controllers
         {
             var productsList = await _productService.GetAll();
 
-            return View("~/Presentation/Views/Products/Index.cshtml", productsList);
+            return View("Index", productsList);
         }
     }
 }

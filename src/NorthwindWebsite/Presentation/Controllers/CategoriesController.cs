@@ -20,6 +20,6 @@ public class CategoriesController : Controller
             .Select(category => category.CategoryName)
             .ToList();
 
-        return View("~/Presentation/Views/Categories/Index.cshtml", categoryNames);
+        return View("Index", categoryNames);
     }
 }
