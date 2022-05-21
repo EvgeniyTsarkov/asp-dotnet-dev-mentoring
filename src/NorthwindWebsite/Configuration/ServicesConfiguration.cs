@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Razor;
 using NorthwindWebsite.Business.Services.Implementations;
 using NorthwindWebsite.Business.Services.Interfaces;
+using NorthwindWebsite.Core.Application_Settings;
 using NorthwindWebsite.Infrastructure.Repositories.Implementation;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Implementations;
@@ -14,6 +15,8 @@ public static class ServicesConfiguration
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllersWithViews();
+
+        services.AddTransient<IAppSettings, AppSettings>();
 
         services.Configure<RazorViewEngineOptions>(o =>
             {

@@ -26,10 +26,8 @@
                 <th class="num-value-cell">Reorder lvl</th>
                 <th class="num-value-cell">Discontinued</th>
             </tr>
-            @for (var i = 0; i < Model.MaximumProductsOnPage; i++)
+            @foreach (var product in Model.Products)
             {
-                var product = Model.Products[i];
-
                 <tr>
                     <td>@product.ProductName</td>
                     <td>@product.Supplier!.CompanyName</td>
