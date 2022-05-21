@@ -15,10 +15,10 @@ public class AppSettings : IValidatable
     public AppSettings GetAppSettings(IConfiguration configuration) =>
         new()
         {
-            AllowedHosts = configuration.GetValue<string>("AllowedHosts"),
+            AllowedHosts = configuration.GetValue<string>(nameof(AllowedHosts)),
             ConnectionStrings = configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>(),
-            LogLevel = configuration.GetSection("LogLevel").Get<Core.ApplicationSettings.LogLevel>(),
-            MaximumProductsOnPage = configuration.GetValue<int>("MaximumProductsOnPage")
+            LogLevel = configuration.GetSection(nameof(LogLevel)).Get<LogLevel>(),
+            MaximumProductsOnPage = configuration.GetValue<int>(nameof(MaximumProductsOnPage))
         };
 
     public void Validate()
