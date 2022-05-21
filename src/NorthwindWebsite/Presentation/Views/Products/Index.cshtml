@@ -26,13 +26,14 @@
                 <th class="num-value-cell">Reorder lvl</th>
                 <th class="num-value-cell">Discontinued</th>
             </tr>
-
-            @foreach (var product in Model.Products)
+            @for (var i = 0; i < Model.MaximumProductsOnPage; i++)
             {
+                var product = Model.Products[i];
+
                 <tr>
                     <td>@product.ProductName</td>
-                    <td>@product.Supplier.CompanyName</td>
-                    <td>@product.Category.CategoryName</td>
+                    <td>@product.Supplier!.CompanyName</td>
+                    <td>@product.Category!.CategoryName</td>
                     <td class="num-value-cell">@product.QuantityPerUnit</td>
                     <td class="num-value-cell">@product.UnitPrice!.Value.ToString("F2")</td>
                     <td class="num-value-cell">@product.UnitsInStock</td>
