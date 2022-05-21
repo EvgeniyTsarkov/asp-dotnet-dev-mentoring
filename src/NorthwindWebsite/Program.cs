@@ -1,13 +1,12 @@
 using NorthwindWebsite.Configuration;
-using NorthwindWebsite.Core.Application_Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddApplicationSettings(builder.Configuration);
+
 builder.Services.AddServicesConfiguration(builder.Configuration);
 
-var appSettings = new AppSettings().ReadAppSettings(builder.Configuration);
-
-builder.Services.AddDbContextConfiguration(appSettings.ConnectionStrings.Default);
+builder.Services.AddDbContextConfiguration(builder.Configuration.GetConnectionString("Default"));
 
 var app = builder.Build();
 

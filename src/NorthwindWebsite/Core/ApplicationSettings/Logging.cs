@@ -1,4 +1,4 @@
-﻿namespace NorthwindWebsite.Core.Application_Settings
+﻿namespace NorthwindWebsite.Core.ApplicationSettings
 {
     public class Logging
     {

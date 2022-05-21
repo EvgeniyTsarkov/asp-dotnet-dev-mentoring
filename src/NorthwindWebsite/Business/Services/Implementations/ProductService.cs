@@ -1,40 +1,34 @@
 ﻿using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Business.Services.Interfaces;
-using NorthwindWebsite.Core.Application_Settings;
+using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 
-namespace NorthwindWebsite.Business.Services.Implementations
+namespace NorthwindWebsite.Business.Services.Implementations;
+
+public class ProductService : IProductService
 {
-    public class ProductService : IProductService
+    private readonly IProductRepository _productRepository;
+
+    private readonly AppSettings _appSettings;
+
+    public ProductService(
+        IProductRepository productRepository,
+        AppSettings appSettings)
     {
-        private readonly IProductRepository _productRepository;
+        _productRepository = productRepository;
+        _appSettings = appSettings;
+    }
 
-        private readonly IAppSettings _appSettings;
+    public async Task<ProductsListDto> BuildProductListDto()
+    {
+        var productsListDto = new ProductsListDto();
 
-        private readonly IConfiguration _configuration;
+        var maximumProductsOnPage = _appSettings.MaximumProductsOnPage;
 
-        public ProductService(
-            IProductRepository productRepository,
-            IAppSettings appSettings,
-            IConfiguration configuration)
-        {
-            _productRepository = productRepository;
-            _appSettings = appSettings;
-            _configuration = configuration;
-        }
+        productsListDto.Products = maximumProductsOnPage <= 0 ?
+            await _productRepository.GetAll() :
+            await _productRepository.GetLimitedNumberOfProducts(maximumProductsOnPage);
 
-        public async Task<ProductsListDto> BuildProductListDto()
-        {
-            var appSettings = _appSettings.ReadAppSettings(_configuration);
-            int.TryParse(appSettings.MaximumProductsOnPage, out var maximumProducts);
-
-            var productsListDto = new ProductsListDto();
-
-            productsListDto.Products = maximumProducts <= 0 ?
-                await _productRepository.GetAll() :
-                await _productRepository.GetLimitedNumberOfProducts(maximumProducts);
-
-            return productsListDto;
-        }
+        return productsListDto;
     }
 }

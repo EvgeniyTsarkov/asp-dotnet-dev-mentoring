@@ -1,7 +1,7 @@
 ﻿using NetEscapades.Configuration.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace NorthwindWebsite.Core.Application_Settings
+namespace NorthwindWebsite.Core.ApplicationSettings
 {
     public class ConnectionStrings : IValidatable
     {
