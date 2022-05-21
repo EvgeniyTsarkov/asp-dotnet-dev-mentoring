@@ -12,12 +12,12 @@ public class CategoriesController : Controller
         _categoryService = categoryService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var categoryNames = _categoryService.GetAll()
-            .Select(category => category.CategoryName)
-            .ToList();
+        var categoriesList = await _categoryService.GetAll();
 
-        return View("~/Presentation/Views/Categories/Index.cshtml", categoryNames);
+        var categories = categoriesList.ToList();
+
+        return View("Index", categories);
     }
 }

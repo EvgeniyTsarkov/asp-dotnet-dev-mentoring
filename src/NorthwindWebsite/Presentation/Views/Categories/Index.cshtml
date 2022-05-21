@@ -1,4 +1,7 @@
-﻿@model IList<string>
+﻿@using NorthwindWebsite.Business.Models
+@using NorthwindWebsite.Infrastructure.Entities
+
+@model List<Category>
 
 @{
     ViewData["Title"] = "Categories";
@@ -7,7 +10,7 @@
 <h1>Categories</h1>
 
 
-@foreach (var categoryName in Model)
+@foreach (var category in Model)
 {
-    <h5>@categoryName</h5>
+    <h5>@category.CategoryName</h5>
 }
