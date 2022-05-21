@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using NorthwindWebsite.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
