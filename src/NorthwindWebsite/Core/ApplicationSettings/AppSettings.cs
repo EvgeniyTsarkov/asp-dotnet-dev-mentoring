@@ -12,6 +12,15 @@ public class AppSettings : IValidatable
 
     public int MaximumProductsOnPage { get; set; }
 
+    public AppSettings GetAppSettings(IConfiguration configuration) =>
+        new()
+        {
+            AllowedHosts = configuration.GetValue<string>("AllowedHosts"),
+            ConnectionStrings = configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>(),
+            LogLevel = configuration.GetSection("LogLevel").Get<Core.ApplicationSettings.LogLevel>(),
+            MaximumProductsOnPage = configuration.GetValue<int>("MaximumProductsOnPage")
+        };
+
     public void Validate()
     {
         this.ConnectionStrings.Validate();
