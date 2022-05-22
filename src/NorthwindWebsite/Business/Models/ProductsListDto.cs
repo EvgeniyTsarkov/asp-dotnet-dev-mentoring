@@ -2,7 +2,7 @@
 
 namespace NorthwindWebsite.Business.Models
 {
-    public class ProductsListDto
+    public class ProductsDto
     {
         public List<Product> Products { get; set; }
     }

@@ -7,5 +7,11 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces
         Task<List<Product>> GetAll();
 
         Task<List<Product>> GetLimitedNumberOfProducts(int limit);
+
+        Task<Product> Get(int id);
+
+        Task<Product> Add(Product productToAdd);
+
+        Task Delete(int id);
     }
 }

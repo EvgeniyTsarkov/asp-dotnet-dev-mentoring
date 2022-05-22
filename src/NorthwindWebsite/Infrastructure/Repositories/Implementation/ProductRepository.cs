@@ -23,5 +23,31 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Implementation
             .Include(p => p.Category)
             .Take(limit)
             .ToListAsync();
+
+        public async Task<Product> Get(int id) =>
+            await _context.Products
+                .AsNoTracking()
+                .AsQueryable<Product>()
+                .Include(p => p.Supplier)
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.ProductId == id);
+
+        public async Task<Product> Add(Product productToAdd)
+        {
+            await _context.Products.AddAsync(productToAdd);
+            await _context.SaveChangesAsync();
+            return productToAdd;
+        }
+
+        public async Task Delete(int id)
+        {
+            var productToDelete = await _context.Products
+                .FirstOrDefaultAsync(p => p.ProductId == id);
+
+            if (productToDelete == null) return;
+
+            _context.Products.Remove(productToDelete);
+            await _context.SaveChangesAsync();
+        }
     }
 }

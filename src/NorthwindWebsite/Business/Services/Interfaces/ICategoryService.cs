@@ -1,8 +1,11 @@
-﻿using NorthwindWebsite.Infrastructure.Entities;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Services.Interfaces;
 
 public interface ICategoryService
 {
     Task<IEnumerable<Category>> GetAll();
+
+    Task<List<SelectListItem>> GetSelectListItems();
 }

@@ -1,0 +1,156 @@
+﻿@using NorthwindWebsite.Entities
+
+@model Product
+
+<link rel="stylesheet" href="~/css/forms.css" />
+
+@{
+    if (@Model.ProductName == null)
+    {
+        ViewData["Title"] = "Add New Product";
+    }
+    else
+    {
+        ViewData["Title"] = $"Edit Product '{@Model.ProductName}'";
+    }
+}
+
+@{
+    string title;
+
+    if (@Model.ProductName == null)
+    {
+        title = "Add new product";
+    }
+    else
+    {
+        title = $"Edit '{@Model.ProductName}'";
+    }
+}
+
+<h1>@title</h1>
+
+<br />
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    ;
+    @Html.HiddenFor(product => product.ProductId)
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-horizontal">
+        <div class="form-area">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.ProductName, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.ProductName, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.ProductName, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Category.CategoryName, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.DropDownListFor(product => product.CategoryId, (List<SelectListItem>) ViewData["CategoryOptions"] ,
+                    "Select Category", new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.CategoryId, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class=row>
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Supplier.CompanyName, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.DropDownListFor(product => product.SupplierId, (List<SelectListItem>) ViewData["SupplierOptions"],
+                    "Select Supplier", new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.SupplierId, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.QuantityPerUnit, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.QuantityPerUnit, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.QuantityPerUnit, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.UnitPrice, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.UnitPrice, "{0:F}", new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.UnitPrice, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.UnitsInStock, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.UnitsInStock, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.UnitsInStock, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.UnitsOnOrder, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.UnitsOnOrder, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.UnitsOnOrder, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.ReorderLevel, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.ReorderLevel, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.ReorderLevel, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="custom-checkbox">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Discontinued, new { @class="form-label"})
+                    </div>
+                    <div class="col-2">
+                        @Html.CheckBoxFor(product => product.Discontinued, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Discontinued, "", htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <div class="class=" col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div><h6>@Html.ActionLink("Back to Products", "BackToProducts", "Products")</h6></div>
+}
