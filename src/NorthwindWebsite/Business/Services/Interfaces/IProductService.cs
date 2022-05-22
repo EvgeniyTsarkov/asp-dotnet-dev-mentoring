@@ -1,9 +1,9 @@
-﻿using NorthwindWebsite.Entities;
+﻿using NorthwindWebsite.Business.Models;
 
 namespace NorthwindWebsite.Business.Services.Interfaces
 {
     public interface IProductService
     {
-        Task<IEnumerable<Product>> GetAll();
+        Task<ProductsListDto> BuildProductListDto();
     }
 }

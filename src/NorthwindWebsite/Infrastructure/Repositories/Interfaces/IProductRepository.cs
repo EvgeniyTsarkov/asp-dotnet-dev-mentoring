@@ -4,6 +4,8 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetAll();
+        Task<List<Product>> GetAll();
+
+        Task<List<Product>> GetLimitedNumberOfProducts(int limit);
     }
 }

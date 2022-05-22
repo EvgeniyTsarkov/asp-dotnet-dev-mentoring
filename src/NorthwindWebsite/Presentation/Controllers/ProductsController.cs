@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Business.Services.Interfaces;
 
 namespace NorthwindWebsite.Presentation.Controllers
@@ -15,11 +14,7 @@ namespace NorthwindWebsite.Presentation.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ProductsListDto products = new ProductsListDto(); 
-            
-            var listOfProducts = await _productService.GetAll();
-
-            products.Products = listOfProducts.ToList();
+            var products = await _productService.BuildProductListDto();
 
             return View("Index", products);
         }

@@ -1,19 +1,34 @@
-﻿using NorthwindWebsite.Business.Services.Interfaces;
-using NorthwindWebsite.Entities;
+﻿using NorthwindWebsite.Business.Models;
+using NorthwindWebsite.Business.Services.Interfaces;
+using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 
-namespace NorthwindWebsite.Business.Services.Implementations
+namespace NorthwindWebsite.Business.Services.Implementations;
+
+public class ProductService : IProductService
 {
-    public class ProductService : IProductService
+    private readonly IProductRepository _productRepository;
+
+    private readonly AppSettings _appSettings;
+
+    public ProductService(
+        IProductRepository productRepository,
+        AppSettings appSettings)
     {
-        private readonly IProductRepository _productRepository;
+        _productRepository = productRepository;
+        _appSettings = appSettings;
+    }
 
-        public ProductService(IProductRepository productRepository)
-        {
-            _productRepository = productRepository;
-        }
+    public async Task<ProductsListDto> BuildProductListDto()
+    {
+        var productsListDto = new ProductsListDto();
 
-        public async Task<IEnumerable<Product>> GetAll() =>
-            await _productRepository.GetAll();
+        var maximumProductsOnPage = _appSettings.MaximumProductsOnPage;
+
+        productsListDto.Products = maximumProductsOnPage <= 0 ?
+            await _productRepository.GetAll() :
+            await _productRepository.GetLimitedNumberOfProducts(maximumProductsOnPage);
+
+        return productsListDto;
     }
 }
