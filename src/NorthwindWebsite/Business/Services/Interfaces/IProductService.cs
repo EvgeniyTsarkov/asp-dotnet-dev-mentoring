@@ -5,7 +5,7 @@ namespace NorthwindWebsite.Business.Services.Interfaces;
 
 public interface IProductService
 {
-    Task<ProductsDto> BuildProductListDto();
+    Task<ProductsDto> BuildProductsDto();
 
     Task<ProductToCreateOrUpdateDto> BuildProductCreateOrUpdate(int id);
 

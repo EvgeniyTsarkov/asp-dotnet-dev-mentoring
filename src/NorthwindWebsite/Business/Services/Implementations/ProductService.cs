@@ -29,7 +29,7 @@ public class ProductService : IProductService
         _supplierService = supplierService;
     }
 
-    public async Task<ProductsDto> BuildProductListDto()
+    public async Task<ProductsDto> BuildProductsDto()
     {
         var productsListDto = new ProductsDto();
 

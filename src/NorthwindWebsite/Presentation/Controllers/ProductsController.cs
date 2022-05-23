@@ -26,7 +26,7 @@ public class ProductsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var products = await _productService.BuildProductListDto();
+        var products = await _productService.BuildProductsDto();
 
         return View("Index", products);
     }
