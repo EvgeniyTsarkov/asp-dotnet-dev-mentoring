@@ -12,6 +12,8 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces
 
         Task<Product> Add(Product productToAdd);
 
+        Task<Product> Update(Product productToUpdate);
+
         Task Delete(int id);
     }
 }

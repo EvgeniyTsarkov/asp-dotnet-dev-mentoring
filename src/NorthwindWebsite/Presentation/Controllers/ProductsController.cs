@@ -14,7 +14,7 @@ namespace NorthwindWebsite.Presentation.Controllers
         private readonly ISupplierService _supplierService;
 
         public ProductsController(
-            IProductService productService, 
+            IProductService productService,
             ICategoryService categoryService,
             ISupplierService supplierService)
         {
@@ -50,10 +50,29 @@ namespace NorthwindWebsite.Presentation.Controllers
 
             ViewData["SupplierOptions"] = await _supplierService.GetSelectListItems();
 
+
+            Console.WriteLine(productToCreateOrUpdate);
+
             if (!ModelState.IsValid)
             {
                 return View("CreateOrUpdate", productToCreateOrUpdate);
             }
+
+            if (productToCreateOrUpdate.ProductId == 0)
+            {
+                await _productService.Create(productToCreateOrUpdate);
+                return RedirectToAction("Index");
+            }
+
+            await _productService.Update(productToCreateOrUpdate);
+
+            return RedirectToAction("Index");
+        }
+
+        [ActionName("Delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _productService.Delete(id);
 
             return RedirectToAction("Index");
         }

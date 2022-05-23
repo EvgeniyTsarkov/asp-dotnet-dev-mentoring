@@ -3,7 +3,6 @@ using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Interfaces;
 
-
 namespace NorthwindWebsite.Services.Implementations;
 
 public class CategoryService : ICategoryService

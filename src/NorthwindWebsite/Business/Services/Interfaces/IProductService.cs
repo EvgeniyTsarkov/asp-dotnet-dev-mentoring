@@ -8,5 +8,11 @@ namespace NorthwindWebsite.Business.Services.Interfaces
         Task<ProductsDto> BuildProductListDto();
 
         Task<Product> BuildProductCreateOrUpdate(int id);
+
+        Task<Product> Create(Product productToCreate);
+
+        Task<Product> Update(Product productToUpdate);
+
+        Task Delete(int id);
     }
 }

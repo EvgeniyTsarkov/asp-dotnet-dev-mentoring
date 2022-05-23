@@ -2,24 +2,23 @@
 using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 
-namespace NorthwindWebsite.Business.Services.Implementations
+namespace NorthwindWebsite.Business.Services.Implementations;
+
+public class SupplierService : ISupplierService
 {
-    public class SupplierService : ISupplierService
+    private readonly ISupplierRepository _supplierRepository;
+
+    public SupplierService(ISupplierRepository supplierRepository)
     {
-        private readonly ISupplierRepository _supplierRepository;
+        _supplierRepository = supplierRepository;
+    }
 
-        public SupplierService(ISupplierRepository supplierRepository)
-        {
-            _supplierRepository = supplierRepository;
-        }
+    public async Task<List<SelectListItem>> GetSelectListItems()
+    {
+        var suppliers = await _supplierRepository.GetAll();
 
-        public async Task<List<SelectListItem>> GetSelectListItems()
-        {
-            var suppliers = await _supplierRepository.GetAll();
-
-            return suppliers.Select(x =>
-            new SelectListItem { Text = x.CompanyName, Value = x.SupplierId.ToString() })
-                .ToList();
-        }
+        return suppliers.Select(x =>
+        new SelectListItem { Text = x.CompanyName, Value = x.SupplierId.ToString() })
+            .ToList();
     }
 }

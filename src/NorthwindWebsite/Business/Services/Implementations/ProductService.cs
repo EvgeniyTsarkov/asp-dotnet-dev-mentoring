@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using NorthwindWebsite.Business.Models;
+﻿using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Entities;
@@ -49,4 +48,13 @@ public class ProductService : IProductService
 
         return productToCreateOrUpdate;
     }
+
+    public async Task<Product> Update(Product productToUpdate) =>
+        await _productRepository.Update(productToUpdate);
+
+    public async Task<Product> Create(Product productToCreate) =>
+        await _productRepository.Add(productToCreate);
+
+    public async Task Delete(int id) =>
+        await _productRepository.Delete(id);
 }

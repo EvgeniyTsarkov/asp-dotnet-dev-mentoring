@@ -27,7 +27,7 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Implementation
         public async Task<Product> Get(int id) =>
             await _context.Products
                 .AsNoTracking()
-                .AsQueryable<Product>()
+                .AsQueryable()
                 .Include(p => p.Supplier)
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.ProductId == id);
@@ -37,6 +37,14 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Implementation
             await _context.Products.AddAsync(productToAdd);
             await _context.SaveChangesAsync();
             return productToAdd;
+        }
+
+        public async Task<Product> Update(Product productToUpdate)
+        {
+            _context.Products.Update(productToUpdate);
+            await _context.SaveChangesAsync();
+
+            return productToUpdate;
         }
 
         public async Task Delete(int id)

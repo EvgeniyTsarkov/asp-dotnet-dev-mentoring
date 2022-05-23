@@ -59,7 +59,7 @@
                         @Html.LabelFor(product => product.Category.CategoryName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.DropDownListFor(product => product.CategoryId, (List<SelectListItem>) ViewData["CategoryOptions"] ,
+                        @Html.DropDownListFor(product => product.CategoryId, (IEnumerable<SelectListItem>) ViewData["CategoryOptions"] ,
                     "Select Category", new { @class="form-control" })
                         @Html.ValidationMessageFor(product => product.CategoryId, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
@@ -71,7 +71,7 @@
                         @Html.LabelFor(product => product.Supplier.CompanyName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.DropDownListFor(product => product.SupplierId, (List<SelectListItem>) ViewData["SupplierOptions"],
+                        @Html.DropDownListFor(product => product.SupplierId, (IEnumerable<SelectListItem>) ViewData["SupplierOptions"],
                     "Select Supplier", new { @class="form-control" })
                         @Html.ValidationMessageFor(product => product.SupplierId, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
