@@ -1,9 +1,8 @@
 ﻿using NorthwindWebsite.Entities;
 
-namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces
+namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces;
+
+public interface ISupplierRepository
 {
-    public interface ISupplierRepository
-    {
-        Task<IEnumerable<Supplier>> GetAll();
-    }
+    Task<IEnumerable<Supplier>> GetAll();
 }

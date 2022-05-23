@@ -1,18 +1,17 @@
 ﻿using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Entities;
 
-namespace NorthwindWebsite.Business.Services.Interfaces
+namespace NorthwindWebsite.Business.Services.Interfaces;
+
+public interface IProductService
 {
-    public interface IProductService
-    {
-        Task<ProductsDto> BuildProductListDto();
+    Task<ProductsDto> BuildProductListDto();
 
-        Task<Product> BuildProductCreateOrUpdate(int id);
+    Task<Product> BuildProductCreateOrUpdate(int id);
 
-        Task<Product> Create(Product productToCreate);
+    Task<Product> Create(Product productToCreate);
 
-        Task<Product> Update(Product productToUpdate);
+    Task<Product> Update(Product productToUpdate);
 
-        Task Delete(int id);
-    }
+    Task Delete(int id);
 }

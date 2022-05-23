@@ -1,9 +1,8 @@
 ﻿using NorthwindWebsite.Infrastructure.Entities;
 
-namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces
+namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces;
+
+public interface ICategoryRepository
 {
-    public interface ICategoryRepository
-    {
-        Task<IEnumerable<Category>> GetAll();
-    }
+    Task<IEnumerable<Category>> GetAll();
 }

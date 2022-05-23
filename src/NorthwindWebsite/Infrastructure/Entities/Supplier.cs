@@ -18,6 +18,7 @@ public class Supplier
 
     public string City { get; set; }
 
+    //This nullable is required for normal EF functioning
     public string? Region { get; set; }
 
     public string PostalCode { get; set; }
@@ -26,8 +27,10 @@ public class Supplier
 
     public string Phone { get; set; }
 
+    //This nullable is required for normal EF functioning
     public string? Fax { get; set; }
 
+    //This nullable is required for normal EF functioning
     public string? HomePage { get; set; }
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();

@@ -1,19 +1,18 @@
 ﻿using NorthwindWebsite.Entities;
 
-namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces
+namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces;
+
+public interface IProductRepository
 {
-    public interface IProductRepository
-    {
-        Task<List<Product>> GetAll();
+    Task<List<Product>> GetAll();
 
-        Task<List<Product>> GetLimitedNumberOfProducts(int limit);
+    Task<List<Product>> GetLimitedNumberOfProducts(int limit);
 
-        Task<Product> Get(int id);
+    Task<Product> Get(int id);
 
-        Task<Product> Add(Product productToAdd);
+    Task<Product> Add(Product productToAdd);
 
-        Task<Product> Update(Product productToUpdate);
+    Task<Product> Update(Product productToUpdate);
 
-        Task Delete(int id);
-    }
+    Task Delete(int id);
 }
