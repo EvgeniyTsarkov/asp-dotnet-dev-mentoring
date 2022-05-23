@@ -7,5 +7,5 @@ public interface ICategoryService
 {
     Task<IEnumerable<Category>> GetAll();
 
-    Task<List<SelectListItem>> GetSelectListItems();
+    Task<SelectList> GetCategorySelectList();
 }

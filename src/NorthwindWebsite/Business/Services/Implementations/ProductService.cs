@@ -3,6 +3,7 @@ using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Entities;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
+using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.Business.Services.Implementations;
 
@@ -10,22 +11,22 @@ public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
 
-    private readonly ICategoryRepository _categoryRepository;
-
-    private readonly ISupplierRepository _supplierRepository;
-
     private readonly AppSettings _appSettings;
+
+    private readonly ICategoryService _categoryService;
+
+    private readonly ISupplierService _supplierService;
 
     public ProductService(
         IProductRepository productRepository,
         AppSettings appSettings,
-        ICategoryRepository categoryRepository,
-        ISupplierRepository supplierRepository)
+        ICategoryService categoryService,
+        ISupplierService supplierService)
     {
         _productRepository = productRepository;
         _appSettings = appSettings;
-        _categoryRepository = categoryRepository;
-        _supplierRepository = supplierRepository;
+        _categoryService = categoryService;
+        _supplierService = supplierService;
     }
 
     public async Task<ProductsDto> BuildProductListDto()
@@ -41,10 +42,17 @@ public class ProductService : IProductService
         return productsListDto;
     }
 
-    public async Task<Product> BuildProductCreateOrUpdate(int id)
+    public async Task<ProductToCreateOrUpdateDto> BuildProductCreateOrUpdate(int id)
     {
-        var productToCreateOrUpdate =
-            await _productRepository.Get(id) ?? new Product();
+        var productToCreateOrUpdate = new ProductToCreateOrUpdateDto();
+
+        var product = await _productRepository.Get(id) ?? new Product();
+
+        productToCreateOrUpdate.Product = product;
+
+        productToCreateOrUpdate.Categories = await _categoryService.GetCategorySelectList();
+
+        productToCreateOrUpdate.Suppliers = await _supplierService.GetSupplerSelectList();
 
         return productToCreateOrUpdate;
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Business.Services.Interfaces;
-using NorthwindWebsite.Entities;
 using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.Presentation.Controllers;
@@ -35,36 +36,28 @@ public class ProductsController : Controller
     {
         var productToCreateOrUpdate = await _productService.BuildProductCreateOrUpdate(id);
 
-        ViewData["CategoryOptions"] = await _categoryService.GetSelectListItems();
-
-        ViewData["SupplierOptions"] = await _supplierService.GetSelectListItems();
-
         return View("CreateOrUpdate", productToCreateOrUpdate);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateOrUpdate(Product productToCreateOrUpdate)
+    public async Task<IActionResult> CreateOrUpdate(ProductToCreateOrUpdateDto productToCreateOrUpdate)
     {
-        ViewData["CategoryOptions"] = await _categoryService.GetSelectListItems();
+        productToCreateOrUpdate.Categories = await _categoryService.GetCategorySelectList();
+        productToCreateOrUpdate.Suppliers = await _supplierService.GetSupplerSelectList();
 
-        ViewData["SupplierOptions"] = await _supplierService.GetSelectListItems();
-
-
-        //Console.WriteLine(productToCreateOrUpdate);
-
-        if (!ModelState.IsValid)
+        if (ModelState.GetFieldValidationState("Product") != ModelValidationState.Valid)
         {
             return View("CreateOrUpdate", productToCreateOrUpdate);
         }
 
-        if (productToCreateOrUpdate.ProductId == 0)
+        if (productToCreateOrUpdate.Product.ProductId == 0)
         {
-            await _productService.Create(productToCreateOrUpdate);
+            await _productService.Create(productToCreateOrUpdate.Product);
             return RedirectToAction("Index");
         }
 
-        await _productService.Update(productToCreateOrUpdate);
+        await _productService.Update(productToCreateOrUpdate.Product);
 
         return RedirectToAction("Index");
     }

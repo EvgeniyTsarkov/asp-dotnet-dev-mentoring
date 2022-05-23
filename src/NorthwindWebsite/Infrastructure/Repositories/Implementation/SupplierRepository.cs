@@ -9,7 +9,6 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Implementation
         public SupplierRepository(NorthwindContext northwindContext) : base(northwindContext)
         {
         }
-
         public async Task<IEnumerable<Supplier>> GetAll() =>
             await _context.Suppliers.ToListAsync();
     }

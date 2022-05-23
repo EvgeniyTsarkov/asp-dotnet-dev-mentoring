@@ -17,12 +17,10 @@ public class CategoryService : ICategoryService
     public async Task<IEnumerable<Category>> GetAll() =>
         await _categoryRepository.GetAll();
 
-    public async Task<List<SelectListItem>> GetSelectListItems()
+    public async Task<SelectList> GetCategorySelectList()
     {
-        var categories = await _categoryRepository.GetAll();
+        var categories = await GetAll();
 
-        return categories.Select(x =>
-        new SelectListItem { Text = x.CategoryName, Value = x.CategoryId.ToString() })
-            .ToList();
+        return new SelectList(categories, "CategoryId", "CategoryName");
     }
 }

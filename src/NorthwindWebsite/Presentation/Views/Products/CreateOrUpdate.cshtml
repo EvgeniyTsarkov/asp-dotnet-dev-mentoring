@@ -1,30 +1,30 @@
-﻿@using NorthwindWebsite.Entities
+﻿@using NorthwindWebsite.Business.Models
 
-@model Product
+@model ProductToCreateOrUpdateDto
 
 <link rel="stylesheet" href="~/css/forms.css" />
 
 @{
-    if (@Model.ProductName == null)
+    if (@Model.Product.ProductName == null)
     {
         ViewData["Title"] = "Add New Product";
     }
     else
     {
-        ViewData["Title"] = $"Edit Product '{@Model.ProductName}'";
+        ViewData["Title"] = $"Edit Product '{@Model.Product.ProductName}'";
     }
 }
 
 @{
     string title;
 
-    if (@Model.ProductName == null)
+    if (@Model.Product.ProductName == null)
     {
         title = "Add new product";
     }
     else
     {
-        title = $"Edit '{@Model.ProductName}'";
+        title = $"Edit '{@Model.Product.ProductName}'";
     }
 }
 
@@ -37,7 +37,7 @@
 {
     @Html.AntiForgeryToken()
     ;
-    @Html.HiddenFor(product => product.ProductId)
+    @Html.HiddenFor(product => product.Product.ProductId)
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="form-horizontal">
@@ -45,101 +45,101 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.ProductName, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.ProductName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.TextBoxFor(product => product.ProductName, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.ProductName, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.TextBoxFor(product => product.Product.ProductName, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.ProductName, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.Category.CategoryName, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.Category.CategoryName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.DropDownListFor(product => product.CategoryId, (IEnumerable<SelectListItem>) ViewData["CategoryOptions"] ,
+                        @Html.DropDownListFor(product => product.Product.CategoryId, Model.Categories as SelectList,
                     "Select Category", new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.CategoryId, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.CategoryId, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class=row>
                     <div class="col-2">
-                        @Html.LabelFor(product => product.Supplier.CompanyName, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.Supplier.CompanyName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.DropDownListFor(product => product.SupplierId, (IEnumerable<SelectListItem>) ViewData["SupplierOptions"],
+                        @Html.DropDownListFor(product => product.Product.SupplierId, Model.Suppliers as SelectList,
                     "Select Supplier", new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.SupplierId, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.SupplierId, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.QuantityPerUnit, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.QuantityPerUnit, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.TextBoxFor(product => product.QuantityPerUnit, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.QuantityPerUnit, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.TextBoxFor(product => product.Product.QuantityPerUnit, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.QuantityPerUnit, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.UnitPrice, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.UnitPrice, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.TextBoxFor(product => product.UnitPrice, "{0:F}", new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.UnitPrice, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.TextBoxFor(product => product.Product.UnitPrice, "{0:F}", new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitPrice, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.UnitsInStock, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.UnitsInStock, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.TextBoxFor(product => product.UnitsInStock, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.UnitsInStock, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.TextBoxFor(product => product.Product.UnitsInStock, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitsInStock, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.UnitsOnOrder, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.UnitsOnOrder, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.TextBoxFor(product => product.UnitsOnOrder, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.UnitsOnOrder, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.TextBoxFor(product => product.Product.UnitsOnOrder, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitsOnOrder, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.ReorderLevel, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.ReorderLevel, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.TextBoxFor(product => product.ReorderLevel, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.ReorderLevel, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.TextBoxFor(product => product.Product.ReorderLevel, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.ReorderLevel, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="custom-checkbox">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.Discontinued, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.Discontinued, new { @class="form-label"})
                     </div>
                     <div class="col-2">
-                        @Html.CheckBoxFor(product => product.Discontinued, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Discontinued, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.CheckBoxFor(product => product.Product.Discontinued, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.Discontinued, "", htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

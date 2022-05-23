@@ -4,6 +4,6 @@ namespace NorthwindWebsite.Business.Services.Interfaces
 {
     public interface ISupplierService
     {
-        Task<List<SelectListItem>> GetSelectListItems();
+        Task<SelectList> GetSupplerSelectList();
     }
 }

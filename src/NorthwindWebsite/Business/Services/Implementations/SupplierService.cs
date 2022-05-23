@@ -13,12 +13,10 @@ public class SupplierService : ISupplierService
         _supplierRepository = supplierRepository;
     }
 
-    public async Task<List<SelectListItem>> GetSelectListItems()
+    public async Task<SelectList> GetSupplerSelectList()
     {
         var suppliers = await _supplierRepository.GetAll();
 
-        return suppliers.Select(x =>
-        new SelectListItem { Text = x.CompanyName, Value = x.SupplierId.ToString() })
-            .ToList();
+        return new SelectList(suppliers, "SupplierId", "CompanyName");
     }
 }
