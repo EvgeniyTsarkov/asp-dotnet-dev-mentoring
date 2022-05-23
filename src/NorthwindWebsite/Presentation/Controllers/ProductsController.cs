@@ -46,7 +46,7 @@ public class ProductsController : Controller
         productToCreateOrUpdate.Categories = await _categoryService.GetCategorySelectList();
         productToCreateOrUpdate.Suppliers = await _supplierService.GetSupplerSelectList();
 
-        if (ModelState.GetFieldValidationState("Product") != ModelValidationState.Valid)
+        if (ModelState.GetFieldValidationState("Product") == ModelValidationState.Invalid)
         {
             return View("CreateOrUpdate", productToCreateOrUpdate);
         }

@@ -35,8 +35,7 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    ;
+    @Html.AntiForgeryToken();
     @Html.HiddenFor(product => product.Product.ProductId)
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
