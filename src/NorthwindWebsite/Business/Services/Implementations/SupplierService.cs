@@ -15,4 +15,15 @@ public class SupplierService : ISupplierService
 
     public async Task<List<Supplier>> GetAll() =>
         await _supplierRepository.GetAll();
+
+    public async Task<Dictionary<int, string>> GetSupplierOptions()
+    {
+        var suppliers = await _supplierRepository.GetAll();
+
+        var supplierOptions = new Dictionary<int, string>();
+
+        suppliers.ForEach(s => supplierOptions.Add(s.SupplierId, s.CompanyName));
+
+        return supplierOptions;
+    }
 }

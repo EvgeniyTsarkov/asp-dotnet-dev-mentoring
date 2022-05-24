@@ -2,15 +2,15 @@
 @using NorthwindWebsite.Entities
 @using NorthwindWebsite.Infrastructure.Entities
 
-@model ProductToCreateOrUpdateDto
+@model ProductHandleDto
 
 <link rel="stylesheet" href="~/css/forms.css" />
 
 @{
-    ViewData["Title"] = @Model.Product.ProductName == null 
+    ViewData["Title"] = @Model.Product.ProductName == null
     ? "Add New Product" : $"Edit Product '{@Model.Product.ProductName}'";
 
-    string title = @Model.Product.ProductName == null 
+    string title = @Model.Product.ProductName == null
     ? "Add new product" : $"Edit '{@Model.Product.ProductName}'";
 
     string postAction = @Model.Product.ProductId == 0 ? "Create" : "Update";
@@ -48,8 +48,8 @@
                         @Html.LabelFor(product => product.Product.Category!.CategoryName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.DropDownListFor(product => product.Product.CategoryId, new SelectList(Model.Categories, 
-                            nameof(Category.CategoryId), nameof(Category.CategoryName)), "Select Category", new { @class="form-control" })
+                        @Html.DropDownListFor(product => product.Product.CategoryId, new SelectList(Model.CategoryOptions,
+                    "Key", "Value"), "Select Category", new { @class="form-control" })
                         @Html.ValidationMessageFor(product => product.Product.CategoryId, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
@@ -60,8 +60,8 @@
                         @Html.LabelFor(product => product.Product.Supplier!.CompanyName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.DropDownListFor(product => product.Product.SupplierId, new SelectList(Model.Suppliers, 
-                            nameof(Supplier.SupplierId), nameof(Supplier.CompanyName)), "Select Supplier", new { @class="form-control" })
+                        @Html.DropDownListFor(product => product.Product.SupplierId, new SelectList(Model.SupplierOptions,
+                    "Key", "Value"), "Select Supplier", new { @class="form-control" })
                         @Html.ValidationMessageFor(product => product.Product.SupplierId, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>

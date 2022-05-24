@@ -23,7 +23,6 @@ public static class MiddlewareConfiguration
             DefaultRequestCulture = new RequestCulture(appSettings.Localization.Default)
         });
 
-
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 

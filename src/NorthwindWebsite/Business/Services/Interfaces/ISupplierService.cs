@@ -6,5 +6,7 @@ namespace NorthwindWebsite.Business.Services.Interfaces
     public interface ISupplierService
     {
         Task<List<Supplier>> GetAll();
+
+        Task<Dictionary<int, string>> GetSupplierOptions();
     }
 }

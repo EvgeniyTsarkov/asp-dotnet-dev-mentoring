@@ -7,7 +7,7 @@ public interface IProductService
 {
     Task<ProductsDto> GetProducts();
 
-    Task<ProductToCreateOrUpdateDto> GetProductModel(int id);
+    Task<ProductHandleDto> GetProductModel(int id);
 
     Task<Product> Create(Product productToCreate);
 

@@ -39,13 +39,10 @@ public class ProductsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(ProductToCreateOrUpdateDto productToCreateOrUpdate)
+    public async Task<IActionResult> Create(ProductHandleDto productToCreateOrUpdate)
     {
-        var categories = await _categoryService.GetAll();
-        var suppliers = await _supplierService.GetAll();
-
-        productToCreateOrUpdate.Categories = categories.ToList();
-        productToCreateOrUpdate.Suppliers = suppliers.ToList();
+        productToCreateOrUpdate.CategoryOptions = await _categoryService.GetCategoryOptions();
+        productToCreateOrUpdate.SupplierOptions = await _supplierService.GetSupplierOptions();
 
         if (ModelState.GetFieldValidationState("Product") == ModelValidationState.Invalid)
         {
@@ -59,13 +56,10 @@ public class ProductsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Update(ProductToCreateOrUpdateDto productToCreateOrUpdate)
+    public async Task<IActionResult> Update(ProductHandleDto productToCreateOrUpdate)
     {
-        var categories = await _categoryService.GetAll();
-        var suppliers = await _supplierService.GetAll();
-
-        productToCreateOrUpdate.Categories = categories.ToList();
-        productToCreateOrUpdate.Suppliers = suppliers.ToList();
+        productToCreateOrUpdate.CategoryOptions = await _categoryService.GetCategoryOptions();
+        productToCreateOrUpdate.SupplierOptions = await _supplierService.GetSupplierOptions();
 
         if (ModelState.GetFieldValidationState("Product") == ModelValidationState.Invalid)
         {

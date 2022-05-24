@@ -3,12 +3,12 @@ using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Business.Models
 {
-    public class ProductToCreateOrUpdateDto
+    public class ProductHandleDto
     {
         public Product Product { get; set; }
 
-        public List<Category> Categories { get; set; }
+        public Dictionary<int, string> CategoryOptions { get; set; }
 
-        public List<Supplier> Suppliers { get; set; }
+        public Dictionary<int, string> SupplierOptions { get; set; }
     }
 }
