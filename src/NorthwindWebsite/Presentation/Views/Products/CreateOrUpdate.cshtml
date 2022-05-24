@@ -5,27 +5,15 @@
 <link rel="stylesheet" href="~/css/forms.css" />
 
 @{
-    if (@Model.Product.ProductName == null)
-    {
-        ViewData["Title"] = "Add New Product";
-    }
-    else
-    {
-        ViewData["Title"] = $"Edit Product '{@Model.Product.ProductName}'";
-    }
-}
+    ViewData["Title"] = @Model.Product.ProductName == null 
+    ? "Add New Product" : $"Edit Product '{@Model.Product.ProductName}'";
 
-@{
-    string title;
+    string title = @Model.Product.ProductName == null 
+    ? "Add new product" : $"Edit '{@Model.Product.ProductName}'";
 
-    if (@Model.Product.ProductName == null)
-    {
-        title = "Add new product";
-    }
-    else
-    {
-        title = $"Edit '{@Model.Product.ProductName}'";
-    }
+    string postAction = @Model.Product.ProductId == 0 ? "Create" : "Update";
+
+    const bool ExcludePropertyErrors = true;
 }
 
 <h1>@title</h1>
@@ -33,11 +21,11 @@
 <br />
 <br />
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(@postAction, "Products", HttpMethod.Post))
 {
     @Html.AntiForgeryToken();
     @Html.HiddenFor(product => product.Product.ProductId)
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(@ExcludePropertyErrors, string.Empty, new { @class = "text-danger" })
 
     <div class="form-horizontal">
         <div class="form-area">
@@ -48,31 +36,31 @@
                     </div>
                     <div class="col-7">
                         @Html.TextBoxFor(product => product.Product.ProductName, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.ProductName, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.ProductName, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-2">
-                        @Html.LabelFor(product => product.Product.Category.CategoryName, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.Category!.CategoryName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
                         @Html.DropDownListFor(product => product.Product.CategoryId, Model.Categories as SelectList,
                     "Select Category", new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.CategoryId, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.CategoryId, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <div class=row>
                     <div class="col-2">
-                        @Html.LabelFor(product => product.Product.Supplier.CompanyName, new { @class="form-label"})
+                        @Html.LabelFor(product => product.Product.Supplier!.CompanyName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
                         @Html.DropDownListFor(product => product.Product.SupplierId, Model.Suppliers as SelectList,
                     "Select Supplier", new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.SupplierId, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.SupplierId, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -83,7 +71,7 @@
                     </div>
                     <div class="col-7">
                         @Html.TextBoxFor(product => product.Product.QuantityPerUnit, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.QuantityPerUnit, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.QuantityPerUnit, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -94,7 +82,7 @@
                     </div>
                     <div class="col-7">
                         @Html.TextBoxFor(product => product.Product.UnitPrice, "{0:F}", new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.UnitPrice, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitPrice, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -105,7 +93,7 @@
                     </div>
                     <div class="col-7">
                         @Html.TextBoxFor(product => product.Product.UnitsInStock, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.UnitsInStock, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitsInStock, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -116,7 +104,7 @@
                     </div>
                     <div class="col-7">
                         @Html.TextBoxFor(product => product.Product.UnitsOnOrder, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.UnitsOnOrder, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitsOnOrder, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -127,7 +115,7 @@
                     </div>
                     <div class="col-7">
                         @Html.TextBoxFor(product => product.Product.ReorderLevel, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.ReorderLevel, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.ReorderLevel, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -138,7 +126,7 @@
                     </div>
                     <div class="col-2">
                         @Html.CheckBoxFor(product => product.Product.Discontinued, new { @class="form-control" })
-                        @Html.ValidationMessageFor(product => product.Product.Discontinued, "", htmlAttributes: new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(product => product.Product.Discontinued, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

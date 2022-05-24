@@ -41,7 +41,7 @@ public class ProductsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateOrUpdate(ProductToCreateOrUpdateDto productToCreateOrUpdate)
+    public async Task<IActionResult> Create(ProductToCreateOrUpdateDto productToCreateOrUpdate)
     {
         productToCreateOrUpdate.Categories = await _categoryService.GetCategorySelectList();
         productToCreateOrUpdate.Suppliers = await _supplierService.GetSupplerSelectList();
@@ -51,10 +51,21 @@ public class ProductsController : Controller
             return View("CreateOrUpdate", productToCreateOrUpdate);
         }
 
-        if (productToCreateOrUpdate.Product.ProductId == 0)
+        await _productService.Create(productToCreateOrUpdate.Product);
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Update(ProductToCreateOrUpdateDto productToCreateOrUpdate)
+    {
+        productToCreateOrUpdate.Categories = await _categoryService.GetCategorySelectList();
+        productToCreateOrUpdate.Suppliers = await _supplierService.GetSupplerSelectList();
+
+        if (ModelState.GetFieldValidationState("Product") == ModelValidationState.Invalid)
         {
-            await _productService.Create(productToCreateOrUpdate.Product);
-            return RedirectToAction("Index");
+            return View("CreateOrUpdate", productToCreateOrUpdate);
         }
 
         await _productService.Update(productToCreateOrUpdate.Product);
