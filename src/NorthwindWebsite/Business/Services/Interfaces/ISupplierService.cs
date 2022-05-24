@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NorthwindWebsite.Entities;
 
 namespace NorthwindWebsite.Business.Services.Interfaces
 {
     public interface ISupplierService
     {
-        Task<SelectList> GetSupplerSelectList();
+        Task<List<Supplier>> GetAll();
     }
 }

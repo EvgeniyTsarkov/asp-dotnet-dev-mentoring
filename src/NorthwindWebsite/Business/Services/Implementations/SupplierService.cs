@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using NorthwindWebsite.Business.Services.Interfaces;
+﻿using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Entities;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 
@@ -14,10 +13,6 @@ public class SupplierService : ISupplierService
         _supplierRepository = supplierRepository;
     }
 
-    public async Task<SelectList> GetSupplerSelectList()
-    {
-        var suppliers = await _supplierRepository.GetAll();
-
-        return new SelectList(suppliers, "SupplierId", "CompanyName");
-    }
+    public async Task<List<Supplier>> GetAll() =>
+        await _supplierRepository.GetAll();
 }

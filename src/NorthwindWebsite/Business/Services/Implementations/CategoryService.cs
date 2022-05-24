@@ -16,11 +16,4 @@ public class CategoryService : ICategoryService
 
     public async Task<IEnumerable<Category>> GetAll() =>
         await _categoryRepository.GetAll();
-
-    public async Task<SelectList> GetCategorySelectList()
-    {
-        var categories = await GetAll();
-
-        return new SelectList(categories, "CategoryId", "CategoryName");
-    }
 }

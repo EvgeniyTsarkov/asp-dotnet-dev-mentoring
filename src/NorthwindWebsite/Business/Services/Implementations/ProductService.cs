@@ -47,9 +47,13 @@ public class ProductService : IProductService
 
         productToCreateOrUpdate.Product = product;
 
-        productToCreateOrUpdate.CategoryOptions = await _categoryService.GetCategorySelectList();
+        var categories = await _categoryService.GetAll();
 
-        productToCreateOrUpdate.SupplierOptions = await _supplierService.GetSupplerSelectList();
+        productToCreateOrUpdate.Categories = categories.ToList();
+
+        var suppliers = await _supplierService.GetAll();
+
+        productToCreateOrUpdate.Suppliers = suppliers.ToList();
 
         return productToCreateOrUpdate;
     }

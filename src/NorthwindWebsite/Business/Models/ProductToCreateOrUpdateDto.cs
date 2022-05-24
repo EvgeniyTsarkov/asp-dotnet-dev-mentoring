@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using NorthwindWebsite.Entities;
+using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Business.Models
 {
@@ -7,8 +8,8 @@ namespace NorthwindWebsite.Business.Models
     {
         public Product Product { get; set; }
 
-        public SelectList CategoryOptions { get; set; }
+        public List<Category> Categories { get; set; }
 
-        public SelectList SupplierOptions { get; set; }
+        public List<Supplier> Suppliers { get; set; }
     }
 }
