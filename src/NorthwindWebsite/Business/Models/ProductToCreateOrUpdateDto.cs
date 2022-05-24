@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using NorthwindWebsite.Entities;
+﻿using NorthwindWebsite.Entities;
 using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Business.Models
