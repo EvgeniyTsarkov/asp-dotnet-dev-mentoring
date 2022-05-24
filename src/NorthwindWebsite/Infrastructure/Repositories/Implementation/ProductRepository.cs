@@ -4,14 +4,14 @@ using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 
 namespace NorthwindWebsite.Infrastructure.Repositories.Implementation
 {
-    public class ProductRepository : BaseRepository, IProductRepository
+    public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
         public ProductRepository(NorthwindContext context)
             : base(context)
         {
         }
 
-        public async Task<List<Product>> GetAll() =>
+        public new async Task<List<Product>> GetAll() =>
             await _context.Products.AsQueryable<Product>()
             .Include(p => p.Supplier)
             .Include(p => p.Category)

@@ -30,7 +30,8 @@ public static class ServicesConfiguration
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<ISupplierService, SupplierService>();
 
-        services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddTransient<IProductRepository, ProductRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ISupplierRepository, SupplierRepository>();
     }
 }

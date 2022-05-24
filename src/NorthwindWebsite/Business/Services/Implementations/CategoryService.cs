@@ -6,9 +6,9 @@ namespace NorthwindWebsite.Services.Implementations;
 
 public class CategoryService : ICategoryService
 {
-    private readonly IGenericRepository<Category> _categoryRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public CategoryService(IGenericRepository<Category> categoryRepository)
+    public CategoryService(ICategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }
@@ -16,7 +16,7 @@ public class CategoryService : ICategoryService
     public async Task<IEnumerable<Category>> GetAll() =>
         await _categoryRepository.GetAll();
 
-    public async Task<Dictionary<int, string>> GetCategoryOptions() 
+    public async Task<Dictionary<int, string>> GetCategoryOptions()
     {
         var categories = await _categoryRepository.GetAll();
 

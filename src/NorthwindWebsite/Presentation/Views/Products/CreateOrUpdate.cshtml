@@ -7,13 +7,13 @@
 <link rel="stylesheet" href="~/css/forms.css" />
 
 @{
-    ViewData["Title"] = @Model.Product.ProductName == null
+    ViewData["Title"] = @Model.Product.ProductName == default
     ? "Add New Product" : $"Edit Product '{@Model.Product.ProductName}'";
 
-    string title = @Model.Product.ProductName == null
+    string title = @Model.Product.ProductName == default
     ? "Add new product" : $"Edit '{@Model.Product.ProductName}'";
 
-    string postAction = @Model.Product.ProductId == 0 ? "Create" : "Update";
+    string postAction = @Model.Product.ProductId == default ? "Create" : "Update";
 
     const bool ExcludePropertyErrors = true;
 }

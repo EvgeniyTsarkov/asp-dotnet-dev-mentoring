@@ -6,9 +6,9 @@ namespace NorthwindWebsite.Business.Services.Implementations;
 
 public class SupplierService : ISupplierService
 {
-    private readonly IGenericRepository<Supplier> _supplierRepository;
+    private readonly ISupplierRepository _supplierRepository;
 
-    public SupplierService(IGenericRepository<Supplier> supplierRepository)
+    public SupplierService(ISupplierRepository supplierRepository)
     {
         _supplierRepository = supplierRepository;
     }
