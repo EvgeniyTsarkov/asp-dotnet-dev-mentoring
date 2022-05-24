@@ -7,9 +7,9 @@ namespace NorthwindWebsite.Services.Implementations;
 
 public class CategoryService : ICategoryService
 {
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly IGenericRepository<Category> _categoryRepository;
 
-    public CategoryService(ICategoryRepository categoryRepository)
+    public CategoryService(IGenericRepository<Category> categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }

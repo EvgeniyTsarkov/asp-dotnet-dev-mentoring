@@ -10,11 +10,8 @@ namespace NorthwindWebsite.Business.Services.Implementations;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRepository;
-
     private readonly AppSettings _appSettings;
-
     private readonly ICategoryService _categoryService;
-
     private readonly ISupplierService _supplierService;
 
     public ProductService(
@@ -29,7 +26,7 @@ public class ProductService : IProductService
         _supplierService = supplierService;
     }
 
-    public async Task<ProductsDto> BuildProductsDto()
+    public async Task<ProductsDto> GetProducts()
     {
         var productsListDto = new ProductsDto();
 
@@ -42,7 +39,7 @@ public class ProductService : IProductService
         return productsListDto;
     }
 
-    public async Task<ProductToCreateOrUpdateDto> BuildProductCreateOrUpdate(int id)
+    public async Task<ProductToCreateOrUpdateDto> GetProductModel(int id)
     {
         var productToCreateOrUpdate = new ProductToCreateOrUpdateDto();
 
@@ -57,11 +54,11 @@ public class ProductService : IProductService
         return productToCreateOrUpdate;
     }
 
-    public async Task<Product> Update(Product productToUpdate) =>
-        await _productRepository.Update(productToUpdate);
+    public async Task<Product> Update(Product product) =>
+        await _productRepository.Update(product);
 
-    public async Task<Product> Create(Product productToCreate) =>
-        await _productRepository.Add(productToCreate);
+    public async Task<Product> Create(Product product) =>
+        await _productRepository.Add(product);
 
     public async Task Delete(int id) =>
         await _productRepository.Delete(id);

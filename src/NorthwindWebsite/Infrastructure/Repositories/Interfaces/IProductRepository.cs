@@ -8,11 +8,11 @@ public interface IProductRepository
 
     Task<List<Product>> GetLimitedNumberOfProducts(int limit);
 
-    Task<Product> Get(int id);
+    Task<Product> Get(int id, bool skipRelatedItems = false);
 
-    Task<Product> Add(Product productToAdd);
+    Task<Product> Add(Product product);
 
-    Task<Product> Update(Product productToUpdate);
+    Task<Product> Update(Product product);
 
     Task Delete(int id);
 }

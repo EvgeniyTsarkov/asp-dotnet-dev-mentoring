@@ -9,9 +9,7 @@ namespace NorthwindWebsite.Presentation.Controllers;
 public class ProductsController : Controller
 {
     private readonly IProductService _productService;
-
     private readonly ICategoryService _categoryService;
-
     private readonly ISupplierService _supplierService;
 
     public ProductsController(
@@ -26,7 +24,7 @@ public class ProductsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var products = await _productService.BuildProductsDto();
+        var products = await _productService.GetProducts();
 
         return View("Index", products);
     }
@@ -34,7 +32,7 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<IActionResult> CreateOrUpdate(int id)
     {
-        var productToCreateOrUpdate = await _productService.BuildProductCreateOrUpdate(id);
+        var productToCreateOrUpdate = await _productService.GetProductModel(id);
 
         return View("CreateOrUpdate", productToCreateOrUpdate);
     }
@@ -73,7 +71,6 @@ public class ProductsController : Controller
         return RedirectToAction("Index");
     }
 
-    [ActionName("Delete")]
     public async Task<IActionResult> Delete(int id)
     {
         await _productService.Delete(id);
