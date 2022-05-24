@@ -26,7 +26,7 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Implementation
 
         public async Task<Product> Get(int id, bool skipRelatedItems = false)
         {
-            if (skipRelatedItems = true)
+            if (skipRelatedItems)
             {
                 return await _context.Products
                     .AsNoTracking()
