@@ -41,8 +41,8 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ProductToCreateOrUpdateDto productToCreateOrUpdate)
     {
-        productToCreateOrUpdate.Categories = await _categoryService.GetCategorySelectList();
-        productToCreateOrUpdate.Suppliers = await _supplierService.GetSupplerSelectList();
+        productToCreateOrUpdate.CategoryOptions = await _categoryService.GetCategorySelectList();
+        productToCreateOrUpdate.SupplierOptions = await _supplierService.GetSupplerSelectList();
 
         if (ModelState.GetFieldValidationState("Product") == ModelValidationState.Invalid)
         {
@@ -58,8 +58,8 @@ public class ProductsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Update(ProductToCreateOrUpdateDto productToCreateOrUpdate)
     {
-        productToCreateOrUpdate.Categories = await _categoryService.GetCategorySelectList();
-        productToCreateOrUpdate.Suppliers = await _supplierService.GetSupplerSelectList();
+        productToCreateOrUpdate.CategoryOptions = await _categoryService.GetCategorySelectList();
+        productToCreateOrUpdate.SupplierOptions = await _supplierService.GetSupplerSelectList();
 
         if (ModelState.GetFieldValidationState("Product") == ModelValidationState.Invalid)
         {

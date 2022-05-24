@@ -7,8 +7,8 @@ namespace NorthwindWebsite.Business.Models
     {
         public Product Product { get; set; }
 
-        public SelectList Categories { get; set; }
+        public SelectList CategoryOptions { get; set; }
 
-        public SelectList Suppliers { get; set; }
+        public SelectList SupplierOptions { get; set; }
     }
 }
