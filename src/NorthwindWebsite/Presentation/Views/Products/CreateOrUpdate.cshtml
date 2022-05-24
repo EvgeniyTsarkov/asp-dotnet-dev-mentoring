@@ -1,4 +1,6 @@
 ﻿@using NorthwindWebsite.Business.Models
+@using NorthwindWebsite.Entities
+@using NorthwindWebsite.Infrastructure.Entities
 
 @model ProductToCreateOrUpdateDto
 
@@ -46,8 +48,8 @@
                         @Html.LabelFor(product => product.Product.Category!.CategoryName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.DropDownListFor(product => product.Product.CategoryId, new SelectList(Model.Categories, "CategoryId", "CategoryName"),
-                    "Select Category", new { @class="form-control" })
+                        @Html.DropDownListFor(product => product.Product.CategoryId, new SelectList(Model.Categories, 
+                            nameof(Category.CategoryId), nameof(Category.CategoryName)), "Select Category", new { @class="form-control" })
                         @Html.ValidationMessageFor(product => product.Product.CategoryId, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
@@ -58,8 +60,8 @@
                         @Html.LabelFor(product => product.Product.Supplier!.CompanyName, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.DropDownListFor(product => product.Product.SupplierId, new SelectList(Model.Suppliers, "SupplierId", "CompanyName"),
-                    "Select Supplier", new { @class="form-control" })
+                        @Html.DropDownListFor(product => product.Product.SupplierId, new SelectList(Model.Suppliers, 
+                            nameof(Supplier.SupplierId), nameof(Supplier.CompanyName)), "Select Supplier", new { @class="form-control" })
                         @Html.ValidationMessageFor(product => product.Product.SupplierId, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
