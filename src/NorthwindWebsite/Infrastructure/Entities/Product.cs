@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using NorthwindWebsite.Core.Constants;
 using NorthwindWebsite.Infrastructure.Entities;
 using System.ComponentModel.DataAnnotations;
 
@@ -26,9 +27,9 @@ public class Product
 
     [Required]
     [Range(0, 9999.99)]
-    [RegularExpression("^(?:0|[1-9][0-9]*)\\.[0-9]{2}",
+    [RegularExpression(RegularExpressions.Decimal,
     ErrorMessage = "Wrong number format, please use standard price formats")]
-    [DisplayFormat(DataFormatString = "{0:F}", ApplyFormatInEditMode = true)]
+    [DisplayFormat(DataFormatString = NumberFormats.Decimal, ApplyFormatInEditMode = true)]
     [Display(Name = "Unit Price")]
     public decimal? UnitPrice { get; set; }
 

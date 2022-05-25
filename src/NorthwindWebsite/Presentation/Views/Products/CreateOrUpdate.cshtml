@@ -1,4 +1,5 @@
 ﻿@using NorthwindWebsite.Business.Models
+@using NorthwindWebsite.Core.Constants
 @using NorthwindWebsite.Entities
 @using NorthwindWebsite.Infrastructure.Entities
 
@@ -7,15 +8,15 @@
 <link rel="stylesheet" href="~/css/forms.css" />
 
 @{
-    ViewData["Title"] = @Model.Product.ProductName == default
-    ? "Add New Product" : $"Edit Product '{@Model.Product.ProductName}'";
+    const bool ExcludePropertyErrors = true;
 
-    string title = @Model.Product.ProductName == default
-    ? "Add new product" : $"Edit '{@Model.Product.ProductName}'";
+    const string AddNewProductTitle = "Add new product";
+
+    string title = GetTitle();
+
+    ViewData["Title"] = title;
 
     string postAction = @Model.Product.ProductId == default ? "Create" : "Update";
-
-    const bool ExcludePropertyErrors = true;
 }
 
 <h1>@title</h1>
@@ -83,7 +84,7 @@
                         @Html.LabelFor(product => product.Product.UnitPrice, new { @class="form-label"})
                     </div>
                     <div class="col-7">
-                        @Html.TextBoxFor(product => product.Product.UnitPrice, "{0:F}", new { @class="form-control" })
+                        @Html.TextBoxFor(product => product.Product.UnitPrice, NumberFormats.Decimal, new { @class="form-control" })
                         @Html.ValidationMessageFor(product => product.Product.UnitPrice, string.Empty, htmlAttributes: new { @class = "text-danger" })
                     </div>
                 </div>
@@ -142,4 +143,9 @@
     </div>
     <br>
     <div><h6>@Html.ActionLink("Back to Products", "BackToProducts", "Products")</h6></div>
+}
+
+@{
+    string GetTitle() => @Model.Product.ProductName == default
+    ? AddNewProductTitle : $"Edit Product '{@Model.Product.ProductName}'";
 }
