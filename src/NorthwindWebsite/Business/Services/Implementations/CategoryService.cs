@@ -20,10 +20,6 @@ public class CategoryService : ICategoryService
     {
         var categories = await _categoryRepository.GetAll();
 
-        var categoryOptions = new Dictionary<int, string>();
-
-        categories.ForEach(c => categoryOptions.Add(c.CategoryId, c.CategoryName));
-
-        return categoryOptions;
+        return categories.ToDictionary(c => c.CategoryId, c => c.CategoryName);
     }
 }

@@ -20,10 +20,6 @@ public class SupplierService : ISupplierService
     {
         var suppliers = await _supplierRepository.GetAll();
 
-        var supplierOptions = new Dictionary<int, string>();
-
-        suppliers.ForEach(s => supplierOptions.Add(s.SupplierId, s.CompanyName));
-
-        return supplierOptions;
+        return suppliers.ToDictionary(s => s.SupplierId, s => s.CompanyName);
     }
 }

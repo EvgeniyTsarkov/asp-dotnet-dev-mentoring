@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Business.Services.Interfaces;
+using NorthwindWebsite.Entities;
 using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.Presentation.Controllers;
@@ -30,7 +31,7 @@ public class ProductsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> CreateOrUpdate(int id)
+    public async Task<IActionResult> Handle(int id)
     {
         var productToCreateOrUpdate = await _productService.GetProductModel(id);
 
@@ -61,7 +62,7 @@ public class ProductsController : Controller
         productToCreateOrUpdate.CategoryOptions = await _categoryService.GetCategoryOptions();
         productToCreateOrUpdate.SupplierOptions = await _supplierService.GetSupplierOptions();
 
-        if (ModelState.GetFieldValidationState("Product") == ModelValidationState.Invalid)
+        if (ModelState.GetFieldValidationState(nameof(Product)) == ModelValidationState.Invalid)
         {
             return View("CreateOrUpdate", productToCreateOrUpdate);
         }

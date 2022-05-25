@@ -16,7 +16,15 @@
 
     ViewData["Title"] = title;
 
-    string postAction = @Model.Product.ProductId == default ? "Create" : "Update";
+    string postAction = GetPostActionName();
+
+    string GetTitle() => @Model.Product.ProductName == default
+                                                    ? AddNewProductTitle
+                                                    : $"Edit Product '{@Model.Product.ProductName}'";
+
+    string GetPostActionName() => @Model.Product.ProductId == default
+                                                            ? "Create"
+                                                            : "Update";
 }
 
 <h1>@title</h1>
@@ -26,7 +34,8 @@
 
 @using (Html.BeginForm(@postAction, "Products", HttpMethod.Post))
 {
-    @Html.AntiForgeryToken();
+    @Html.AntiForgeryToken()
+    ;
     @Html.HiddenFor(product => product.Product.ProductId)
     @Html.ValidationSummary(@ExcludePropertyErrors, string.Empty, new { @class = "text-danger" })
 
@@ -143,9 +152,4 @@
     </div>
     <br>
     <div><h6>@Html.ActionLink("Back to Products", "BackToProducts", "Products")</h6></div>
-}
-
-@{
-    string GetTitle() => @Model.Product.ProductName == default
-    ? AddNewProductTitle : $"Edit Product '{@Model.Product.ProductName}'";
 }

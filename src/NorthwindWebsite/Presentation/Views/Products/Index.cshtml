@@ -15,7 +15,7 @@
                 <td><h1>Products</h1></td>
                 <td>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    @Html.ActionLink("Create new", "CreateOrUpdate", "Products", null, new { @class="btn btn-primary" })
+                    @Html.ActionLink("Create new", "Handle", "Products", null, new { @class="btn btn-primary" })
                 </td>
             </tr>
         </table>
@@ -46,7 +46,7 @@
                     <td class="num-value-cell">@product.UnitsOnOrder</td>
                     <td class="num-value-cell">@product.ReorderLevel</td>
                     <td class="num-value-cell">@(product.Discontinued ? "Yes" : "No")</td>
-                    <td>@Html.ActionLink("Edit", "CreateOrUpdate", new { id = @product.ProductId })</td>
+                    <td>@Html.ActionLink("Edit", "Handle", new { id = @product.ProductId })</td>
                     <td>@Html.ActionLink("Delete", "Delete", new { id = @product.ProductId })</td>
                 </tr>
             }
