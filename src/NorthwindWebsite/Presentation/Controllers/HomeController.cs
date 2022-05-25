@@ -15,12 +15,12 @@ namespace NorthwindWebsite.Controllers
 
         public IActionResult Index()
         {
-            return View("~/Presentation/Views/Home/Index.cshtml");
+            return View();
         }
 
         public IActionResult Privacy()
         {
-            return View("~/Presentation/Views/Home/Privacy.cshtml");
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

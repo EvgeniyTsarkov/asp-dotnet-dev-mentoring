@@ -2,8 +2,7 @@
 
 namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository : IBaseRepository<Category>
     {
-        Task<IEnumerable<Category>> GetAll();
     }
 }

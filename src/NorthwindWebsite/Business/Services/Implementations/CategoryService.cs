@@ -15,4 +15,11 @@ public class CategoryService : ICategoryService
 
     public async Task<IEnumerable<Category>> GetAll() =>
         await _categoryRepository.GetAll();
+
+    public async Task<Dictionary<int, string>> GetCategoryOptions()
+    {
+        var categories = await _categoryRepository.GetAll();
+
+        return categories.ToDictionary(c => c.CategoryId, c => c.CategoryName);
+    }
 }

@@ -1,0 +1,155 @@
+﻿@using NorthwindWebsite.Business.Models
+@using NorthwindWebsite.Core.Constants
+@using NorthwindWebsite.Entities
+@using NorthwindWebsite.Infrastructure.Entities
+
+@model ProductHandleDto
+
+<link rel="stylesheet" href="~/css/forms.css" />
+
+@{
+    const bool ExcludePropertyErrors = true;
+
+    const string AddNewProductTitle = "Add new product";
+
+    string title = GetTitle();
+
+    ViewData["Title"] = title;
+
+    string postAction = GetPostActionName();
+
+    string GetTitle() => @Model.Product.ProductName == default
+                                                    ? AddNewProductTitle
+                                                    : $"Edit Product '{@Model.Product.ProductName}'";
+
+    string GetPostActionName() => @Model.Product.ProductId == default
+                                                            ? "Create"
+                                                            : "Update";
+}
+
+<h1>@title</h1>
+
+<br />
+<br />
+
+@using (Html.BeginForm(@postAction, "Products", HttpMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    ;
+    @Html.HiddenFor(product => product.Product.ProductId)
+    @Html.ValidationSummary(@ExcludePropertyErrors, string.Empty, new { @class = "text-danger" })
+
+    <div class="form-horizontal">
+        <div class="form-area">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.ProductName, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.Product.ProductName, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.ProductName, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.Category!.CategoryName, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.DropDownListFor(product => product.Product.CategoryId, new SelectList(Model.CategoryOptions,
+                    "Key", "Value"), "Select Category", new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.CategoryId, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class=row>
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.Supplier!.CompanyName, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.DropDownListFor(product => product.Product.SupplierId, new SelectList(Model.SupplierOptions,
+                    "Key", "Value"), "Select Supplier", new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.SupplierId, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.QuantityPerUnit, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.Product.QuantityPerUnit, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.QuantityPerUnit, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.UnitPrice, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.Product.UnitPrice, NumberFormats.Decimal, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitPrice, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.UnitsInStock, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.Product.UnitsInStock, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitsInStock, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.UnitsOnOrder, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.Product.UnitsOnOrder, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.UnitsOnOrder, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.ReorderLevel, new { @class="form-label"})
+                    </div>
+                    <div class="col-7">
+                        @Html.TextBoxFor(product => product.Product.ReorderLevel, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.ReorderLevel, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="custom-checkbox">
+                <div class="row">
+                    <div class="col-2">
+                        @Html.LabelFor(product => product.Product.Discontinued, new { @class="form-label"})
+                    </div>
+                    <div class="col-2">
+                        @Html.CheckBoxFor(product => product.Product.Discontinued, new { @class="form-control" })
+                        @Html.ValidationMessageFor(product => product.Product.Discontinued, string.Empty, htmlAttributes: new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <div class="class=" col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div><h6>@Html.ActionLink("Back to Products", "BackToProducts", "Products")</h6></div>
+}

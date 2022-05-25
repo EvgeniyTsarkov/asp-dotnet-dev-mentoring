@@ -1,9 +1,12 @@
-﻿namespace NorthwindWebsite.Configuration;
+﻿using Microsoft.AspNetCore.Localization;
+using NorthwindWebsite.Core.ApplicationSettings;
+
+namespace NorthwindWebsite.Configuration;
 
 public static class MiddlewareConfiguration
 {
     public static void AddMiddlewareConfiguration(
-        this WebApplication app, IConfiguration configuration)
+        this WebApplication app, AppSettings appSettings)
     {
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
@@ -14,6 +17,11 @@ public static class MiddlewareConfiguration
 
             app.UseHsts();
         }
+
+        app.UseRequestLocalization(new RequestLocalizationOptions
+        {
+            DefaultRequestCulture = new RequestCulture(appSettings.Localization.Default)
+        });
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

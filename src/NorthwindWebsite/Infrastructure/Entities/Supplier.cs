@@ -1,9 +1,13 @@
-﻿namespace NorthwindWebsite.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace NorthwindWebsite.Entities;
 
 public class Supplier
 {
     public int SupplierId { get; set; }
 
+    [StringLength(50)]
+    [Display(Name = "Supplier")]
     public string CompanyName { get; set; }
 
     public string ContactName { get; set; }
@@ -14,7 +18,8 @@ public class Supplier
 
     public string City { get; set; }
 
-    public string Region { get; set; }
+    //This nullable is required for normal EF functioning
+    public string? Region { get; set; }
 
     public string PostalCode { get; set; }
 
@@ -22,9 +27,11 @@ public class Supplier
 
     public string Phone { get; set; }
 
-    public string Fax { get; set; }
+    //This nullable is required for normal EF functioning
+    public string? Fax { get; set; }
 
-    public string HomePage { get; set; }
+    //This nullable is required for normal EF functioning
+    public string? HomePage { get; set; }
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

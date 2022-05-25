@@ -1,6 +1,6 @@
 ﻿@using NorthwindWebsite.Business.Models
 
-@model ProductsListDto
+@model ProductsDto
 
 @{
     ViewData["Title"] = "Products";
@@ -10,7 +10,15 @@
 
 <div>
     <div>
-        <h1>Products</h1>
+        <table>
+            <tr>
+                <td><h1>Products</h1></td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.ActionLink("Create new", "Handle", "Products", null, new { @class="btn btn-primary" })
+                </td>
+            </tr>
+        </table>
     </div>
 
     <div>
@@ -19,7 +27,7 @@
                 <th>Product</th>
                 <th>Supplier</th>
                 <th>Category</th>
-                <th class="num-value-cell">Q-ty/unit</th>
+                <th class="num-value-cell">Quantity/unit</th>
                 <th class="num-value-cell">Price</th>
                 <th class="num-value-cell">Stock</th>
                 <th class="num-value-cell">Units/order</th>
@@ -38,6 +46,8 @@
                     <td class="num-value-cell">@product.UnitsOnOrder</td>
                     <td class="num-value-cell">@product.ReorderLevel</td>
                     <td class="num-value-cell">@(product.Discontinued ? "Yes" : "No")</td>
+                    <td>@Html.ActionLink("Edit", "Handle", new { id = @product.ProductId })</td>
+                    <td>@Html.ActionLink("Delete", "Delete", new { id = @product.ProductId })</td>
                 </tr>
             }
         </table>

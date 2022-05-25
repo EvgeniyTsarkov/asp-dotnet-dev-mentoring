@@ -28,8 +28,10 @@ public static class ServicesConfiguration
 
         services.AddTransient<ICategoryService, CategoryService>();
         services.AddTransient<IProductService, ProductService>();
+        services.AddTransient<ISupplierService, SupplierService>();
 
         services.AddTransient<IProductRepository, ProductRepository>();
-        services.AddTransient<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ISupplierRepository, SupplierRepository>();
     }
 }

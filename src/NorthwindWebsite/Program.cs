@@ -13,6 +13,6 @@ builder.Services.AddDbContextConfiguration(appSettings.ConnectionStrings.Default
 
 var app = builder.Build();
 
-app.AddMiddlewareConfiguration(builder.Configuration);
+app.AddMiddlewareConfiguration(appSettings);
 
 app.Run();
