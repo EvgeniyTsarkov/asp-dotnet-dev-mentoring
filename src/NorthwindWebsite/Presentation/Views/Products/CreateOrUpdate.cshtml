@@ -7,7 +7,13 @@
 
 <link rel="stylesheet" href="~/css/forms.css" />
 
-@{
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+    @{
     const bool ExcludePropertyErrors = true;
 
     const string AddNewProductTitle = "Add new product";
@@ -34,8 +40,7 @@
 
 @using (Html.BeginForm(@postAction, "Products", HttpMethod.Post))
 {
-    @Html.AntiForgeryToken()
-    ;
+    @Html.AntiForgeryToken();
     @Html.HiddenFor(product => product.Product.ProductId)
     @Html.ValidationSummary(@ExcludePropertyErrors, string.Empty, new { @class = "text-danger" })
 
