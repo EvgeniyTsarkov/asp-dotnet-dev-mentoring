@@ -1,4 +1,6 @@
-﻿namespace NorthwindWebsite.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace NorthwindWebsite.Entities;
 
 public class Order
 {
@@ -16,6 +18,7 @@ public class Order
 
     public int? ShipVia { get; set; }
 
+    [Column(TypeName = "decimal(10,4)")]
     public decimal? Freight { get; set; }
 
     public string ShipName { get; set; }

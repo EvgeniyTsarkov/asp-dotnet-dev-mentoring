@@ -1,4 +1,4 @@
-﻿namespace NorthwindWebsite.Core.ApplicationSettings
+﻿namespace NorthwindWebsite.Core.ApplicationSettings.SerilogFiles
 {
     public class Logging
     {

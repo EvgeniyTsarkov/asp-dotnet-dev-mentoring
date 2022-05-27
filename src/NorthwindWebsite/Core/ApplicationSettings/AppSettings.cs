@@ -14,6 +14,8 @@ public class AppSettings : IValidatable
 
     public Localization Localization { get; set; }
 
+    public Serilog Serilog { get; set; }
+
     public AppSettings GetAppSettings(IConfiguration configuration) =>
         new()
         {
@@ -21,11 +23,13 @@ public class AppSettings : IValidatable
             ConnectionStrings = configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>(),
             LogLevel = configuration.GetSection(nameof(LogLevel)).Get<LogLevel>(),
             MaximumProductsOnPage = configuration.GetValue<int>(nameof(MaximumProductsOnPage)),
-            Localization = configuration.GetSection(nameof(Localization)).Get<Localization>()
+            Localization = configuration.GetSection(nameof(Localization)).Get<Localization>(),
+            Serilog = configuration.GetSection(nameof(Serilog)).Get<Serilog>()
         };
 
     public void Validate()
     {
-        this.ConnectionStrings.Validate();
+        ConnectionStrings.Validate();
+        Serilog.Validate();
     }
 }
