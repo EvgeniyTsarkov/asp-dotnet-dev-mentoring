@@ -9,11 +9,9 @@ var appSettings = new AppSettings().GetAppSettings(builder.Configuration);
 
 builder.Services.AddSingleton(appSettings);
 
-LoggingConfiguration.ConfigureLogger(appSettings);
+builder.Services.AddServicesConfiguration(appSettings);
 
 builder.Host.UseSerilog();
-
-builder.Services.AddServicesConfiguration(builder.Configuration);
 
 builder.Services.AddDbContextConfiguration(appSettings.ConnectionStrings.Default);
 
@@ -23,6 +21,6 @@ Log.Warning(string.Format("Application configuration: {0}", JsonSerializer.Seria
 
 var app = builder.Build();
 
-app.AddMiddlewareConfiguration(appSettings);
+app.AddMiddlewareConfiguration(appSettings, Log.Logger);
 
 app.Run();

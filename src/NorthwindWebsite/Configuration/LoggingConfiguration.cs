@@ -5,7 +5,8 @@ namespace NorthwindWebsite.Configuration
 {
     public static class LoggingConfiguration
     {
-        public static void ConfigureLogger(AppSettings appSettings)
+        public static void ConfigureLogger
+            (this IServiceCollection services, AppSettings appSettings)
         {
             var writingToFileConfigs = appSettings.Serilog.WriteTo
                 .Single(writeTo => writeTo.Name == "File");
@@ -19,6 +20,9 @@ namespace NorthwindWebsite.Configuration
                 appSettings.Serilog.MinimumLevel.Default,
                 writingToFileConfigs.Args.OutputTemplate)
                 .CreateLogger();
+
+            services.AddSingleton(Log.Logger);
         }
     }
 }
+

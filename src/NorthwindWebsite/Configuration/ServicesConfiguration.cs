@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Razor;
 using NorthwindWebsite.Business.Services.Implementations;
 using NorthwindWebsite.Business.Services.Interfaces;
+using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Infrastructure.Repositories.Implementation;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Implementations;
@@ -11,7 +12,7 @@ namespace NorthwindWebsite.Configuration;
 public static class ServicesConfiguration
 {
     public static void AddServicesConfiguration(
-        this IServiceCollection services, IConfiguration configuration)
+        this IServiceCollection services, AppSettings appSettings)
     {
         services.AddControllersWithViews();
 
@@ -30,8 +31,10 @@ public static class ServicesConfiguration
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<ISupplierService, SupplierService>();
 
-        services.AddTransient<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ISupplierRepository, SupplierRepository>();
+
+        services.ConfigureLogger(appSettings);
     }
 }

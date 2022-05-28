@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NorthwindWebsite.Models;
-using System.Diagnostics;
 
 namespace NorthwindWebsite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly Serilog.ILogger _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(Serilog.ILogger logger)
         {
             _logger = logger;
         }
@@ -20,13 +18,8 @@ namespace NorthwindWebsite.Controllers
 
         public IActionResult Privacy()
         {
+            throw new Exception("Test Exception");
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
