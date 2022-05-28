@@ -11,16 +11,14 @@ builder.Services.AddSingleton(appSettings);
 
 builder.Services.AddServicesConfiguration(appSettings);
 
-builder.Host.UseSerilog();
+builder.ConfigureLogger(appSettings);
 
-builder.Services.AddDbContextConfiguration(appSettings.ConnectionStrings.Default);
+var app = builder.Build();
 
 Log.Warning(string.Format("Application started from {0}", AppDomain.CurrentDomain.BaseDirectory));
 
 Log.Warning(string.Format("Application configuration: {0}", JsonSerializer.Serialize(appSettings)));
 
-var app = builder.Build();
-
-app.AddMiddlewareConfiguration(appSettings, Log.Logger);
+app.AddMiddlewareConfiguration(appSettings);
 
 app.Run();

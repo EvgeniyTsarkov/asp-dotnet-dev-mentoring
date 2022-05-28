@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Core.ApplicationSettings
 {
-    public class Serilog : IValidatable
+    public class SerilogConfig : IValidatable
     {
         public MinimumLevel MinimumLevel { get; set; }
 

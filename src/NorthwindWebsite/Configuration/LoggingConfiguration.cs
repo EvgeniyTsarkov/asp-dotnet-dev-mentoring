@@ -5,24 +5,21 @@ namespace NorthwindWebsite.Configuration
 {
     public static class LoggingConfiguration
     {
-        public static void ConfigureLogger
-            (this IServiceCollection services, AppSettings appSettings)
+        public static void ConfigureLogger(
+            this WebApplicationBuilder builder, 
+            AppSettings appSettings)
         {
-            var writingToFileConfigs = appSettings.Serilog.WriteTo
+            var writingToFileConfigs = appSettings.SerilogConfiguration.WriteTo
                 .Single(writeTo => writeTo.Name == "File");
 
             var filePath = string.Format(writingToFileConfigs.Path,
                 DateTime.Today.ToString("yyyy-MM-dd"));
 
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .WriteTo.File(filePath,
-                appSettings.Serilog.MinimumLevel.Default,
-                writingToFileConfigs.Args.OutputTemplate)
-                .CreateLogger();
-
-            services.AddSingleton(Log.Logger);
+            builder.Host.UseSerilog((ctx, lc) => lc
+            .Enrich.FromLogContext()
+            .WriteTo.File(string.Concat(AppDomain.CurrentDomain.BaseDirectory, filePath),
+            appSettings.SerilogConfiguration.MinimumLevel.Default,
+            writingToFileConfigs.Args.OutputTemplate));
         }
     }
 }
-

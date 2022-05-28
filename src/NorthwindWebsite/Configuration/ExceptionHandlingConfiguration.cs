@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
+using Newtonsoft.Json;
+using NorthwindWebsite.Business.Models;
+using Serilog;
 
 namespace NorthwindWebsite.Configuration;
 
 public static class ExceptionHandlingConfiguration
 {
-    public static void ConfigureErrorHandling(this WebApplication app, Serilog.ILogger logger)
+    public static void ConfigureErrorHandling(this WebApplication app)
     {
         app.UseExceptionHandler(appError =>
         {
@@ -13,17 +16,15 @@ public static class ExceptionHandlingConfiguration
                 var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                 if (contextFeature != null)
                 {
-                    logger.Error($"An error occured: {contextFeature.Error}");
+                    Log.Error($"An error occured: {contextFeature.Error.Message}");
 
-                    await context.Response.WriteAsync($@"
-                            {{
-                                ""errors"": [
-                                    ""status"": ""{context.Response.StatusCode}"",
-                                    ""message"":""{contextFeature.Error.Message}"",
-                                    ""Address the logs for additional information""
-                                ]
-                            }}
-                        ");
+                    var errorData = new ErrorDetails
+                    {
+                        StatusCode = context.Response.StatusCode,
+                        Message = contextFeature.Error.Message
+                    };
+
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(errorData));
                 }
             });
         });

@@ -6,6 +6,7 @@ using NorthwindWebsite.Infrastructure.Repositories.Implementation;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Implementations;
 using NorthwindWebsite.Services.Interfaces;
+using Serilog;
 
 namespace NorthwindWebsite.Configuration;
 
@@ -15,6 +16,8 @@ public static class ServicesConfiguration
         this IServiceCollection services, AppSettings appSettings)
     {
         services.AddControllersWithViews();
+
+        services.AddDbContextConfiguration(appSettings.ConnectionStrings.Default);
 
         services.Configure<RazorViewEngineOptions>(o =>
             {
@@ -34,7 +37,5 @@ public static class ServicesConfiguration
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ISupplierRepository, SupplierRepository>();
-
-        services.ConfigureLogger(appSettings);
     }
 }

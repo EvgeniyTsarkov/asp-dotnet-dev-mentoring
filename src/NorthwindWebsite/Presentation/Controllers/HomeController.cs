@@ -1,24 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace NorthwindWebsite.Controllers
+namespace NorthwindWebsite.Presentation.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger)
     {
-        private readonly Serilog.ILogger _logger;
+        _logger = logger;
+    }
 
-        public HomeController(Serilog.ILogger logger)
-        {
-            _logger = logger;
-        }
+    public IActionResult Index()
+    {
+        return View();
+    }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+    public IActionResult Privacy()
+    {
+        return View();
     }
 }
