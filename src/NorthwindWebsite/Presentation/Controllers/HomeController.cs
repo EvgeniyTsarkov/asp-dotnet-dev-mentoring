@@ -18,7 +18,6 @@ namespace NorthwindWebsite.Controllers
 
         public IActionResult Privacy()
         {
-            throw new Exception("Test Exception");
             return View();
         }
     }
