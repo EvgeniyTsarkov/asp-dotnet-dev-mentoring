@@ -63,7 +63,7 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Implementation
 
             if (product == null)
             {
-                return;
+                throw new Exception("The product to be deleted does not exit in database.");
             }
 
             _context.Products.Remove(product);
