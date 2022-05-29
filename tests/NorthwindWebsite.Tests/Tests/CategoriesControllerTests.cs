@@ -10,11 +10,10 @@ namespace NorthwindWebsite.Tests.ControllersTests;
 public class CategoriesControllerTests
 {
     private readonly Mock<ICategoryService> _categoryServiceMock = new();
-
     private readonly CategoriesTestDataProvider _dataProvider = new();
 
     [Fact]
-    public async Task IndexAction_VerifyCorrectViewAndModelAreReturned()
+    public async Task IndexAction_ShouldReturnCorrectViewAndModel()
     {
         //Arrange
         _categoryServiceMock.Setup(repo => repo.GetAll()).Returns(_dataProvider.GetCategoriesAsync());

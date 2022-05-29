@@ -12,18 +12,18 @@ namespace NorthwindWebsite.Tests.Tests;
 public class ProductsControllerTests
 {
     private readonly Mock<IProductService> _productServiceMock = new();
-
     private readonly Mock<ICategoryService> _categoryServiceMock = new();
-
     private readonly Mock<ISupplierService> _supplierServiceMock = new();
-
     private readonly ProductsTestDataProvider _dataProvider = new();
 
     [Fact]
-    public async Task IndexAction_VerifyCorrectViewAndModelAreReturned()
+    public async Task IndexAction_ShouldReturnCorrectViewAndModel()
     {
         //Arrange
-        _productServiceMock.Setup(repo => repo.GetProducts()).Returns(_dataProvider.GetProductsAsync());
+        _productServiceMock
+            .Setup(repo => repo.GetProducts())
+            .Returns(_dataProvider.GetProductsAsync())
+            .Verifiable();
 
         var productsController = new ProductsController(
             _productServiceMock.Object,
@@ -36,6 +36,10 @@ public class ProductsControllerTests
         var result = await productsController.Index();
 
         //Assert
+        _productServiceMock.Verify(repo => repo.GetProducts(),
+            Times.AtLeastOnce(),
+            "GetProducts was never invoked.");
+
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<ProductsDto>(viewResult.Model);
 
@@ -44,15 +48,15 @@ public class ProductsControllerTests
         Assert.NotNull(model);
         Assert.NotNull(model.Products);
         Assert.NotEmpty(model.Products);
-        Assert.Equal(expected: expectedProductDto.Products.Count, actual: model.Products.Count);
+        Assert.Equal(expectedProductDto.Products.Count, model.Products.Count);
     }
 
     [Fact]
-    public async Task HandleAction_VerifyCorrectViewAndModelAreReturned()
+    public async Task HandleAction_ShouldReturnCorrectViewAndModel()
     {
+        //Arrange
         var testProductId = 1;
 
-        //Arrange
         _productServiceMock.Setup(repo => repo.GetProductModel(testProductId))
             .Returns(_dataProvider.GetProductModelAsync(testProductId));
 
@@ -63,7 +67,7 @@ public class ProductsControllerTests
 
         var expectedProduct = new Product()
         {
-            ProductId = 1,
+            ProductId = testProductId,
             ProductName = "Chai",
         };
 
@@ -71,18 +75,22 @@ public class ProductsControllerTests
         var result = await productsController.Handle(testProductId);
 
         //Assert
+        _productServiceMock.Verify(repo => repo.GetProductModel(testProductId),
+            Times.Once(),
+            "GetProductModel was never invoked.");
+
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<ProductHandleDto>(viewResult.Model);
 
         Assert.NotNull(viewResult);
-        Assert.Equal(expected: "CreateOrUpdate", actual: viewResult.ViewName);
+        Assert.Equal("CreateOrUpdate", viewResult.ViewName);
         Assert.NotNull(model);
         Assert.NotNull(model.Product);
-        Assert.Equal(expected: expectedProduct.ProductName, actual: model.Product.ProductName);
+        Assert.Equal(expectedProduct.ProductName, model.Product.ProductName);
     }
 
     [Fact]
-    public async Task CreateAction_VerifyModelValidationWorksCorrectly()
+    public async Task CreateAction_ModelValidationShouldWorksCorrectly()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -99,11 +107,11 @@ public class ProductsControllerTests
         var viewResult = Assert.IsType<ViewResult>(result);
 
         Assert.NotNull(viewResult);
-        Assert.Equal(expected: "CreateOrUpdate", actual: viewResult.ViewName);
+        Assert.Equal("CreateOrUpdate", viewResult.ViewName);
     }
 
     [Fact]
-    public async Task CreateAction_VerifyRedirectToCorrectActionIsPerformed()
+    public async Task CreateAction_ShouldRedirectToCorrectAction()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -118,11 +126,11 @@ public class ProductsControllerTests
         var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
 
         Assert.NotNull(redirectToActionResult);
-        Assert.Equal(expected: "Index", actual: redirectToActionResult.ActionName);
+        Assert.Equal("Index", redirectToActionResult.ActionName);
     }
 
     [Fact]
-    public async Task UpdateAction_VerifyModelValidationWorksCorrectly()
+    public async Task UpdateAction_ModelValidationShouldWorkCorrectly()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -139,11 +147,11 @@ public class ProductsControllerTests
         var viewResult = Assert.IsType<ViewResult>(result);
 
         Assert.NotNull(viewResult);
-        Assert.Equal(expected: "CreateOrUpdate", actual: viewResult.ViewName);
+        Assert.Equal("CreateOrUpdate", viewResult.ViewName);
     }
 
     [Fact]
-    public async Task UpdateAction_VerifyRedirectToCorrectActionIsPerformed()
+    public async Task UpdateAction_ShouldRedirectToCorrectAction()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -158,11 +166,11 @@ public class ProductsControllerTests
         var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
 
         Assert.NotNull(redirectToActionResult);
-        Assert.Equal(expected: "Index", actual: redirectToActionResult.ActionName);
+        Assert.Equal("Index", redirectToActionResult.ActionName);
     }
 
     [Fact]
-    public async Task DeleteAction_VerifyCorrectViewIsReturned()
+    public async Task DeleteAction_ShouldReturnCorrectView()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -177,11 +185,11 @@ public class ProductsControllerTests
         var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
 
         Assert.NotNull(redirectToActionResult);
-        Assert.Equal(expected: "Index", actual: redirectToActionResult.ActionName);
+        Assert.Equal("Index", redirectToActionResult.ActionName);
     }
 
     [Fact]
-    public void BackToMainAction_VerifyRedirectToCorrectActionIsPerformed()
+    public void BackToMainAction_ShouldRedirectToCorrectAction()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -196,6 +204,6 @@ public class ProductsControllerTests
         var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
 
         Assert.NotNull(redirectToActionResult);
-        Assert.Equal(expected: "Index", actual: redirectToActionResult.ActionName);
+        Assert.Equal("Index", redirectToActionResult.ActionName);
     }
 }

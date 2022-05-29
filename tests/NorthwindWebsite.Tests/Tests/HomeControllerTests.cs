@@ -10,7 +10,7 @@ public class HomeControllerTests
     private readonly Mock<ILogger<HomeController>> _loggerMock = new();
 
     [Fact]
-    public void Index_VerifyCorrectViewIsReturned()
+    public void IndexAction_ShouldReturnCorrectView()
     {
         //Arrange
         var homeController = new HomeController(_loggerMock.Object);
@@ -22,11 +22,11 @@ public class HomeControllerTests
         var actionResult = Assert.IsType<ViewResult>(result);
 
         Assert.NotNull(result);
-        Assert.Equal(expected: "Index", actual: actionResult.ViewName);
+        Assert.Equal("Index", actionResult.ViewName);
     }
 
     [Fact]
-    public void Privacy_VerifyCorrectViewIsReturned()
+    public void PrivacyAction_ShouldReturnCorrectView()
     {
         //Arrange
         var homeController = new HomeController(_loggerMock.Object);
@@ -38,6 +38,6 @@ public class HomeControllerTests
         var actionResult = Assert.IsType<ViewResult>(result);
 
         Assert.NotNull(result);
-        Assert.Equal(expected: "Privacy", actual: actionResult.ViewName);
+        Assert.Equal("Privacy", actionResult.ViewName);
     }
 }
