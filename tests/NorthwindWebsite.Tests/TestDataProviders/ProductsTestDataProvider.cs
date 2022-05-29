@@ -5,7 +5,7 @@ namespace NorthwindWebsite.Tests.TestDataFactories
 {
     public class ProductsTestDataProvider
     {
-        private readonly List<Product> _products = new List<Product>()
+        private readonly IEnumerable<Product> _products = new List<Product>()
             {
                 new()
                 {

@@ -48,7 +48,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public async Task HandleAction_VerifyCorrectViewAndModelAreReturned_ExistingProduct()
+    public async Task HandleAction_VerifyCorrectViewAndModelAreReturned()
     {
         var testProductId = 1;
 
