@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NorthwindWebsite.Core.CustomExceptions.InfrastructureExceptions;
 using NorthwindWebsite.Entities;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 
@@ -63,7 +64,7 @@ namespace NorthwindWebsite.Infrastructure.Repositories.Implementation
 
             if (product == null)
             {
-                return;
+                throw new RecordNotFoundException(string.Format("Product with id {0} not found in database", id));
             }
 
             _context.Products.Remove(product);
