@@ -6,7 +6,7 @@ namespace NorthwindWebsite.Configuration
     public static class LoggingConfiguration
     {
         public static void ConfigureLogger(
-            this WebApplicationBuilder builder, 
+            this WebApplicationBuilder builder,
             AppSettings appSettings)
         {
             var writingToFileConfigs = appSettings.SerilogConfiguration.WriteTo
@@ -17,9 +17,10 @@ namespace NorthwindWebsite.Configuration
 
             builder.Host.UseSerilog((ctx, lc) => lc
             .Enrich.FromLogContext()
-            .WriteTo.File(string.Concat(AppDomain.CurrentDomain.BaseDirectory, filePath),
-            appSettings.SerilogConfiguration.MinimumLevel.Default,
-            writingToFileConfigs.Args.OutputTemplate));
+            .WriteTo.File(
+                string.Concat(AppDomain.CurrentDomain.BaseDirectory, filePath),
+                appSettings.SerilogConfiguration.MinimumLevel.Default,
+                writingToFileConfigs.Args.OutputTemplate));
         }
     }
 }

@@ -4,12 +4,12 @@ namespace NorthwindWebsite.Business.Models;
 
 public class ErrorDetails
 {
-    [JsonProperty("status code")]
+    [JsonProperty("statusCode")]
     public int StatusCode { get; set; }
 
-    [JsonProperty("error message")]
+    [JsonProperty("errorMessage")]
     public string Message { get; set; } = string.Empty;
 
-    [JsonProperty("additional information")]
+    [JsonProperty("additionalInformation")]
     public string AdditionalInformation { get; set; } = "Address the logs for additional information";
 }
