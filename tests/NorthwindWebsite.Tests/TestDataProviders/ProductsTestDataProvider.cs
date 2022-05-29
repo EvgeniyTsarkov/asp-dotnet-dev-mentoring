@@ -28,7 +28,7 @@ namespace NorthwindWebsite.Tests.TestDataFactories
         {
             var products = await Task.Run(() => _products);
 
-            return new ProductsDto { Products = products };
+            return new ProductsDto { Products = products.ToList() };
         }
 
         public async Task<ProductHandleDto> GetProductModelAsync(int id)
