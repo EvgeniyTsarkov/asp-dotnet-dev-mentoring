@@ -28,7 +28,7 @@ public class CategoriesControllerTests
         //Assert
         _categoryServiceMock.Verify(repo => repo.GetAll(),
             Times.AtLeastOnce(),
-            "GetProducts was never invoked.");
+            "GetAll was never invoked.");
 
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<IList<Category>>(viewResult.Model);
