@@ -26,10 +26,6 @@ public class CategoriesControllerTests
         var result = await categoryController.Index();
 
         //Assert
-        _categoryServiceMock.Verify(repo => repo.GetAll(),
-            Times.AtLeastOnce(),
-            "GetAll was never invoked.");
-
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<IList<Category>>(viewResult.Model);
 
@@ -37,5 +33,9 @@ public class CategoriesControllerTests
         Assert.Equal("Index", viewResult.ViewName);
         Assert.NotNull(model);
         Assert.Equal(expectedCategories.Count(), model.Count);
+
+        _categoryServiceMock.Verify(repo => repo.GetAll(),
+            Times.AtLeastOnce(),
+            "GetAll was never invoked.");
     }
 }

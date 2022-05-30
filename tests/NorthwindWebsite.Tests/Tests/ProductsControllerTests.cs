@@ -36,10 +36,6 @@ public class ProductsControllerTests
         var result = await productsController.Index();
 
         //Assert
-        _productServiceMock.Verify(repo => repo.GetProducts(),
-            Times.AtLeastOnce(),
-            "GetProducts was never invoked.");
-
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<ProductsDto>(viewResult.Model);
 
@@ -49,6 +45,10 @@ public class ProductsControllerTests
         Assert.NotNull(model.Products);
         Assert.NotEmpty(model.Products);
         Assert.Equal(expectedProductDto.Products.Count, model.Products.Count);
+
+        _productServiceMock.Verify(repo => repo.GetProducts(),
+            Times.AtLeastOnce(),
+            "GetProducts was never invoked.");
     }
 
     [Fact]
@@ -75,10 +75,6 @@ public class ProductsControllerTests
         var result = await productsController.Handle(testProductId);
 
         //Assert
-        _productServiceMock.Verify(repo => repo.GetProductModel(testProductId),
-            Times.Once(),
-            "GetProductModel was never invoked.");
-
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<ProductHandleDto>(viewResult.Model);
 
@@ -87,6 +83,10 @@ public class ProductsControllerTests
         Assert.NotNull(model);
         Assert.NotNull(model.Product);
         Assert.Equal(expectedProduct.ProductName, model.Product.ProductName);
+
+        _productServiceMock.Verify(repo => repo.GetProductModel(testProductId),
+            Times.Once(),
+            "GetProductModel was never invoked.");
     }
 
     [Fact]

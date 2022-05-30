@@ -10,24 +10,28 @@ namespace NorthwindWebsite.Tests.Factories
                 {
                     CategoryId = 1,
                     CategoryName = "Beverages",
-                    Description = "Beverages", Picture = null
+                    Description = "Beverages",
+                    Picture = null
                 },
                 new()
                 {
                     CategoryId = 2,
                     CategoryName = "Condiments",
-                    Description = "Condiments", Picture = null
+                    Description = "Condiments",
+                    Picture = null
                 },
                 new()
                 {
                     CategoryId = 3,
                     CategoryName = "Confections",
-                    Description = "Confections", Picture = null
+                    Description = "Confections",
+                    Picture = null
                 },
                 new()
                 {
                     CategoryId = 4,
-                    CategoryName ="Dairy Products",
+                    CategoryName = "Dairy Products",
+                    Description = "Dairy Products",
                     Picture = null
                 }
             };
