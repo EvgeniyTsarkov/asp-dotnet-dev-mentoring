@@ -7,10 +7,57 @@
     ViewData["Title"] = "Categories";
 }
 
-<h1>Categories</h1>
+<br />
 
+<div class="text-center">
+    <h1 style="font-size: 300%;">Categories</h1>
+</div>
 
-@foreach (var category in Model)
-{
-    <h5>@category.CategoryName</h5>
+@{
+    //Table parameters:
+    var imageWidth = 270;
+    var imageHeight = imageWidth / 1.5;
+    var imageType = "image/bmp";
+    var borderSpacing = "30px";
 }
+
+<div>
+    <table class="d-flex justify-content-center" style="border-collapse:separate; border-spacing: @borderSpacing;">
+        <tr>
+            @for (var i = 0; i < 4; i++)
+            {
+                <td>
+                    <a href="@Url.Action("ImageUpload", new { id = @Model[i].CategoryId})">
+                        <img src="@Url.Action("Images", new { id = @Model[i].CategoryId})"
+                         width=@imageWidth, height=@imageHeight type=@imageType />
+                    </a>
+                </td>
+            }
+        </tr>
+        <tr class="text-center">
+            @for (var i = 0; i < 4; i++)
+            {
+                <td><h4>&nbsp;&nbsp;@Model[i].CategoryName</h4></td>
+            }
+        </tr>
+    </table>
+    <table class="d-flex justify-content-center" style="border-collapse:separate; border-spacing: @borderSpacing;">
+        <tr>
+            @for (var i = 4; i < 8; i++)
+            {
+                <td>
+                    <a href="@Url.Action("ImageUpload", new { id = @Model[i].CategoryId})">
+                        <img src="@Url.Action("Images", new { id = @Model[i].CategoryId})"
+                         width=@imageWidth, height=@imageHeight type=@imageType />
+                    </a>
+                </td>
+            }
+        </tr>
+        <tr class="text-center">
+            @for (var i = 4; i < 8; i++)
+            {
+                <td><h4>&nbsp;&nbsp;@Model[i].CategoryName</h4></td>
+            }
+        </tr>
+    </table>
+</div>

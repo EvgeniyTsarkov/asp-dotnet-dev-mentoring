@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.Controllers;
@@ -20,4 +21,36 @@ public class CategoriesController : Controller
 
         return View("Index", categories);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> ImageUpload(int id)
+    {
+        var fileUploadModel = await _categoryService.GetFileUploadModel(id);
+
+        return View("Upload", fileUploadModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ImageUpload(FileUploadDto fileUploadModel)
+    {
+        await _categoryService.UpdateCategoryWithPicture(fileUploadModel);
+
+        return RedirectToAction("Index", "Categories");
+    }
+
+    public async Task<IActionResult> Images(int id)
+    {
+        var imageByteArray = await _categoryService.GetImage(id);
+
+        if (imageByteArray == null)
+        {
+            return NotFound();
+        }
+
+        return File(imageByteArray, "image/bmp");
+    }
+
+    public IActionResult BackToCategories() =>
+        RedirectToAction("Index");
 }

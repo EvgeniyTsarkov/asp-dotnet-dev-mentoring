@@ -14,6 +14,8 @@ public class AppSettings : IValidatable
 
     public SerilogConfig SerilogConfiguration { get; set; }
 
+    public FileUploadOptions FileUploadOptions { get; set; }
+
     public AppSettings GetAppSettings(IConfiguration configuration) =>
         new()
         {
@@ -21,7 +23,8 @@ public class AppSettings : IValidatable
             ConnectionStrings = configuration.GetSection(nameof(ConnectionStrings)).Get<ConnectionStrings>(),
             MaximumProductsOnPage = configuration.GetValue<int>(nameof(MaximumProductsOnPage)),
             Localization = configuration.GetSection(nameof(Localization)).Get<Localization>(),
-            SerilogConfiguration = configuration.GetSection(nameof(Serilog)).Get<SerilogConfig>()
+            SerilogConfiguration = configuration.GetSection(nameof(Serilog)).Get<SerilogConfig>(),
+            FileUploadOptions = configuration.GetSection(nameof(FileUploadOptions)).Get<FileUploadOptions>(),
         };
 
     public void Validate()
