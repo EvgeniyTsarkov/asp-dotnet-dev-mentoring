@@ -3,10 +3,12 @@
 
 @{
     ViewData["Title"] = "Image Upload";
+
+    var fileSizeInKb = @Model.MaximumFileSize / 1000;
 }
 
 <h1>Upload Image</h1>
-<h6>(please use .jpg, .jpeg, .bmp, .png files under @Model.MaximumFileSize kB)</h6>
+<h6>(please use .jpg, .jpeg, .bmp, .png files under @fileSizeInKb kB)</h6>
 
 <br>
 
