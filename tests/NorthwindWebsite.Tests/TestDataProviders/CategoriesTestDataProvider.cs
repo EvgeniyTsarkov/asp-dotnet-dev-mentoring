@@ -54,7 +54,7 @@ namespace NorthwindWebsite.Tests.Factories
             return await Task.FromResult(fileUploadModel);
         }
 
-        private IFormFile BuildFormFile(int fileLength, string contentType)
+        private static IFormFile BuildFormFile(int fileLength, string contentType)
         {
             var fileMock = new Mock<IFormFile>();
             fileMock.Setup(ff => ff.FileName).Returns("file name");

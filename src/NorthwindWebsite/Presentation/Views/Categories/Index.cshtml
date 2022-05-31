@@ -7,8 +7,6 @@
     ViewData["Title"] = "Categories";
 }
 
-<br />
-
 <div class="text-center">
     <h1 style="font-size: 300%;">Categories</h1>
 </div>
@@ -37,7 +35,7 @@
         <tr class="text-center">
             @for (var i = 0; i < 4; i++)
             {
-                <td><h4>&nbsp;&nbsp;@Model[i].CategoryName</h4></td>
+                <td align="center"><h4>@Model[i].CategoryName</h4></td>
             }
         </tr>
     </table>
@@ -56,7 +54,7 @@
         <tr class="text-center">
             @for (var i = 4; i < 8; i++)
             {
-                <td><h4>&nbsp;&nbsp;@Model[i].CategoryName</h4></td>
+                <td align="center"><h4>@Model[i].CategoryName</h4></td>
             }
         </tr>
     </table>

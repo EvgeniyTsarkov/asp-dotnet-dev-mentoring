@@ -15,7 +15,7 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     public async Task<Category> Get(int id) =>
         await _context.Categories
             .AsQueryable()
-            .FirstOrDefaultAsync(c => c.CategoryId == id);
+            .SingleOrDefaultAsync(c => c.CategoryId == id);
 
     public async Task<byte[]> GetImage(int id)
     {
@@ -32,6 +32,7 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     public async Task<Category> Update(Category category)
     {
         _context.Categories.Update(category);
+
         await _context.SaveChangesAsync();
 
         return category;

@@ -1,28 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
+using NorthwindWebsite.Business.CustomValidators;
 using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Controllers;
 using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Services.Interfaces;
 using NorthwindWebsite.Tests.Factories;
+using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Tests.ControllersTests;
 
 public class CategoriesControllerTests
 {
-    private readonly Mock<ICategoryService> _categoryServiceMock = new();
-    private readonly CategoriesTestDataProvider _dataProvider = new();
-    private readonly AppSettings _appSettings = new AppSettings()
-    {
-        FileUploadOptions = new FileUploadOptions()
-        {
-            ImageFileFormats = "jpg, jpeg, bmp, png",
-            ImageMaxSize = 200
-        }
-    };
     private const string NormalImageFormat = "image/jpg";
     private const int NormalFileSize = 2_000_000;
+    private readonly Mock<ICategoryService> _categoryServiceMock = new();
+    private readonly CategoriesTestDataProvider _dataProvider = new();
 
     [Fact]
     public async Task IndexAction_ShouldReturnCorrectViewAndModel()
@@ -30,8 +24,7 @@ public class CategoriesControllerTests
         //Arrange
         _categoryServiceMock.Setup(repo => repo.GetAll()).Returns(_dataProvider.GetCategoriesAsync());
 
-        var categoryController = new CategoriesController(
-            _categoryServiceMock.Object, _appSettings);
+        var categoryController = new CategoriesController(_categoryServiceMock.Object);
 
         var expectedCategories = await _dataProvider.GetCategoriesAsync();
 
@@ -60,8 +53,7 @@ public class CategoriesControllerTests
         _categoryServiceMock.Setup(repo => repo.GetFileUploadModel(testCategoryId))
             .Returns(_dataProvider.GetFileUploadModel(testCategoryId, NormalFileSize, "image/pdf"));
 
-        var categoryController = new CategoriesController(
-            _categoryServiceMock.Object, _appSettings);
+        var categoryController = new CategoriesController(_categoryServiceMock.Object);
 
         //Act
         var result = await categoryController.ImageUpload(testCategoryId);
@@ -82,8 +74,7 @@ public class CategoriesControllerTests
     public async Task ImageUpdateAction_ShouldReturnCorrectViewIfModelIsCorrect_HttpPut()
     {
         //Arrange
-        var categoryController = new CategoriesController(
-            _categoryServiceMock.Object, _appSettings);
+        var categoryController = new CategoriesController(_categoryServiceMock.Object);
         var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, NormalImageFormat);
 
         //Act
@@ -100,8 +91,7 @@ public class CategoriesControllerTests
     public async Task ImageUpdateAction_ShouldReturnCorrectViewAndModel_HttpPut()
     {
         //Arrange
-        var categoryController = new CategoriesController(
-            _categoryServiceMock.Object, _appSettings);
+        var categoryController = new CategoriesController(_categoryServiceMock.Object);
         categoryController.ModelState.AddModelError(string.Empty, "Please select a file.");
         var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, NormalImageFormat);
 
@@ -115,48 +105,84 @@ public class CategoriesControllerTests
         Assert.Equal("Upload", viewResult.ViewName);
     }
 
-    [Fact]
-    public async Task ImageUpdateAction_ShouldReturnCorrectViewWhenFileExtensionIsIncorrect_HttpPut()
-    {
-        //Arrange
-        var categoryController = new CategoriesController(
-            _categoryServiceMock.Object, _appSettings);
-        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "application/pdf");
+    //[Fact]
+    //public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileTypeIsIncorrect_HttpPut()
+    //{
+    //    //Arrange
+    //    var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "application/pdf");
+    //    var validationContext = new ValidationContext(fileUploadModel);
+    //    var allowedFileTypesAttribute = new AllowedImageFileTypesAttribute();
 
-        //Act
-        var result = await categoryController.ImageUpload(fileUploadModel);
+    //    //Act
+    //    var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel, validationContext);
 
-        //Assert
-        var viewResult = Assert.IsType<ViewResult>(result);
+    //    //Assert
+    //    Assert.NotNull(validationResult);
+    //    Assert.NotNull(validationResult!.ErrorMessage);
+    //    Assert.NotEmpty(validationResult.ErrorMessage);
+    //}
 
-        Assert.NotNull(viewResult);
-        Assert.Equal("Upload", viewResult.ViewName);
-    }
+    //[Fact]
+    //public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileTypeIsCorrect_HttpPut()
+    //{
+    //    //Arrange
+    //    var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "image/jpg");
+    //    var validationContext = new ValidationContext(fileUploadModel);
+    //    var allowedFileTypesAttribute = new AllowedImageFileTypesAttribute();
 
-    [Fact]
-    public async Task ImageUpdateAction_ShouldReturnCorrectViewWhenFileSizeIsIncorrect_HttpPut()
-    {
-        //Arrange
-        var categoryController = new CategoriesController(
-            _categoryServiceMock.Object, _appSettings);
-        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000_000, NormalImageFormat);
+    //    //Act
+    //    var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel, validationContext);
 
-        //Act
-        var result = await categoryController.ImageUpload(fileUploadModel);
+    //    //Assert
+    //    Assert.Equal(ValidationResult.Success, validationResult);
+    //}
 
-        //Assert
-        var viewResult = Assert.IsType<ViewResult>(result);
+    //[Fact]
+    //public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileSizeIsIncorrect_HttpPut()
+    //{
+    //    //Arrange
+    //    var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000_000, NormalImageFormat);
+    //    var validationContext = new ValidationContext(fileUploadModel);
+    //    var maximumFileSizeAttribute = new MaximumFileSizeAttribute();
 
-        Assert.NotNull(viewResult);
-        Assert.Equal("Upload", viewResult.ViewName);
-    }
+    //    //Act
+    //    var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel, validationContext);
+
+    //    //Assert
+    //    Assert.NotNull(validationResult);
+    //    Assert.NotNull(validationResult!.ErrorMessage);
+    //    Assert.NotEmpty(validationResult.ErrorMessage);
+    //}
+
+    //[Fact]
+    //public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileSizeIsCorrect_HttpPut()
+    //{
+    //    //Arrange
+    //    var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 20, NormalImageFormat);
+    //    var validationContext = new ValidationContext(fileUploadModel);
+
+    //    var appSettings = new AppSettings()
+    //    {
+    //        FileUploadOptions = new FileUploadOptions()
+    //        {
+    //            ImageMaxSize = 20000
+    //        }
+    //    };
+    //    validationContext.Items.Add(new AppSettings(), appSettings);
+    //    var maximumFileSizeAttribute = new MaximumFileSizeAttribute();
+
+    //    //Act
+    //    var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel, validationContext);
+
+    //    //Assert
+    //    Assert.Equal(ValidationResult.Success, validationResult);
+    //}
 
     [Fact]
     public void BackToCategories_ShouldRedirectToCorrectAction()
     {
         //Arrange
-        var categoryController = new CategoriesController(
-            _categoryServiceMock.Object, _appSettings);
+        var categoryController = new CategoriesController(_categoryServiceMock.Object);
 
         //Act
         var result = categoryController.BackToCategories();
