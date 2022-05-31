@@ -16,7 +16,16 @@ public class CategoriesControllerTests
     private const string NormalImageFormat = "image/jpg";
     private const int NormalFileSize = 2_000_000;
     private readonly Mock<ICategoryService> _categoryServiceMock = new();
+    private readonly Mock<IServiceProvider> _serviceProviderMock = new();
     private readonly CategoriesTestDataProvider _dataProvider = new();
+    private readonly AppSettings _appSettings = new AppSettings
+    {
+        FileUploadOptions = new FileUploadOptions
+        {
+            ImageMaxSize = 200000,
+            ImageFileFormats = new[] { "jpg", "jpeg", "bmp", "png" }
+        }
+    };
 
     [Fact]
     public async Task IndexAction_ShouldReturnCorrectViewAndModel()
@@ -105,78 +114,101 @@ public class CategoriesControllerTests
         Assert.Equal("Upload", viewResult.ViewName);
     }
 
-    //[Fact]
-    //public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileTypeIsIncorrect_HttpPut()
-    //{
-    //    //Arrange
-    //    var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "application/pdf");
-    //    var validationContext = new ValidationContext(fileUploadModel);
-    //    var allowedFileTypesAttribute = new AllowedImageFileTypesAttribute();
+    [Fact]
+    public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileTypeIsIncorrect_HttpPut()
+    {
+        //Arrange
+        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "application/pdf");
 
-    //    //Act
-    //    var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel, validationContext);
+        _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
-    //    //Assert
-    //    Assert.NotNull(validationResult);
-    //    Assert.NotNull(validationResult!.ErrorMessage);
-    //    Assert.NotEmpty(validationResult.ErrorMessage);
-    //}
+        var validationContext = new ValidationContext(fileUploadModel, _serviceProviderMock.Object, null);
 
-    //[Fact]
-    //public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileTypeIsCorrect_HttpPut()
-    //{
-    //    //Arrange
-    //    var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "image/jpg");
-    //    var validationContext = new ValidationContext(fileUploadModel);
-    //    var allowedFileTypesAttribute = new AllowedImageFileTypesAttribute();
+        var allowedFileTypesAttribute = new AllowedImageFileTypesAttribute();
 
-    //    //Act
-    //    var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel, validationContext);
+        //Act
+        var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel, validationContext);
 
-    //    //Assert
-    //    Assert.Equal(ValidationResult.Success, validationResult);
-    //}
+        //Assert
+        Assert.NotNull(validationResult);
+        Assert.NotNull(validationResult!.ErrorMessage);
+        Assert.NotEmpty(validationResult.ErrorMessage);
 
-    //[Fact]
-    //public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileSizeIsIncorrect_HttpPut()
-    //{
-    //    //Arrange
-    //    var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000_000, NormalImageFormat);
-    //    var validationContext = new ValidationContext(fileUploadModel);
-    //    var maximumFileSizeAttribute = new MaximumFileSizeAttribute();
+        _serviceProviderMock.Verify(repo => repo.GetService(typeof(AppSettings)),
+            Times.AtLeastOnce(),
+            "GetAll was never invoked.");
+    }
 
-    //    //Act
-    //    var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel, validationContext);
+    [Fact]
+    public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileTypeIsCorrect_HttpPut()
+    {
+        //Arrange
+        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "image/jpg");
 
-    //    //Assert
-    //    Assert.NotNull(validationResult);
-    //    Assert.NotNull(validationResult!.ErrorMessage);
-    //    Assert.NotEmpty(validationResult.ErrorMessage);
-    //}
+        _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
-    //[Fact]
-    //public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileSizeIsCorrect_HttpPut()
-    //{
-    //    //Arrange
-    //    var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 20, NormalImageFormat);
-    //    var validationContext = new ValidationContext(fileUploadModel);
+        var validationContext = new ValidationContext(fileUploadModel, _serviceProviderMock.Object, null);
 
-    //    var appSettings = new AppSettings()
-    //    {
-    //        FileUploadOptions = new FileUploadOptions()
-    //        {
-    //            ImageMaxSize = 20000
-    //        }
-    //    };
-    //    validationContext.Items.Add(new AppSettings(), appSettings);
-    //    var maximumFileSizeAttribute = new MaximumFileSizeAttribute();
+        var allowedFileTypesAttribute = new AllowedImageFileTypesAttribute();
 
-    //    //Act
-    //    var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel, validationContext);
+        //Act
+        var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel, validationContext);
 
-    //    //Assert
-    //    Assert.Equal(ValidationResult.Success, validationResult);
-    //}
+        //Assert
+        Assert.Equal(ValidationResult.Success, validationResult);
+
+        _serviceProviderMock.Verify(repo => repo.GetService(typeof(AppSettings)),
+            Times.AtLeastOnce(),
+            "GetAll was never invoked.");
+    }
+
+    [Fact]
+    public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileSizeIsIncorrect_HttpPut()
+    {
+        //Arrange
+        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000_000, NormalImageFormat);
+
+        _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
+
+        var validationContext = new ValidationContext(fileUploadModel, _serviceProviderMock.Object, null);
+
+        var maximumFileSizeAttribute = new MaximumFileSizeAttribute();
+
+        //Act
+        var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel, validationContext);
+
+        //Assert
+        Assert.NotNull(validationResult);
+        Assert.NotNull(validationResult!.ErrorMessage);
+        Assert.NotEmpty(validationResult.ErrorMessage);
+
+        _serviceProviderMock.Verify(repo => repo.GetService(typeof(AppSettings)),
+            Times.AtLeastOnce(),
+            "GetAll was never invoked.");
+    }
+
+    [Fact]
+    public async Task ImageUpdateAction_ShouldReturnCorrectValidationResultWhenFileSizeIsCorrect_HttpPut()
+    {
+        //Arrange
+        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 20, NormalImageFormat);
+
+        _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
+
+        var validationContext = new ValidationContext(fileUploadModel, _serviceProviderMock.Object, null);
+
+        var maximumFileSizeAttribute = new MaximumFileSizeAttribute();
+
+        //Act
+        var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel, validationContext);
+
+        //Assert
+        Assert.Equal(ValidationResult.Success, validationResult);
+
+        _serviceProviderMock.Verify(repo => repo.GetService(typeof(AppSettings)),
+            Times.AtLeastOnce(),
+            "GetAll was never invoked.");
+    }
 
     [Fact]
     public void BackToCategories_ShouldRedirectToCorrectAction()
