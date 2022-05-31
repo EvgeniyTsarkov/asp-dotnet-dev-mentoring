@@ -8,8 +8,6 @@ public class FileUploadDto
 {
     public int CategoryId { get; set; }
 
-    public int MaximumFileSize { get; set; }
-
     [Required]
     [BindProperty]
     [MaximumFileSize]
