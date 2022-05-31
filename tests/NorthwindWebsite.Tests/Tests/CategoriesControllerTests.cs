@@ -148,4 +148,21 @@ public class CategoriesControllerTests
         Assert.NotNull(viewResult);
         Assert.Equal("Upload", viewResult.ViewName);
     }
+
+    [Fact]
+    public void BackToCategories_ShouldRedirectToCorrectAction()
+    {
+        //Arrange
+        var categoryController = new CategoriesController(
+            _categoryServiceMock.Object, _appSettings);
+
+        //Act
+        var result = categoryController.BackToCategories();
+
+        //Assert
+        var redirectToActionResult = Assert.IsType<RedirectToActionResult>(result);
+
+        Assert.NotNull(redirectToActionResult);
+        Assert.Equal("Index", redirectToActionResult.ActionName);
+    }
 }
