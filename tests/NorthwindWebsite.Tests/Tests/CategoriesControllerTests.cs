@@ -21,6 +21,8 @@ public class CategoriesControllerTests
             ImageMaxSize = 200
         }
     };
+    private const string NormalImageFormat = "image/jpg";
+    private const int NormalFileSize = 2_000_000;
 
     [Fact]
     public async Task IndexAction_ShouldReturnCorrectViewAndModel()
@@ -56,7 +58,7 @@ public class CategoriesControllerTests
         //Arrange
         var testCategoryId = 1;
         _categoryServiceMock.Setup(repo => repo.GetFileUploadModel(testCategoryId))
-            .Returns(_dataProvider.GetFileUploadModel(testCategoryId, 2_000_000, "image/pdf"));
+            .Returns(_dataProvider.GetFileUploadModel(testCategoryId, NormalFileSize, "image/pdf"));
 
         var categoryController = new CategoriesController(
             _categoryServiceMock.Object, _appSettings);
@@ -82,7 +84,7 @@ public class CategoriesControllerTests
         //Arrange
         var categoryController = new CategoriesController(
             _categoryServiceMock.Object, _appSettings);
-        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000, "image/jpg");
+        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, NormalImageFormat);
 
         //Act
         var result = await categoryController.ImageUpload(fileUploadModel);
@@ -101,7 +103,7 @@ public class CategoriesControllerTests
         var categoryController = new CategoriesController(
             _categoryServiceMock.Object, _appSettings);
         categoryController.ModelState.AddModelError(string.Empty, "Please select a file.");
-        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000, "image/jpeg");
+        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, NormalImageFormat);
 
         //Act
         var result = await categoryController.ImageUpload(fileUploadModel);
@@ -119,7 +121,7 @@ public class CategoriesControllerTests
         //Arrange
         var categoryController = new CategoriesController(
             _categoryServiceMock.Object, _appSettings);
-        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000, "application/pdf");
+        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "application/pdf");
 
         //Act
         var result = await categoryController.ImageUpload(fileUploadModel);
@@ -137,7 +139,7 @@ public class CategoriesControllerTests
         //Arrange
         var categoryController = new CategoriesController(
             _categoryServiceMock.Object, _appSettings);
-        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000_000, "image/jpg");
+        var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000_000, NormalImageFormat);
 
         //Act
         var result = await categoryController.ImageUpload(fileUploadModel);
