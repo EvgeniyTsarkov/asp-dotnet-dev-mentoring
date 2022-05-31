@@ -12,7 +12,7 @@ public class FileUploadDto
 
     [Required]
     [BindProperty]
-    //[MaximumFileSize]
+    [MaximumFileSize]
     [AllowedImageFileTypes]
     [Display(Name = "Select file to upload")]
     public IFormFile FileUpload { get; set; }
