@@ -1,4 +1,7 @@
-﻿using NorthwindWebsite.Infrastructure.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using Moq;
+using NorthwindWebsite.Business.Models;
+using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Tests.Factories
 {
@@ -38,5 +41,27 @@ namespace NorthwindWebsite.Tests.Factories
 
         public async Task<IEnumerable<Category>> GetCategoriesAsync() =>
             await Task.FromResult(_categories);
+
+        public async Task<FileUploadDto> GetFileUploadModel(int id, int fileLength, string contentType)
+        {
+            var fileUploadModel = new FileUploadDto
+            {
+                CategoryId = id,
+                MaximumFileSize = 200_000,
+                FileUpload = BuildFormFile(fileLength, contentType)
+            };
+
+            return await Task.FromResult(fileUploadModel);
+        }
+
+        private IFormFile BuildFormFile(int fileLength, string contentType)
+        {
+            var fileMock = new Mock<IFormFile>();
+            fileMock.Setup(ff => ff.FileName).Returns("file name");
+            fileMock.Setup(ff => ff.Length).Returns(fileLength);
+            fileMock.Setup(ff => ff.ContentType).Returns(contentType);
+
+            return fileMock.Object;
+        }
     }
 }
