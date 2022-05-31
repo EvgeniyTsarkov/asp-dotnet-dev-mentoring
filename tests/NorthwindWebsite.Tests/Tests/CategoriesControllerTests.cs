@@ -59,6 +59,7 @@ public class CategoriesControllerTests
     {
         //Arrange
         var testCategoryId = 1;
+
         _categoryServiceMock.Setup(repo => repo.GetFileUploadModel(testCategoryId))
             .Returns(_dataProvider.GetFileUploadModel(testCategoryId, NormalFileSize, "image/pdf"));
 
@@ -84,6 +85,7 @@ public class CategoriesControllerTests
     {
         //Arrange
         var categoryController = new CategoriesController(_categoryServiceMock.Object);
+
         var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, NormalImageFormat);
 
         //Act
@@ -101,7 +103,9 @@ public class CategoriesControllerTests
     {
         //Arrange
         var categoryController = new CategoriesController(_categoryServiceMock.Object);
+
         categoryController.ModelState.AddModelError(string.Empty, "Please select a file.");
+
         var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, NormalImageFormat);
 
         //Act
