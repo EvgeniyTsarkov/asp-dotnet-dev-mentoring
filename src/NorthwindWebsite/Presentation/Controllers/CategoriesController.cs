@@ -39,7 +39,7 @@ public class CategoriesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ImageUpload(FileUploadDto fileUploadModel)
     {
-        fileUploadModel.MaximumFileSize = _appSettings.FileUploadOptions.CategoryPicturesMaxSize;
+        fileUploadModel.MaximumFileSize = _appSettings.FileUploadOptions.ImageMaxSize;
 
         if (!ModelState.IsValid)
         {
@@ -47,7 +47,7 @@ public class CategoriesController : Controller
             return View("Upload", fileUploadModel);
         }
 
-        var permittedExtensions = _appSettings.FileUploadOptions.CategoryPictureFileFormats
+        var permittedExtensions = _appSettings.FileUploadOptions.ImageFileFormats
             .Split(", ").ToArray();
 
         var uploadedFileExtension = fileUploadModel.FileUpload.ContentType.Split("/")[1];
