@@ -11,9 +11,6 @@ namespace NorthwindWebsite.Business.CustomValidators
 
         private int size;
 
-        //public string GetErrorMessage() =>
-        //    string.Format("The file is too large. Maximum file size is {0} kB.", size / bytesInKilobyte);
-
         protected override ValidationResult? IsValid(
             object? value, ValidationContext validationContext)
         {
