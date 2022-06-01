@@ -30,9 +30,9 @@ public class AllowedImageFileTypesAttribute : ValidationAttribute
 
         permittedExtentions = appSettings.FileUploadOptions.ImageFileFormats;
 
-        var uploadedFile = value as IFormFile;
-
-        var contentType = uploadedFile.GetContentType();
+        var contentType = value is IFormFile uploadedFile
+            ? uploadedFile.GetContentType()
+            : string.Empty;
 
         if (!permittedExtentions.Contains(contentType))
         {
