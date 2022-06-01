@@ -23,10 +23,12 @@ public class CustomAttributesTests
     };
 
     [Fact]
-    public async Task AllowedImageFileTypesAttributeShouldReturnErrorMessageWhenValidationFails()
+    public async Task AllowedImageFileTypesAttribute_ShouldReturnErrorMessageWhenValidationFails()
     {
         //Arrange
-        var fileUploadModel = _dataProvider.GetFileUploadModel(1, NormalFileSize, "application/pdf");
+        var categoryId = 1;
+
+        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, NormalFileSize, "application/pdf");
 
         _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
@@ -48,10 +50,12 @@ public class CustomAttributesTests
     }
 
     [Fact]
-    public async Task AllowedImageFileTypesAttributeShouldReturnCorrectResultWhenValidationSuceeds()
+    public async Task AllowedImageFileTypesAttribute_ShouldReturnCorrectResultWhenValidationSuceeds()
     {
         //Arrange
-        var fileUploadModel = _dataProvider.GetFileUploadModel(1, NormalFileSize, "image/jpg");
+        var categoryId = 1;
+
+        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, NormalFileSize, "image/jpg");
 
         _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
@@ -71,10 +75,12 @@ public class CustomAttributesTests
     }
 
     [Fact]
-    public async Task ImageFileSizeLimitAttributeShouldReturnErrorMessageWhenValidationFails()
+    public async Task ImageFileSizeLimitAttribute_ShouldReturnErrorMessageWhenValidationFails()
     {
         //Arrange
-        var fileUploadModel = _dataProvider.GetFileUploadModel(1, 2_000_000_000, NormalImageFormat);
+        var categoryId = 1;
+
+        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, 2_000_000_000, NormalImageFormat);
 
         _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
@@ -96,10 +102,12 @@ public class CustomAttributesTests
     }
 
     [Fact]
-    public async Task ImageFileSizeLimitAttributeShouldReturnCorrectResultWhenValidationSucceeds()
+    public async Task ImageFileSizeLimitAttribute_ShouldReturnCorrectResultWhenValidationSucceeds()
     {
         //Arrange
-        var fileUploadModel = _dataProvider.GetFileUploadModel(1, 20, NormalImageFormat);
+        var categoryId = 1;
+
+        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, 20, NormalImageFormat);
 
         _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 

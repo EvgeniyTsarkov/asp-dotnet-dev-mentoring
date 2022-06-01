@@ -13,19 +13,23 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
     }
 
     public new async Task<List<Product>> GetAll() =>
-        await _context.Products.AsQueryable<Product>()
+        await _context.Products
+        .AsNoTracking()
+        .AsQueryable()
         .Include(p => p.Supplier)
         .Include(p => p.Category)
         .ToListAsync();
 
     public async Task<List<Product>> GetLimitedNumberOfProducts(int limit) =>
-        await _context.Products.AsQueryable<Product>()
+        await _context.Products
+        .AsNoTracking()
+        .AsQueryable()
         .Include(p => p.Supplier)
         .Include(p => p.Category)
         .Take(limit)
         .ToListAsync();
 
-    public async Task<Product> Get(int id, bool skipRelatedItems = false)
+    public async Task<Product> Get(int id, bool skipRelatedItems)
     {
         if (skipRelatedItems)
         {

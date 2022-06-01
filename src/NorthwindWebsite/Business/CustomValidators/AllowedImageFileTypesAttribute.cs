@@ -9,7 +9,7 @@ public class AllowedImageFileTypesAttribute : ValidationAttribute
     private string[] permittedExtentions;
 
     public string GetErrorMessage() =>
-        string.Format("Wrong file format. Please use{0}", GetFileTypesRepresentation());
+        string.Format("Wrong file format. Please use {0}", GetFileTypesRepresentation());
 
     private string GetFileTypesRepresentation()
     {
@@ -20,7 +20,7 @@ public class AllowedImageFileTypesAttribute : ValidationAttribute
             joinedExtensions = string.Join(", ", permittedExtentions);
         }
 
-        return string.Concat(" ", joinedExtensions);
+        return joinedExtensions;
     }
 
     protected override ValidationResult? IsValid(
@@ -30,7 +30,7 @@ public class AllowedImageFileTypesAttribute : ValidationAttribute
 
         permittedExtentions = appSettings.FileUploadOptions.ImageFileFormats;
 
-        var uploadedFile = (IFormFile)value;
+        var uploadedFile = value as IFormFile;
 
         var contentType = uploadedFile.GetContentType();
 

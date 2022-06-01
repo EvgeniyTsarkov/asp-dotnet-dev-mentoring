@@ -17,7 +17,7 @@ public class ProductsControllerTests
     private readonly ProductsTestDataProvider _dataProvider = new();
 
     [Fact]
-    public async Task IndexAction_ShouldReturnCorrectViewAndModel()
+    public async Task IndexAction_ShouldReturnIndexViewAndCorrectModel()
     {
         //Arrange
         _productServiceMock
@@ -52,7 +52,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public async Task HandleAction_ShouldReturnCorrectViewAndModel()
+    public async Task HandleAction_ShouldReturnCreateOrUpdateViewAndCorrectModel()
     {
         //Arrange
         var testProductId = 1;
@@ -111,7 +111,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public async Task CreateAction_ShouldRedirectToCorrectAction()
+    public async Task CreateAction_ShouldRedirectToIndexAction()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -151,7 +151,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public async Task UpdateAction_ShouldRedirectToCorrectAction()
+    public async Task UpdateAction_ShouldRedirectToIndexAction()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -170,7 +170,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public async Task DeleteAction_ShouldReturnCorrectView()
+    public async Task DeleteAction_ShouldReturnIndexView()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -189,7 +189,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public void BackToMainAction_ShouldRedirectToCorrectAction()
+    public void BackToMainAction_ShouldRedirectToIndexAction()
     {
         //Arrange
         var productsController = new ProductsController(

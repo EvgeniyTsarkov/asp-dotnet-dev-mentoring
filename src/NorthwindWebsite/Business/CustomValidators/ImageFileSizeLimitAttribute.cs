@@ -7,23 +7,25 @@ namespace NorthwindWebsite.Business.CustomValidators
     {
         private const int bytesInKilobyte = 1000;
 
+        private const string ErrorMessage = "The file is too large. Maximum file size is {0} kB.";
+
         private int size;
 
-        public string GetErrorMessage() =>
-            string.Format("The file is too large. Maximum file size is {0} kB.", size / bytesInKilobyte);
+        //public string GetErrorMessage() =>
+        //    string.Format("The file is too large. Maximum file size is {0} kB.", size / bytesInKilobyte);
 
         protected override ValidationResult? IsValid(
             object? value, ValidationContext validationContext)
         {
             var appsettings = validationContext.GetService<AppSettings>();
 
-            var uploadedFile = (IFormFile)value;
+            var uploadedFile = value as IFormFile;
 
             size = appsettings!.FileUploadOptions.ImageMaxSize;
 
             if (uploadedFile.Length > size)
             {
-                return new ValidationResult(GetErrorMessage());
+                return new ValidationResult(string.Format(ErrorMessage, size / bytesInKilobyte));
             }
 
             return ValidationResult.Success;

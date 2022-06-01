@@ -41,13 +41,14 @@ public class ProductService : IProductService
 
     public async Task<ProductHandleDto> GetProductModel(int id)
     {
-        var productToCreateOrUpdate = new ProductHandleDto();
+        var productToCreateOrUpdate = new ProductHandleDto
+        {
+            Product = await _productRepository.Get(id, false) ?? new Product(),
 
-        productToCreateOrUpdate.Product = await _productRepository.Get(id) ?? new Product();
+            CategoryOptions = await _categoryService.GetCategoryOptions(),
 
-        productToCreateOrUpdate.CategoryOptions = await _categoryService.GetCategoryOptions();
-
-        productToCreateOrUpdate.SupplierOptions = await _supplierService.GetSupplierOptions();
+            SupplierOptions = await _supplierService.GetSupplierOptions()
+        };
 
         return productToCreateOrUpdate;
     }

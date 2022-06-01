@@ -17,7 +17,7 @@ public class CategoriesControllerTests
     private readonly CategoriesTestDataProvider _dataProvider = new();
 
     [Fact]
-    public async Task IndexAction_ShouldReturnCorrectViewAndModel()
+    public async Task IndexAction_ShouldReturnIndexViewAndModel()
     {
         //Arrange
         _categoryServiceMock.Setup(repo => repo.GetAll()).Returns(_dataProvider.GetCategoriesAsync());
@@ -70,12 +70,14 @@ public class CategoriesControllerTests
             "GetAll was never invoked.");
     }
 
-    public async Task ImageUpdateAction_ShouldReturnCorrectViewIfModelIsCorrect_HttpPut()
+    public async Task ImageUpdateAction_ShouldReturnIndexViewIfModelIsCorrect_HttpPut()
     {
         //Arrange
+        var categoryId = 1;
+
         var categoryController = new CategoriesController(_categoryServiceMock.Object);
 
-        var fileUploadModel = _dataProvider.GetFileUploadModel(1, NormalFileSize, NormalImageFormat);
+        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, NormalFileSize, NormalImageFormat);
 
         //Act
         var result = await categoryController.ImageUpload(fileUploadModel);
@@ -88,14 +90,16 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public async Task ImageUpdateAction_ShouldReturnCorrectViewAndModel_HttpPut()
+    public async Task ImageUpdateAction_ValidationShouldReturnUploadView_HttpPut()
     {
         //Arrange
+        var categoryId = 1;
+
         var categoryController = new CategoriesController(_categoryServiceMock.Object);
 
         categoryController.ModelState.AddModelError(string.Empty, "Please select a file.");
 
-        var fileUploadModel = _dataProvider.GetFileUploadModel(1, NormalFileSize, NormalImageFormat);
+        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, NormalFileSize, NormalImageFormat);
 
         //Act
         var result = await categoryController.ImageUpload(fileUploadModel);
@@ -108,7 +112,7 @@ public class CategoriesControllerTests
     }
 
     [Fact]
-    public void BackToCategories_ShouldRedirectToCorrectAction()
+    public void BackToCategories_ShouldRedirectToIndexAction()
     {
         //Arrange
         var categoryController = new CategoriesController(_categoryServiceMock.Object);
