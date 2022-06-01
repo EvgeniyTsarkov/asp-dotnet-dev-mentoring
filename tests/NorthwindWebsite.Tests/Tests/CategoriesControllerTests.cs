@@ -20,11 +20,11 @@ public class CategoriesControllerTests
     public async Task IndexAction_ShouldReturnIndexViewAndModel()
     {
         //Arrange
-        _categoryServiceMock.Setup(repo => repo.GetAll()).Returns(_dataProvider.GetCategoriesAsync());
+        _categoryServiceMock.Setup(repo => repo.GetAll()).ReturnsAsync(_dataProvider.GetCategoriesAsync());
 
         var categoryController = new CategoriesController(_categoryServiceMock.Object);
 
-        var expectedCategories = await _dataProvider.GetCategoriesAsync();
+        var expectedCategories = _dataProvider.GetCategoriesAsync();
 
         //Act
         var result = await categoryController.Index();
@@ -50,7 +50,7 @@ public class CategoriesControllerTests
         var testCategoryId = 1;
 
         _categoryServiceMock.Setup(repo => repo.GetFileUploadModel(testCategoryId))
-            .Returns(Task.FromResult(_dataProvider.GetFileUploadModel(testCategoryId, NormalFileSize, "image/pdf")));
+            .ReturnsAsync(CategoriesTestDataProvider.GetFileUploadModel(testCategoryId, NormalFileSize, "image/pdf"));
 
         var categoryController = new CategoriesController(_categoryServiceMock.Object);
 
@@ -77,7 +77,7 @@ public class CategoriesControllerTests
 
         var categoryController = new CategoriesController(_categoryServiceMock.Object);
 
-        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, NormalFileSize, NormalImageFormat);
+        var fileUploadModel = CategoriesTestDataProvider.GetFileUploadModel(categoryId, NormalFileSize, NormalImageFormat);
 
         //Act
         var result = await categoryController.ImageUpload(fileUploadModel);
@@ -99,7 +99,7 @@ public class CategoriesControllerTests
 
         categoryController.ModelState.AddModelError(string.Empty, "Please select a file.");
 
-        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, NormalFileSize, NormalImageFormat);
+        var fileUploadModel = CategoriesTestDataProvider.GetFileUploadModel(categoryId, NormalFileSize, NormalImageFormat);
 
         //Act
         var result = await categoryController.ImageUpload(fileUploadModel);

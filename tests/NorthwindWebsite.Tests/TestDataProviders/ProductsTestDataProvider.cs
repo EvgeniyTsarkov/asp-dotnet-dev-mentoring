@@ -48,17 +48,15 @@ public class ProductsTestDataProvider
             },
         };
 
-    public async Task<ProductsDto> GetProductsAsync()
+    public ProductsDto GetProductsAsync()
     {
-        var products = await Task.FromResult(_products);
-
-        return new ProductsDto { Products = products.ToList() };
+        return new ProductsDto { Products = _products.ToList() };
     }
 
-    public async Task<ProductHandleDto> GetProductModelAsync(int id)
+    public ProductHandleDto GetProductModelAsync(int id)
     {
-        var product = await Task.FromResult(_products.Single(p => p.ProductId == id));
+        var product = _products.Single(p => p.ProductId == id);
 
-        return new ProductHandleDto { Product = product! };
+        return new ProductHandleDto { Product = product };
     }
 }

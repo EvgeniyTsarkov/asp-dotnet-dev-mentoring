@@ -22,7 +22,7 @@ public class ProductsControllerTests
         //Arrange
         _productServiceMock
             .Setup(repo => repo.GetProducts())
-            .Returns(_dataProvider.GetProductsAsync())
+            .ReturnsAsync(_dataProvider.GetProductsAsync())
             .Verifiable();
 
         var productsController = new ProductsController(
@@ -30,7 +30,7 @@ public class ProductsControllerTests
             _categoryServiceMock.Object,
             _supplierServiceMock.Object);
 
-        var expectedProductDto = await _dataProvider.GetProductsAsync();
+        var expectedProductDto = _dataProvider.GetProductsAsync();
 
         //Act
         var result = await productsController.Index();
@@ -58,7 +58,7 @@ public class ProductsControllerTests
         var testProductId = 1;
 
         _productServiceMock.Setup(repo => repo.GetProductModel(testProductId))
-            .Returns(_dataProvider.GetProductModelAsync(testProductId));
+            .ReturnsAsync(_dataProvider.GetProductModelAsync(testProductId));
 
         var productsController = new ProductsController(
             _productServiceMock.Object,

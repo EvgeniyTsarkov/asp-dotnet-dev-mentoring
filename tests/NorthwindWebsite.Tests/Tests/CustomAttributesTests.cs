@@ -28,7 +28,7 @@ public class CustomAttributesTests
         //Arrange
         var categoryId = 1;
 
-        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, NormalFileSize, "application/pdf");
+        var fileUploadModel = CategoriesTestDataProvider.GetFileUploadModel(categoryId, NormalFileSize, "application/pdf");
 
         _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
@@ -55,7 +55,7 @@ public class CustomAttributesTests
         //Arrange
         var categoryId = 1;
 
-        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, NormalFileSize, "image/jpg");
+        var fileUploadModel = CategoriesTestDataProvider.GetFileUploadModel(categoryId, NormalFileSize, "image/jpg");
 
         _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
@@ -80,7 +80,7 @@ public class CustomAttributesTests
         //Arrange
         var categoryId = 1;
 
-        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, 2_000_000_000, NormalImageFormat);
+        var fileUploadModel = CategoriesTestDataProvider.GetFileUploadModel(categoryId, 2_000_000_000, NormalImageFormat);
 
         _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
@@ -107,7 +107,7 @@ public class CustomAttributesTests
         //Arrange
         var categoryId = 1;
 
-        var fileUploadModel = _dataProvider.GetFileUploadModel(categoryId, 20, NormalImageFormat);
+        var fileUploadModel = CategoriesTestDataProvider.GetFileUploadModel(categoryId, 20, NormalImageFormat);
 
         _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 

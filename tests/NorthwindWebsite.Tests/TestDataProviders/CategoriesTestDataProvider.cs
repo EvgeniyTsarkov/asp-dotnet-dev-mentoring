@@ -39,10 +39,9 @@ public class CategoriesTestDataProvider
             }
         };
 
-    public async Task<IEnumerable<Category>> GetCategoriesAsync() =>
-        await Task.FromResult(_categories);
+    public IEnumerable<Category> GetCategoriesAsync() => _categories;
 
-    public FileUploadDto GetFileUploadModel(int id, int fileLength, string contentType)
+    public static FileUploadDto GetFileUploadModel(int id, int fileLength, string contentType)
     {
         var fileUploadModel = new FileUploadDto
         {
