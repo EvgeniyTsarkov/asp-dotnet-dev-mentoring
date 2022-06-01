@@ -4,7 +4,7 @@ using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Controllers;
 using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Services.Interfaces;
-using NorthwindWebsite.Tests.Factories;
+using NorthwindWebsite.Tests.TestDataProviders;
 
 namespace NorthwindWebsite.Tests.ControllersTests;
 

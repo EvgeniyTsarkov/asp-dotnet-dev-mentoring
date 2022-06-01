@@ -5,7 +5,7 @@ using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Entities;
 using NorthwindWebsite.Presentation.Controllers;
 using NorthwindWebsite.Services.Interfaces;
-using NorthwindWebsite.Tests.TestDataFactories;
+using NorthwindWebsite.Tests.TestDataProviders;
 
 namespace NorthwindWebsite.Tests.Tests;
 

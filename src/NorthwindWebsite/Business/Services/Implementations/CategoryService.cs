@@ -1,5 +1,4 @@
 ﻿using NorthwindWebsite.Business.Models;
-using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Interfaces;
@@ -9,14 +8,10 @@ namespace NorthwindWebsite.Services.Implementations;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
-    private readonly AppSettings _appSettings;
 
-    public CategoryService(
-        ICategoryRepository categoryRepository,
-        AppSettings appSettings)
+    public CategoryService(ICategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
-        _appSettings = appSettings;
     }
 
     public async Task<IEnumerable<Category>> GetAll() =>
@@ -41,7 +36,7 @@ public class CategoryService : ICategoryService
 
     public async Task UpdateCategoryWithPicture(FileUploadDto fileUploadModel)
     {
-        var category = await _categoryRepository.Get(fileUploadModel.CategoryId);
+        var category = await _categoryRepository.Get(c => c.CategoryId == fileUploadModel.CategoryId);
 
         using var memoryStream = new MemoryStream();
 

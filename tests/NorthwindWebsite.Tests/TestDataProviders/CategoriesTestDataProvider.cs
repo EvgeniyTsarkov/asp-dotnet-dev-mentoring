@@ -3,64 +3,63 @@ using Moq;
 using NorthwindWebsite.Business.Models;
 using NorthwindWebsite.Infrastructure.Entities;
 
-namespace NorthwindWebsite.Tests.Factories
+namespace NorthwindWebsite.Tests.TestDataProviders;
+
+public class CategoriesTestDataProvider
 {
-    public class CategoriesTestDataProvider
+    private readonly IEnumerable<Category> _categories = new List<Category>()
+        {
+            new()
+            {
+                CategoryId = 1,
+                CategoryName = "Beverages",
+                Description = "Beverages",
+                Picture = null
+            },
+            new()
+            {
+                CategoryId = 2,
+                CategoryName = "Condiments",
+                Description = "Condiments",
+                Picture = null
+            },
+            new()
+            {
+                CategoryId = 3,
+                CategoryName = "Confections",
+                Description = "Confections",
+                Picture = null
+            },
+            new()
+            {
+                CategoryId = 4,
+                CategoryName = "Dairy Products",
+                Description = "Dairy Products",
+                Picture = null
+            }
+        };
+
+    public async Task<IEnumerable<Category>> GetCategoriesAsync() =>
+        await Task.FromResult(_categories);
+
+    public FileUploadDto GetFileUploadModel(int id, int fileLength, string contentType)
     {
-        private readonly IEnumerable<Category> _categories = new List<Category>()
-            {
-                new()
-                {
-                    CategoryId = 1,
-                    CategoryName = "Beverages",
-                    Description = "Beverages",
-                    Picture = null
-                },
-                new()
-                {
-                    CategoryId = 2,
-                    CategoryName = "Condiments",
-                    Description = "Condiments",
-                    Picture = null
-                },
-                new()
-                {
-                    CategoryId = 3,
-                    CategoryName = "Confections",
-                    Description = "Confections",
-                    Picture = null
-                },
-                new()
-                {
-                    CategoryId = 4,
-                    CategoryName = "Dairy Products",
-                    Description = "Dairy Products",
-                    Picture = null
-                }
-            };
-
-        public async Task<IEnumerable<Category>> GetCategoriesAsync() =>
-            await Task.FromResult(_categories);
-
-        public FileUploadDto GetFileUploadModel(int id, int fileLength, string contentType)
+        var fileUploadModel = new FileUploadDto
         {
-            var fileUploadModel = new FileUploadDto
-            {
-                CategoryId = id,
-                FileUpload = BuildFormFile(fileLength, contentType)
-            };
+            CategoryId = id,
+            FileUpload = BuildFormFile(fileLength, contentType)
+        };
 
-            return fileUploadModel;
-        }
+        return fileUploadModel;
+    }
 
-        private static IFormFile BuildFormFile(int fileLength, string contentType)
-        {
-            var fileMock = new Mock<IFormFile>();
-            fileMock.Setup(ff => ff.FileName).Returns("file name");
-            fileMock.Setup(ff => ff.Length).Returns(fileLength);
-            fileMock.Setup(ff => ff.ContentType).Returns(contentType);
+    private static IFormFile BuildFormFile(int fileLength, string contentType)
+    {
+        var fileMock = new Mock<IFormFile>();
+        fileMock.Setup(ff => ff.FileName).Returns("file name");
+        fileMock.Setup(ff => ff.Length).Returns(fileLength);
+        fileMock.Setup(ff => ff.ContentType).Returns(contentType);
 
-            return fileMock.Object;
-        }
+        return fileMock.Object;
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NorthwindWebsite.Core.CustomExceptions.InfrastructureExceptions;
+﻿using NorthwindWebsite.Core.CustomExceptions.InfrastructureExceptions;
 using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 
@@ -12,15 +11,9 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
     }
 
-    public async Task<Category> Get(int id) =>
-        await _context.Categories
-            .AsNoTracking()
-            .AsQueryable()
-            .SingleOrDefaultAsync(c => c.CategoryId == id);
-
     public async Task<byte[]> GetImage(int id)
     {
-        var category = await Get(id);
+        var category = await Get(c => c.CategoryId == id);
 
         if (category == null)
         {
