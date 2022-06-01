@@ -2,7 +2,7 @@
 {
     public static class FileUtils
     {
-        public static string GetContentType (this IFormFile file) =>
+        public static string GetContentType(this IFormFile file) =>
             file.ContentType.Split("/")[1];
     }
 }

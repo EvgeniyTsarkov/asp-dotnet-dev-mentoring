@@ -38,6 +38,7 @@ public class CategoriesController : Controller
         if (!ModelState.IsValid)
         {
             ModelState.AddModelError(string.Empty, "Please select a file.");
+
             return View("Upload", fileUploadModel);
         }
 

@@ -26,16 +26,16 @@ namespace NorthwindWebsite.Tests.Tests
         public async Task AllowedImageFileTypesAttributeShouldReturnErrorMessageWhenValidationFails()
         {
             //Arrange
-            var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "application/pdf");
+            var fileUploadModel = _dataProvider.GetFileUploadModel(1, NormalFileSize, "application/pdf");
 
             _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
-            var validationContext = new ValidationContext(fileUploadModel, _serviceProviderMock.Object, null);
+            var validationContext = new ValidationContext(fileUploadModel.FileUpload, _serviceProviderMock.Object, null);
 
             var allowedFileTypesAttribute = new AllowedImageFileTypesAttribute();
 
             //Act
-            var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel, validationContext);
+            var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel.FileUpload, validationContext);
 
             //Assert
             Assert.NotNull(validationResult);
@@ -51,16 +51,16 @@ namespace NorthwindWebsite.Tests.Tests
         public async Task AllowedImageFileTypesAttributeShouldReturnCorrectResultWhenValidationSuceeds()
         {
             //Arrange
-            var fileUploadModel = await _dataProvider.GetFileUploadModel(1, NormalFileSize, "image/jpg");
+            var fileUploadModel = _dataProvider.GetFileUploadModel(1, NormalFileSize, "image/jpg");
 
             _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
-            var validationContext = new ValidationContext(fileUploadModel, _serviceProviderMock.Object, null);
+            var validationContext = new ValidationContext(fileUploadModel.FileUpload, _serviceProviderMock.Object, null);
 
             var allowedFileTypesAttribute = new AllowedImageFileTypesAttribute();
 
             //Act
-            var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel, validationContext);
+            var validationResult = allowedFileTypesAttribute.GetValidationResult(fileUploadModel.FileUpload, validationContext);
 
             //Assert
             Assert.Equal(ValidationResult.Success, validationResult);
@@ -74,16 +74,16 @@ namespace NorthwindWebsite.Tests.Tests
         public async Task ImageFileSizeLimitAttributeShouldReturnErrorMessageWhenValidationFails()
         {
             //Arrange
-            var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 2_000_000_000, NormalImageFormat);
+            var fileUploadModel = _dataProvider.GetFileUploadModel(1, 2_000_000_000, NormalImageFormat);
 
             _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
-            var validationContext = new ValidationContext(fileUploadModel, _serviceProviderMock.Object, null);
+            var validationContext = new ValidationContext(fileUploadModel.FileUpload, _serviceProviderMock.Object, null);
 
             var maximumFileSizeAttribute = new ImageFileSizeLimitAttribute();
 
             //Act
-            var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel, validationContext);
+            var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel.FileUpload, validationContext);
 
             //Assert
             Assert.NotNull(validationResult);
@@ -99,16 +99,16 @@ namespace NorthwindWebsite.Tests.Tests
         public async Task ImageFileSizeLimitAttributeShouldReturnCorrectResultWhenValidationSucceeds()
         {
             //Arrange
-            var fileUploadModel = await _dataProvider.GetFileUploadModel(1, 20, NormalImageFormat);
+            var fileUploadModel = _dataProvider.GetFileUploadModel(1, 20, NormalImageFormat);
 
             _serviceProviderMock.Setup(appSets => appSets.GetService(typeof(AppSettings))).Returns(_appSettings);
 
-            var validationContext = new ValidationContext(fileUploadModel, _serviceProviderMock.Object, null);
+            var validationContext = new ValidationContext(fileUploadModel.FileUpload, _serviceProviderMock.Object, null);
 
             var maximumFileSizeAttribute = new ImageFileSizeLimitAttribute();
 
             //Act
-            var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel, validationContext);
+            var validationResult = maximumFileSizeAttribute.GetValidationResult(fileUploadModel.FileUpload, validationContext);
 
             //Assert
             Assert.Equal(ValidationResult.Success, validationResult);

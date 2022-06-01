@@ -14,6 +14,7 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
 
     public async Task<Category> Get(int id) =>
         await _context.Categories
+            .AsNoTracking()
             .AsQueryable()
             .SingleOrDefaultAsync(c => c.CategoryId == id);
 

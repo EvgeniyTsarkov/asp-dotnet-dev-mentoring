@@ -1,47 +1,44 @@
-﻿using NorthwindWebsite.Business.Models;
-using NorthwindWebsite.Core.ApplicationSettings;
+﻿using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Core.Utils;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace NorthwindWebsite.Business.CustomValidators
+namespace NorthwindWebsite.Business.CustomValidators;
+
+public class AllowedImageFileTypesAttribute : ValidationAttribute
 {
-    public class AllowedImageFileTypesAttribute : ValidationAttribute
+    private string[] permittedExtentions;
+
+    public string GetErrorMessage() =>
+        string.Format("Wrong file format. Please use{0}", GetFileTypesRepresentation());
+
+    private string GetFileTypesRepresentation()
     {
-        private string[] permittedExtentions;
+        var joinedExtensions = string.Empty;
 
-        public string GetErrorMessage() =>
-            string.Format("Wrong file format. Please use{0}", GetFileTypesRepresentation());
-
-        private StringBuilder GetFileTypesRepresentation()
+        foreach (var extension in permittedExtentions)
         {
-            var resultingString = new StringBuilder();
-
-            foreach (var extension in permittedExtentions)
-            {
-                resultingString.Append(" " + extension + ",");
-            }
-
-            return resultingString;
+            joinedExtensions = string.Join(", ", permittedExtentions);
         }
 
-        protected override ValidationResult? IsValid(
-            object? value, ValidationContext validationContext)
+        return string.Concat(" ", joinedExtensions);
+    }
+
+    protected override ValidationResult? IsValid(
+        object? value, ValidationContext validationContext)
+    {
+        var appSettings = validationContext.GetService<AppSettings>();
+
+        permittedExtentions = appSettings.FileUploadOptions.ImageFileFormats;
+
+        var uploadedFile = (IFormFile)value;
+
+        var contentType = uploadedFile.GetContentType();
+
+        if (!permittedExtentions.Contains(contentType))
         {
-            var fileUploadModel = (FileUploadDto)validationContext.ObjectInstance;
-
-            var appSettings = validationContext.GetService<AppSettings>();
-
-            permittedExtentions = appSettings.FileUploadOptions.ImageFileFormats;
-
-            var contentType = fileUploadModel.FileUpload.GetContentType();
-
-            if (!permittedExtentions.Contains(contentType))
-            {
-                return new ValidationResult(GetErrorMessage());
-            }
-
-            return ValidationResult.Success;
+            return new ValidationResult(GetErrorMessage());
         }
+
+        return ValidationResult.Success;
     }
 }

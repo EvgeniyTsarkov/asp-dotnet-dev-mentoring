@@ -1,12 +1,11 @@
-﻿using NorthwindWebsite.Business.Models;
-using NorthwindWebsite.Core.ApplicationSettings;
+﻿using NorthwindWebsite.Core.ApplicationSettings;
 using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Business.CustomValidators
 {
     public class ImageFileSizeLimitAttribute : ValidationAttribute
     {
-        private int bytesInKilobyte = 1000;
+        private const int bytesInKilobyte = 1000;
 
         private int size;
 
@@ -16,13 +15,13 @@ namespace NorthwindWebsite.Business.CustomValidators
         protected override ValidationResult? IsValid(
             object? value, ValidationContext validationContext)
         {
-            var fileUploadModel = (FileUploadDto)validationContext.ObjectInstance;
-
             var appsettings = validationContext.GetService<AppSettings>();
+
+            var uploadedFile = (IFormFile)value;
 
             size = appsettings!.FileUploadOptions.ImageMaxSize;
 
-            if (fileUploadModel.FileUpload.Length > size)
+            if (uploadedFile.Length > size)
             {
                 return new ValidationResult(GetErrorMessage());
             }

@@ -42,7 +42,7 @@ namespace NorthwindWebsite.Tests.Factories
         public async Task<IEnumerable<Category>> GetCategoriesAsync() =>
             await Task.FromResult(_categories);
 
-        public async Task<FileUploadDto> GetFileUploadModel(int id, int fileLength, string contentType)
+        public FileUploadDto GetFileUploadModel(int id, int fileLength, string contentType)
         {
             var fileUploadModel = new FileUploadDto
             {
@@ -50,7 +50,7 @@ namespace NorthwindWebsite.Tests.Factories
                 FileUpload = BuildFormFile(fileLength, contentType)
             };
 
-            return await Task.FromResult(fileUploadModel);
+            return fileUploadModel;
         }
 
         private static IFormFile BuildFormFile(int fileLength, string contentType)
