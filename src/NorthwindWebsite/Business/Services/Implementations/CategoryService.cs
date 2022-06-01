@@ -33,8 +33,7 @@ public class CategoryService : ICategoryService
     {
         var fileUploadModel = new FileUploadDto
         {
-            CategoryId = id,
-            MaximumFileSize = _appSettings.FileUploadOptions.ImageMaxSize
+            CategoryId = id
         };
 
         return await Task.FromResult(fileUploadModel);

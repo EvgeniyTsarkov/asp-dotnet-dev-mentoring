@@ -47,7 +47,6 @@ namespace NorthwindWebsite.Tests.Factories
             var fileUploadModel = new FileUploadDto
             {
                 CategoryId = id,
-                MaximumFileSize = 200_000,
                 FileUpload = BuildFormFile(fileLength, contentType)
             };
 

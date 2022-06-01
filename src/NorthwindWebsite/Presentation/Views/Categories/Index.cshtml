@@ -13,48 +13,53 @@
 
 @{
     //Table parameters:
+    var widthToHeightRatio = 1.5;
     var imageWidth = 270;
-    var imageHeight = imageWidth / 1.5;
+    var imageHeight = imageWidth / widthToHeightRatio;
     var imageType = "image/bmp";
     var borderSpacing = "30px";
+
+    var mid = Model.Count / 2;
+    var firstRowCategories = Model.Take(mid).ToArray();
+    var secondRowCategories = Model.Skip(mid).ToList();
 }
 
 <div>
     <table class="d-flex justify-content-center" style="border-collapse:separate; border-spacing: @borderSpacing;">
         <tr>
-            @for (var i = 0; i < 4; i++)
+            @foreach (var category in firstRowCategories)
             {
                 <td>
-                    <a href="@Url.Action("ImageUpload", new { id = @Model[i].CategoryId})">
-                        <img src="@Url.Action("Images", new { id = @Model[i].CategoryId})"
+                    <a href="@Url.Action("ImageUpload", new { id = category.CategoryId})">
+                        <img src="@Url.Action("Images", new { id = category.CategoryId})"
                          width=@imageWidth, height=@imageHeight type=@imageType />
                     </a>
                 </td>
             }
-        </tr>
+
         <tr class="text-center">
-            @for (var i = 0; i < 4; i++)
-            {
-                <td align="center"><h4>@Model[i].CategoryName</h4></td>
-            }
+                @foreach (var category in firstRowCategories)
+                {
+                <td align="center"><h4>@category.CategoryName</h4></td>
+                }
         </tr>
     </table>
     <table class="d-flex justify-content-center" style="border-collapse:separate; border-spacing: @borderSpacing;">
         <tr>
-            @for (var i = 4; i < 8; i++)
+            @foreach (var category in secondRowCategories)
             {
                 <td>
-                    <a href="@Url.Action("ImageUpload", new { id = @Model[i].CategoryId})">
-                        <img src="@Url.Action("Images", new { id = @Model[i].CategoryId})"
+                    <a href="@Url.Action("ImageUpload", new { id = category.CategoryId})">
+                        <img src="@Url.Action("Images", new { id = category.CategoryId})"
                          width=@imageWidth, height=@imageHeight type=@imageType />
                     </a>
                 </td>
             }
         </tr>
         <tr class="text-center">
-            @for (var i = 4; i < 8; i++)
+            @foreach (var category in firstRowCategories)
             {
-                <td align="center"><h4>@Model[i].CategoryName</h4></td>
+                <td align="center"><h4>@category.CategoryName</h4></td>
             }
         </tr>
     </table>
