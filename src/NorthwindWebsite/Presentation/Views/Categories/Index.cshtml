@@ -7,8 +7,10 @@
     ViewData["Title"] = "Categories";
 }
 
+<link rel="stylesheet" href="~/css/category-page.css" />
+
 <div class="text-center">
-    <h1 style="font-size: 300%;">Categories</h1>
+    <h1 class="categories-header">Categories</h1>
 </div>
 
 @{
@@ -17,15 +19,14 @@
     var imageWidth = 270;
     var imageHeight = imageWidth / widthToHeightRatio;
     var imageType = "image/bmp";
-    var borderSpacing = "30px";
 
-    var mid = Model.Count / 2;
-    var firstRowCategories = Model.Take(mid).ToArray();
-    var secondRowCategories = Model.Skip(mid).ToList();
+    var collectionMiddle = Model.Count / 2;
+    var firstRowCategories = Model.Take(collectionMiddle).ToList();
+    var secondRowCategories = Model.Skip(collectionMiddle).ToList();
 }
 
 <div>
-    <table class="d-flex justify-content-center" style="border-collapse:separate; border-spacing: @borderSpacing;">
+    <table class="d-flex justify-content-center">
         <tr>
             @foreach (var category in firstRowCategories)
             {
@@ -40,11 +41,11 @@
         <tr class="text-center">
                 @foreach (var category in firstRowCategories)
                 {
-                <td align="center"><h4>@category.CategoryName</h4></td>
+                <td class="category-name"><h4>@category.CategoryName</h4></td>
                 }
         </tr>
     </table>
-    <table class="d-flex justify-content-center" style="border-collapse:separate; border-spacing: @borderSpacing;">
+    <table class="d-flex justify-content-center">
         <tr>
             @foreach (var category in secondRowCategories)
             {
@@ -59,7 +60,7 @@
         <tr class="text-center">
             @foreach (var category in firstRowCategories)
             {
-                <td align="center"><h4>@category.CategoryName</h4></td>
+                <td class="category-name"><h4>@category.CategoryName</h4></td>
             }
         </tr>
     </table>
