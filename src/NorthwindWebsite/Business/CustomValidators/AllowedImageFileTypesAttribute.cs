@@ -24,6 +24,7 @@ namespace NorthwindWebsite.Business.CustomValidators
 
             return resultingString;
         }
+
         protected override ValidationResult? IsValid(
             object? value, ValidationContext validationContext)
         {

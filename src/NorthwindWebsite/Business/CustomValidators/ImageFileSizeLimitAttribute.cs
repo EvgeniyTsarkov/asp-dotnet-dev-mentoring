@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Business.CustomValidators
 {
-    public class MaximumFileSizeAttribute : ValidationAttribute
+    public class ImageFileSizeLimitAttribute : ValidationAttribute
     {
         private int bytesInKilobyte = 1000;
 
@@ -20,7 +20,7 @@ namespace NorthwindWebsite.Business.CustomValidators
 
             var appsettings = validationContext.GetService<AppSettings>();
 
-            size = appsettings.FileUploadOptions.ImageMaxSize;
+            size = appsettings!.FileUploadOptions.ImageMaxSize;
 
             if (fileUploadModel.FileUpload.Length > size)
             {
