@@ -17,7 +17,7 @@ public class CategoriesControllerTests
     private readonly CategoriesTestDataProvider _dataProvider = new();
 
     [Fact]
-    public async Task IndexAction_ShouldReturnIndexViewAndModel()
+    public async Task IndexAction_ShouldReturnIndexViewAndCorrectModel()
     {
         //Arrange
         _categoryServiceMock.Setup(repo => repo.GetAll()).ReturnsAsync(_dataProvider.GetCategoriesAsync());
