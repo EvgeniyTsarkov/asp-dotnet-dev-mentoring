@@ -1,5 +1,6 @@
 ﻿using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Core.Constants;
+using NorthwindWebsite.Core.Utils;
 using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Business.CustomValidators;
@@ -31,7 +32,7 @@ public class AllowedImageFileTypesAttribute : ValidationAttribute
 
         if (value is IFormFile uploadedFile)
         {
-            contentType = uploadedFile.ContentType;
+            contentType = uploadedFile.GetContentType();
         }
         else
         {
