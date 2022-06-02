@@ -2,13 +2,11 @@
 
 namespace NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 
-public interface IProductRepository
+public interface IProductRepository : IBaseRepository<Product>
 {
-    Task<List<Product>> GetAll();
-
     Task<List<Product>> GetLimitedNumberOfProducts(int limit);
 
-    Task<Product> Get(int id, bool skipRelatedItems = false);
+    Task<Product> Get(int id, bool skipRelatedItems);
 
     Task<Product> Add(Product product);
 

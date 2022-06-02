@@ -1,4 +1,5 @@
-﻿using NorthwindWebsite.Infrastructure.Entities;
+﻿using NorthwindWebsite.Business.Models;
+using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Interfaces;
 
@@ -22,4 +23,30 @@ public class CategoryService : ICategoryService
 
         return categories.ToDictionary(c => c.CategoryId, c => c.CategoryName);
     }
+
+    public async Task<FileUploadDto> GetFileUploadModel(int id)
+    {
+        var fileUploadModel = new FileUploadDto
+        {
+            CategoryId = id
+        };
+
+        return await Task.FromResult(fileUploadModel);
+    }
+
+    public async Task UpdateCategoryWithPicture(FileUploadDto fileUploadModel)
+    {
+        var category = await _categoryRepository.Get(c => c.CategoryId == fileUploadModel.CategoryId);
+
+        using var memoryStream = new MemoryStream();
+
+        await fileUploadModel.FileUpload.CopyToAsync(memoryStream);
+
+        category.Picture = memoryStream.ToArray();
+
+        await _categoryRepository.Update(category);
+    }
+
+    public async Task<byte[]> GetImage(int id) =>
+        await _categoryRepository.GetImage(id);
 }

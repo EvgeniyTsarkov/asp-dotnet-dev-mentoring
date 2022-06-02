@@ -10,7 +10,7 @@ public class HomeControllerTests
     private readonly Mock<ILogger<HomeController>> _loggerMock = new();
 
     [Fact]
-    public void IndexAction_ShouldReturnCorrectView()
+    public void IndexAction_ShouldReturnIndexView()
     {
         //Arrange
         var homeController = new HomeController(_loggerMock.Object);
@@ -26,7 +26,7 @@ public class HomeControllerTests
     }
 
     [Fact]
-    public void PrivacyAction_ShouldReturnCorrectView()
+    public void PrivacyAction_ShouldReturnPrivacyView()
     {
         //Arrange
         var homeController = new HomeController(_loggerMock.Object);

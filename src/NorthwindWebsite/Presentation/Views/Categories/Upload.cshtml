@@ -1,0 +1,54 @@
+﻿@using NorthwindWebsite.Business.Models
+@model FileUploadDto
+
+@{
+    ViewData["Title"] = "Image Upload";
+}
+
+<h1>Upload Image</h1>
+<h6>(please use .jpg, .jpeg, .bmp, .png files)</h6>
+
+<br>
+
+@using (Html.BeginForm("ImageUpload", "Categories", FormMethod.Post,
+new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.CategoryId)
+    @Html.ValidationMessageFor(m => m.FileUpload, string.Empty, new { @class = "text-danger" })
+    @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+
+    <div class="form-horizontal">
+        <div class="form-area">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-5">
+                        @Html.LabelFor(x => x.FileUpload, new { @class = "form-label"})
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-5">
+                        @Html.TextBoxFor(m => m.FileUpload, new { type = "file", @class = "form-control-file" })
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-5">
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<br>
+
+<div>
+    <h6>
+        @Html.ActionLink("Back to Categories", "BackToCategories", "Categories")
+    </h6>
+</div>

@@ -5,7 +5,7 @@ using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Entities;
 using NorthwindWebsite.Presentation.Controllers;
 using NorthwindWebsite.Services.Interfaces;
-using NorthwindWebsite.Tests.TestDataFactories;
+using NorthwindWebsite.Tests.TestDataProviders;
 
 namespace NorthwindWebsite.Tests.Tests;
 
@@ -17,12 +17,12 @@ public class ProductsControllerTests
     private readonly ProductsTestDataProvider _dataProvider = new();
 
     [Fact]
-    public async Task IndexAction_ShouldReturnCorrectViewAndModel()
+    public async Task IndexAction_ShouldReturnIndexViewAndCorrectModel()
     {
         //Arrange
         _productServiceMock
             .Setup(repo => repo.GetProducts())
-            .Returns(_dataProvider.GetProductsAsync())
+            .ReturnsAsync(_dataProvider.GetProductsAsync())
             .Verifiable();
 
         var productsController = new ProductsController(
@@ -30,16 +30,12 @@ public class ProductsControllerTests
             _categoryServiceMock.Object,
             _supplierServiceMock.Object);
 
-        var expectedProductDto = await _dataProvider.GetProductsAsync();
+        var expectedProductDto = _dataProvider.GetProductsAsync();
 
         //Act
         var result = await productsController.Index();
 
         //Assert
-        _productServiceMock.Verify(repo => repo.GetProducts(),
-            Times.AtLeastOnce(),
-            "GetProducts was never invoked.");
-
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<ProductsDto>(viewResult.Model);
 
@@ -49,16 +45,20 @@ public class ProductsControllerTests
         Assert.NotNull(model.Products);
         Assert.NotEmpty(model.Products);
         Assert.Equal(expectedProductDto.Products.Count, model.Products.Count);
+
+        _productServiceMock.Verify(repo => repo.GetProducts(),
+            Times.AtLeastOnce(),
+            "GetProducts was never invoked.");
     }
 
     [Fact]
-    public async Task HandleAction_ShouldReturnCorrectViewAndModel()
+    public async Task HandleAction_ShouldReturnCreateOrUpdateViewAndCorrectModel()
     {
         //Arrange
         var testProductId = 1;
 
         _productServiceMock.Setup(repo => repo.GetProductModel(testProductId))
-            .Returns(_dataProvider.GetProductModelAsync(testProductId));
+            .ReturnsAsync(_dataProvider.GetProductModelAsync(testProductId));
 
         var productsController = new ProductsController(
             _productServiceMock.Object,
@@ -75,10 +75,6 @@ public class ProductsControllerTests
         var result = await productsController.Handle(testProductId);
 
         //Assert
-        _productServiceMock.Verify(repo => repo.GetProductModel(testProductId),
-            Times.Once(),
-            "GetProductModel was never invoked.");
-
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<ProductHandleDto>(viewResult.Model);
 
@@ -87,6 +83,10 @@ public class ProductsControllerTests
         Assert.NotNull(model);
         Assert.NotNull(model.Product);
         Assert.Equal(expectedProduct.ProductName, model.Product.ProductName);
+
+        _productServiceMock.Verify(repo => repo.GetProductModel(testProductId),
+            Times.Once(),
+            "GetProductModel was never invoked.");
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public async Task CreateAction_ShouldRedirectToCorrectAction()
+    public async Task CreateAction_ShouldRedirectToIndexAction()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -151,7 +151,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public async Task UpdateAction_ShouldRedirectToCorrectAction()
+    public async Task UpdateAction_ShouldRedirectToIndexAction()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -170,7 +170,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public async Task DeleteAction_ShouldReturnCorrectView()
+    public async Task DeleteAction_ShouldReturnIndexView()
     {
         //Arrange
         var productsController = new ProductsController(
@@ -189,7 +189,7 @@ public class ProductsControllerTests
     }
 
     [Fact]
-    public void BackToMainAction_ShouldRedirectToCorrectAction()
+    public void BackToMainAction_ShouldRedirectToIndexAction()
     {
         //Arrange
         var productsController = new ProductsController(

@@ -1,0 +1,12 @@
+﻿.d-flex {
+    border-collapse: separate;
+    border-spacing: 30px;
+}
+
+.category-name {
+    align-content: center;
+}
+
+.category-header {
+    font-size: 300%;
+}
