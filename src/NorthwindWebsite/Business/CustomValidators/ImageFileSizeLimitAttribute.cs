@@ -1,5 +1,4 @@
 ﻿using NorthwindWebsite.Core.ApplicationSettings;
-using NorthwindWebsite.Core.CustomExceptions.BusinessExceptions;
 using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Business.CustomValidators
@@ -19,9 +18,16 @@ namespace NorthwindWebsite.Business.CustomValidators
 
             size = appsettings!.FileUploadOptions.ImageMaxSize;
 
-            var uploadedFileSize = value is IFormFile uploadedFile
-                ? uploadedFile.Length
-                : throw new NotAFileException("Object is not a file");
+            long uploadedFileSize = default;
+                
+            if(value is IFormFile uploadedFile) 
+            {
+                uploadedFileSize = uploadedFile.Length;
+            }
+            else 
+            {
+                return new ValidationResult("Validation error: object is not a file");
+            }
 
             if (uploadedFileSize > size)
             {
