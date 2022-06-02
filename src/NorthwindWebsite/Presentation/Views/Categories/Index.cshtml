@@ -20,7 +20,7 @@
     var imageHeight = imageWidth / widthToHeightRatio;
     var imageType = "image/bmp";
 
-    var collectionMiddle = Model.Count / 2;
+    var collectionMiddle = (int)Math.Round((double)Model.Count / 2);
     var firstRowCategories = Model.Take(collectionMiddle).ToList();
     var secondRowCategories = Model.Skip(collectionMiddle).ToList();
 }

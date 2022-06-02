@@ -1,4 +1,5 @@
 ﻿using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Core.CustomExceptions.BusinessExceptions;
 using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Business.CustomValidators
@@ -20,7 +21,7 @@ namespace NorthwindWebsite.Business.CustomValidators
 
             var uploadedFileSize = value is IFormFile uploadedFile
                 ? uploadedFile.Length
-                : -1;
+                : throw new NotAFileException("Object is not a file");
 
             if (uploadedFileSize > size)
             {

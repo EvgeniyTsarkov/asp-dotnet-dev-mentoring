@@ -1,4 +1,5 @@
 ﻿using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Core.CustomExceptions.BusinessExceptions;
 using NorthwindWebsite.Core.Utils;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +9,7 @@ public class AllowedImageFileTypesAttribute : ValidationAttribute
 {
     private string[] permittedExtentions;
 
-    public string GetErrorMessage() =>
+    private string GetErrorMessage() =>
         string.Format("Wrong file format. Please use {0}", GetFileTypesRepresentation());
 
     private string GetFileTypesRepresentation()
@@ -32,7 +33,7 @@ public class AllowedImageFileTypesAttribute : ValidationAttribute
 
         var contentType = value is IFormFile uploadedFile
             ? uploadedFile.GetContentType()
-            : string.Empty;
+            : throw new NotAFileException("Object is not a file");
 
         if (!permittedExtentions.Contains(contentType))
         {
