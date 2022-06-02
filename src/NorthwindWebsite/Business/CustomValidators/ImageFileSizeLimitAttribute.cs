@@ -1,4 +1,5 @@
 ﻿using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Core.Constants;
 using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Business.CustomValidators
@@ -26,7 +27,7 @@ namespace NorthwindWebsite.Business.CustomValidators
             }
             else 
             {
-                return new ValidationResult("Validation error: object is not a file");
+                return new ValidationResult(AttributeErrorMessages.NotAFileErrorMessage);
             }
 
             if (uploadedFileSize > size)

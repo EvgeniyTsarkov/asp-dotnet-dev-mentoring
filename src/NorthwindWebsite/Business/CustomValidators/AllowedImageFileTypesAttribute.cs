@@ -1,5 +1,5 @@
 ﻿using NorthwindWebsite.Core.ApplicationSettings;
-using NorthwindWebsite.Core.Utils;
+using NorthwindWebsite.Core.Constants;
 using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Business.CustomValidators;
@@ -35,7 +35,7 @@ public class AllowedImageFileTypesAttribute : ValidationAttribute
         }
         else
         {
-            return new ValidationResult("Validation error: object is not a file");
+            return new ValidationResult(AttributeErrorMessages.NotAFileErrorMessage);
         }
 
         if (!permittedExtentions.Contains(contentType))
