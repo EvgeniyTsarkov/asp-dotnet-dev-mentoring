@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Middleware;
 
 namespace NorthwindWebsite.Configuration;
 
@@ -28,6 +29,8 @@ public static class MiddlewareConfiguration
         {
             DefaultRequestCulture = new RequestCulture(appSettings.Localization.Default)
         });
+
+        app.UseMiddleware<ImageCachingMiddleware>();
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

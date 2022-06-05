@@ -1,4 +1,5 @@
 ﻿using NorthwindWebsite.Business.Models;
+using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Services.Interfaces;
@@ -8,10 +9,17 @@ namespace NorthwindWebsite.Services.Implementations;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IImageCachingService _imageCachingService;
+    private readonly ILogger<CategoryService> _logger;
 
-    public CategoryService(ICategoryRepository categoryRepository)
+    public CategoryService(
+        ICategoryRepository categoryRepository,
+        IImageCachingService imageCachingService,
+        ILogger<CategoryService> logger)
     {
         _categoryRepository = categoryRepository;
+        _imageCachingService = imageCachingService;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<Category>> GetAll() =>
@@ -47,6 +55,17 @@ public class CategoryService : ICategoryService
         await _categoryRepository.Update(category);
     }
 
-    public async Task<byte[]> GetImage(int id) =>
-        await _categoryRepository.GetImage(id);
+    public async Task<byte[]> GetImage(int id)
+    {
+        var isContained = _imageCachingService.IsContained(id.ToString());
+
+        if (isContained)
+        {
+            _logger.LogWarning("Getting image from cache.");
+            return _imageCachingService.GetImageFromCache(id);
+        }
+
+        _logger.LogWarning("Getting image from database.");
+        return await _categoryRepository.GetImage(id);
+    }
 }
