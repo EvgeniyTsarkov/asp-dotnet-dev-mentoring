@@ -8,13 +8,16 @@ public class ImageCachingMiddleware : IMiddleware
 {
     private readonly AppSettings _appSettings;
     private readonly IImageCachingService _imageCachingService;
+    private readonly ILogger<ImageCachingMiddleware> _logger;
 
     public ImageCachingMiddleware(
         AppSettings appSettings,
-        IImageCachingService cacheService)
+        IImageCachingService cacheService,
+        ILogger<ImageCachingMiddleware> logger)
     {
         _appSettings = appSettings;
         _imageCachingService = cacheService;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -26,11 +29,28 @@ public class ImageCachingMiddleware : IMiddleware
 
         var requestPath = context.Request.Path.Value;
 
-        if (requestPath!.Contains("/images/"))
+        var imageIndex = requestPath!.GetImageIndexFromRequest();
+
+        if (
+            requestPath!.Contains("/images/") 
+            && _imageCachingService.IsContained(imageIndex)) 
         {
             CacheTimer.Value = DateTime.Now.AddSeconds(_appSettings.CachingConfigs.CachingPeriod);
 
-            var imageIndex = requestPath.GetImageIndexFromRequest();
+            var imageAsBytes = _imageCachingService.GetImageFromCache(Convert.ToInt32(imageIndex));
+
+            var stream = new MemoryStream(imageAsBytes);
+
+            context.Response.ContentType = "image/bmp";
+
+            stream.Position = default;
+
+            _logger.LogWarning("Getting image from cache");
+            await stream.CopyToAsync(context.Response.Body);
+        }
+        else if (requestPath!.Contains("/images/"))
+        {
+            CacheTimer.Value = DateTime.Now.AddSeconds(_appSettings.CachingConfigs.CachingPeriod);
 
             var fileSavingPath = string.Concat(
                 AppDomain.CurrentDomain.BaseDirectory,
