@@ -29,7 +29,9 @@ public class ImageCachingMiddleware : IMiddleware
 
         var requestPath = context.Request.Path.Value;
 
-        var imageIndex = requestPath!.GetImageIndexFromRequest();
+        string imageIndex = requestPath!.Contains("/images/")
+            ? requestPath!.GetImageIndexFromRequest()
+            : string.Empty;
 
         if (
             requestPath!.Contains("/images/") 
@@ -39,7 +41,7 @@ public class ImageCachingMiddleware : IMiddleware
 
             var imageAsBytes = _imageCachingService.GetImageFromCache(Convert.ToInt32(imageIndex));
 
-            var stream = new MemoryStream(imageAsBytes);
+            using var stream = new MemoryStream(imageAsBytes);
 
             context.Response.ContentType = "image/bmp";
 
