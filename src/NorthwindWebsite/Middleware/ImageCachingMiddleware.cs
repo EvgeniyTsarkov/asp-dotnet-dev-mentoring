@@ -34,8 +34,8 @@ public class ImageCachingMiddleware : IMiddleware
             : string.Empty;
 
         if (
-            requestPath!.Contains("/images/") 
-            && _imageCachingService.IsContained(imageIndex)) 
+            requestPath!.Contains("/images/")
+            && _imageCachingService.IsContained(imageIndex))
         {
             CacheTimer.Value = DateTime.Now.AddSeconds(_appSettings.CachingConfigs.CachingPeriod);
 
@@ -76,11 +76,8 @@ public class ImageCachingMiddleware : IMiddleware
 
                 _imageCachingService.CreateFolderIfDoesNotExists();
 
-                if (!_imageCachingService.IsContained(imageIndex))
-                {
-                    using var fs = new FileStream(fileSavingPath, FileMode.Create);
-                    memoryStream.WriteTo(fs);
-                }
+                using var fs = new FileStream(fileSavingPath, FileMode.Create);
+                memoryStream.WriteTo(fs);
             }
 
             memoryStream.Position = default;
