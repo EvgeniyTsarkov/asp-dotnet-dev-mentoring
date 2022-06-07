@@ -30,9 +30,12 @@ public static class MiddlewareConfiguration
             DefaultRequestCulture = new RequestCulture(appSettings.Localization.Default)
         });
 
+        app.UseResponseCaching();
+
         app.UseMiddleware<ImageCachingMiddleware>();
 
         app.UseHttpsRedirection();
+
         app.UseStaticFiles();
 
         app.UseRouting();

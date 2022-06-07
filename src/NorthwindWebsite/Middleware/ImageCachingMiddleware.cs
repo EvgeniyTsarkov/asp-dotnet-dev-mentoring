@@ -25,10 +25,7 @@ public class ImageCachingMiddleware : IMiddleware
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        if (CacheTimer.Value.Subtract(DateTime.Now) < TimeSpan.Zero)
-        {
-            _imageCachingService.DumpImageCache();
-        }
+        DateTime.TryParse(context.Response.Headers["expires"], out var expires);
 
         var requestPath = context.Request.Path.Value;
 
@@ -39,8 +36,6 @@ public class ImageCachingMiddleware : IMiddleware
         if (requestPath!.Contains(ImagesUrlSubstring)
             && _imageCachingService.IsContained(imageIndex))
         {
-            CacheTimer.Value = DateTime.Now.AddSeconds(_appSettings.CachingConfigs.CachingPeriod);
-
             var imageAsBytes = _imageCachingService.GetImageFromCache(Convert.ToInt32(imageIndex));
 
             using var stream = new MemoryStream(imageAsBytes);
@@ -54,7 +49,10 @@ public class ImageCachingMiddleware : IMiddleware
         }
         else if (requestPath!.Contains(ImagesUrlSubstring))
         {
-            CacheTimer.Value = DateTime.Now.AddSeconds(_appSettings.CachingConfigs.CachingPeriod);
+            if (expires.Subtract(DateTime.Now) <= TimeSpan.Zero)
+            {
+                _imageCachingService.DumpImageCache();
+            }
 
             var fileSavingPath = string.Concat(
                 AppDomain.CurrentDomain.BaseDirectory,
@@ -65,6 +63,9 @@ public class ImageCachingMiddleware : IMiddleware
 
             using var memoryStream = new MemoryStream();
             context.Response.Body = memoryStream;
+
+            context.Response.GetTypedHeaders().Expires = 
+                DateTime.Now.AddSeconds(_appSettings.CachingConfigs.CachingPeriod); 
 
             await next.Invoke(context);
 
