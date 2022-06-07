@@ -1,11 +1,14 @@
 ﻿using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Core.Constants;
 using NorthwindWebsite.Core.Utils;
 
 namespace NorthwindWebsite.Middleware;
 
 public class ImageCachingMiddleware : IMiddleware
 {
+    private const string ImagesUrlSubstring = "/images/";
+
     private readonly AppSettings _appSettings;
     private readonly IImageCachingService _imageCachingService;
     private readonly ILogger<ImageCachingMiddleware> _logger;
@@ -29,12 +32,11 @@ public class ImageCachingMiddleware : IMiddleware
 
         var requestPath = context.Request.Path.Value;
 
-        string imageIndex = requestPath!.Contains("/images/")
+        string imageIndex = requestPath!.Contains(ImagesUrlSubstring)
             ? requestPath!.GetImageIndexFromRequest()
             : string.Empty;
 
-        if (
-            requestPath!.Contains("/images/")
+        if (requestPath!.Contains(ImagesUrlSubstring)
             && _imageCachingService.IsContained(imageIndex))
         {
             CacheTimer.Value = DateTime.Now.AddSeconds(_appSettings.CachingConfigs.CachingPeriod);
@@ -43,21 +45,21 @@ public class ImageCachingMiddleware : IMiddleware
 
             using var stream = new MemoryStream(imageAsBytes);
 
-            context.Response.ContentType = "image/bmp";
+            context.Response.ContentType = HttpContentConstants.ImageBmp;
 
             stream.Position = default;
 
             _logger.LogWarning("Getting image from cache");
             await stream.CopyToAsync(context.Response.Body);
         }
-        else if (requestPath!.Contains("/images/"))
+        else if (requestPath!.Contains(ImagesUrlSubstring))
         {
             CacheTimer.Value = DateTime.Now.AddSeconds(_appSettings.CachingConfigs.CachingPeriod);
 
             var fileSavingPath = string.Concat(
                 AppDomain.CurrentDomain.BaseDirectory,
                 _appSettings.CachingConfigs.CachingFolder,
-                imageIndex, ".bmp");
+                imageIndex, FileNameConstants.BmpExtension);
 
             var originalResponseStream = context.Response.Body;
 
@@ -69,7 +71,7 @@ public class ImageCachingMiddleware : IMiddleware
             var numberOfFilesInCachingFolder = _imageCachingService.GetNumberOfFilesInCachingFolder();
 
             if (context.Response.ContentType != null
-                && context.Response.ContentType.Contains("image/bmp")
+                && context.Response.ContentType.Contains(HttpContentConstants.ImageBmp)
                 && numberOfFilesInCachingFolder < _appSettings.CachingConfigs.CacheSize)
             {
                 memoryStream.Position = default;

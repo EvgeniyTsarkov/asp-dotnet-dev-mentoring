@@ -1,5 +1,6 @@
 ﻿using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Core.Constants;
 using NorthwindWebsite.Core.CustomExceptions.BusinessExceptions;
 
 namespace NorthwindWebsite.Business.Services.Implementations;
@@ -20,7 +21,7 @@ public class ImageCachingService : IImageCachingService
 
     public bool IsContained(string imageIndex)
     {
-        var imageName = string.Concat(_cachingFolder, imageIndex, ".bmp");
+        var imageName = string.Concat(_cachingFolder, imageIndex, FileNameConstants.BmpExtension);
 
         var cachedFilesNames = Directory.GetFiles(_cachingFolder);
 
@@ -49,7 +50,7 @@ public class ImageCachingService : IImageCachingService
 
     public byte[] GetImageFromCache(int index)
     {
-        var filePath = string.Concat(_cachingFolder, index, ".bmp");
+        var filePath = string.Concat(_cachingFolder, index, FileNameConstants.BmpExtension);
 
         var fileInfo = new FileInfo(filePath);
 
