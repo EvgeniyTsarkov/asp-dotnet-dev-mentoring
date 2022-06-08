@@ -107,5 +107,4 @@ public class ImageCachingMiddleware : IMiddleware
             AppDomain.CurrentDomain.BaseDirectory,
             _appSettings.CachingConfigs.CachingFolder,
             imageIndex, FileNameConstants.BmpExtension);
-
 }
