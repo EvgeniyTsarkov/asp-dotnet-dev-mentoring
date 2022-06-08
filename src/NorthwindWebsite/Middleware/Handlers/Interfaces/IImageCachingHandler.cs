@@ -1,6 +1,6 @@
-﻿namespace NorthwindWebsite.Business.Services.Interfaces;
+﻿namespace NorthwindWebsite.Middleware.Handlers.Interfaces;
 
-public interface IImageCachingService
+public interface IImageCachingHandler
 {
     bool IsContained(string imageIndex);
 

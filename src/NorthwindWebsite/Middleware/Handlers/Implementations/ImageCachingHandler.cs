@@ -1,17 +1,17 @@
-﻿using NorthwindWebsite.Business.Services.Interfaces;
-using NorthwindWebsite.Core.ApplicationSettings;
+﻿using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Core.Constants;
 using NorthwindWebsite.Core.CustomExceptions.BusinessExceptions;
+using NorthwindWebsite.Middleware.Handlers.Interfaces;
 
-namespace NorthwindWebsite.Business.Services.Implementations;
+namespace NorthwindWebsite.Middleware.Handlers.Implementations;
 
-public class ImageCachingService : IImageCachingService
+public class ImageCachingHandler : IImageCachingHandler
 {
     private readonly AppSettings _appSettings;
 
     private readonly string _cachingFolder;
 
-    public ImageCachingService(AppSettings appSettings)
+    public ImageCachingHandler(AppSettings appSettings)
     {
         _appSettings = appSettings;
         _cachingFolder = string.Concat(
@@ -33,16 +33,12 @@ public class ImageCachingService : IImageCachingService
 
     public void CreateFolderIfDoesNotExists()
     {
-        var directoryExists = Directory.Exists(_cachingFolder);
-
-        if (!directoryExists)
+        if (!DoesCachingDirectoryExist())
         {
             Directory.CreateDirectory(_cachingFolder);
         }
 
-        var existsAfterCreation = Directory.Exists(_cachingFolder);
-
-        if (!existsAfterCreation)
+        if (!DoesCachingDirectoryExist())
         {
             throw new FolderNotCreatedException("Failed to create directory.");
         }
@@ -54,7 +50,7 @@ public class ImageCachingService : IImageCachingService
 
         var fileInfo = new FileInfo(filePath);
 
-        byte[] byteArray = new byte[fileInfo.Length];
+        var byteArray = new byte[fileInfo.Length];
 
         using var fileStream = fileInfo.OpenRead();
 
@@ -72,4 +68,6 @@ public class ImageCachingService : IImageCachingService
             file.Delete();
         }
     }
+
+    private bool DoesCachingDirectoryExist() => Directory.Exists(_cachingFolder);
 }

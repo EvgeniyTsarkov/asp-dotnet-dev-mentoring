@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Core.Constants;
 using NorthwindWebsite.Middleware;
 
 namespace NorthwindWebsite.Configuration;
@@ -32,7 +33,7 @@ public static class MiddlewareConfiguration
 
         app.UseResponseCaching();
 
-        app.UseMiddleware<ImageCachingMiddleware>();
+        app.UseImageCachingMiddleware();
 
         app.UseHttpsRedirection();
 

@@ -5,6 +5,8 @@ using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Infrastructure.Repositories.Implementation;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Middleware;
+using NorthwindWebsite.Middleware.Handlers.Implementations;
+using NorthwindWebsite.Middleware.Handlers.Interfaces;
 using NorthwindWebsite.Services.Implementations;
 using NorthwindWebsite.Services.Interfaces;
 
@@ -34,7 +36,7 @@ public static class ServicesConfiguration
         services.AddTransient<IProductService, ProductService>();
         services.AddTransient<ISupplierService, SupplierService>();
 
-        services.AddTransient<IImageCachingService, ImageCachingService>();
+        services.AddTransient<IImageCachingHandler, ImageCachingHandler>();
 
         services.AddTransient<ImageCachingMiddleware>();
 
