@@ -6,9 +6,11 @@ public interface IImageCachingHandler
 
     int GetNumberOfFilesInCachingFolder();
 
-    void CreateFolderIfDoesNotExists();
+    void CreateCachingFolder();
 
     byte[] GetImageFromCache(int index);
 
     void DumpImageCache();
+
+    bool DoesCachingDirectoryExist();
 }

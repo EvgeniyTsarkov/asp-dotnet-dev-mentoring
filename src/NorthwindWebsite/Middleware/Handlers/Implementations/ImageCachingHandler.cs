@@ -31,12 +31,9 @@ public class ImageCachingHandler : IImageCachingHandler
     public int GetNumberOfFilesInCachingFolder() =>
         Directory.GetFiles(_cachingFolder).Length;
 
-    public void CreateFolderIfDoesNotExists()
+    public void CreateCachingFolder()
     {
-        if (!DoesCachingDirectoryExist())
-        {
-            Directory.CreateDirectory(_cachingFolder);
-        }
+        Directory.CreateDirectory(_cachingFolder);
 
         if (!DoesCachingDirectoryExist())
         {
@@ -69,5 +66,5 @@ public class ImageCachingHandler : IImageCachingHandler
         }
     }
 
-    private bool DoesCachingDirectoryExist() => Directory.Exists(_cachingFolder);
+    public bool DoesCachingDirectoryExist() => Directory.Exists(_cachingFolder);
 }

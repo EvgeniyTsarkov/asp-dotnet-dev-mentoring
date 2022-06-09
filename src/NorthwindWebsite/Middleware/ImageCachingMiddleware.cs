@@ -1,14 +1,14 @@
 ﻿using NorthwindWebsite.Core.ApplicationSettings;
 using NorthwindWebsite.Core.Constants;
-using NorthwindWebsite.Core.Utils;
 using NorthwindWebsite.Middleware.Handlers.Interfaces;
+using NorthwindWebsite.Presentation.Utils;
 
 namespace NorthwindWebsite.Middleware;
 
 public class ImageCachingMiddleware : IMiddleware
 {
     private readonly AppSettings _appSettings;
-    private readonly IImageCachingHandler _imageCachingService;
+    private readonly IImageCachingHandler _imageCachingHandler;
     private readonly ILogger<ImageCachingMiddleware> _logger;
 
     public ImageCachingMiddleware(
@@ -17,25 +17,30 @@ public class ImageCachingMiddleware : IMiddleware
         ILogger<ImageCachingMiddleware> logger)
     {
         _appSettings = appSettings;
-        _imageCachingService = cacheService;
+        _imageCachingHandler = cacheService;
         _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var expiresParsed = DateTime.TryParse(context.Response.Headers["expires"], out var expires);
+        var isExpiresValueParsed = DateTime.TryParse(context.Response.Headers["expires"], out var expires);
 
         var requestPath = context.Request.Path.Value;
 
-        string imageIndex = requestPath!.GetImageIndexFromRequest();
+        var imageIndex = UrlUtils.GetImageIndexFromRequest(requestPath);
 
-        _imageCachingService.CreateFolderIfDoesNotExists();
+        ValidateCachingDerectoryExistence();
 
-        if (_imageCachingService.IsContained(imageIndex))
+        if (isExpiresValueParsed && expires.Subtract(DateTime.Now) <= TimeSpan.Zero)
         {
-            var indexParsed = int.TryParse(imageIndex, out var index);
+            _imageCachingHandler.DumpImageCache();
+        }
 
-            if (indexParsed)
+        if (_imageCachingHandler.IsContained(imageIndex))
+        {
+            var isImageIndexParsed = int.TryParse(imageIndex, out var index);
+
+            if (isImageIndexParsed)
             {
                 _logger.LogWarning("Getting image from cache");
 
@@ -44,18 +49,13 @@ public class ImageCachingMiddleware : IMiddleware
         }
         else
         {
-            if (expiresParsed && expires.Subtract(DateTime.Now) <= TimeSpan.Zero)
-            {
-                _imageCachingService.DumpImageCache();
-            }
-
             await GetImageFromResponseAndCacheIt(context, next, imageIndex);
         }
     }
 
     private async Task GetImageFromCache(HttpContext context, int index)
     {
-        var imageAsBytes = _imageCachingService.GetImageFromCache(index);
+        var imageAsBytes = _imageCachingHandler.GetImageFromCache(index);
 
         using var stream = new MemoryStream(imageAsBytes);
 
@@ -81,12 +81,14 @@ public class ImageCachingMiddleware : IMiddleware
 
         await next.Invoke(context);
 
-        var numberOfFilesInCachingFolder = _imageCachingService.GetNumberOfFilesInCachingFolder();
+        var numberOfFilesInCachingFolder = _imageCachingHandler.GetNumberOfFilesInCachingFolder();
 
         var contentType = context.Response.ContentType;
 
-        if (contentType != null
-            && contentType.Contains(HttpContentConstants.ImageBmp)
+        var contentTypeIsNotNull = contentType != null;
+
+        if (contentTypeIsNotNull
+            && contentType!.Contains(HttpContentConstants.ImageBmp)
             && numberOfFilesInCachingFolder < _appSettings.CachingConfigs.CacheSize)
         {
             memoryStream.Position = default;
@@ -107,4 +109,14 @@ public class ImageCachingMiddleware : IMiddleware
             AppDomain.CurrentDomain.BaseDirectory,
             _appSettings.CachingConfigs.CachingFolder,
             imageIndex, FileNameConstants.BmpExtension);
+
+    private void ValidateCachingDerectoryExistence()
+    {
+        var doesDirectoryExist = _imageCachingHandler.DoesCachingDirectoryExist();
+
+        if (!doesDirectoryExist)
+        {
+            _imageCachingHandler.CreateCachingFolder();
+        }
+    }
 }
