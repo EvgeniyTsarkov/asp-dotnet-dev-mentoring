@@ -23,18 +23,13 @@ public class ImageCachingMiddleware : IMiddleware
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        var isExpiresValueParsed = DateTime.TryParse(context.Response.Headers["expires"], out var expires);
+        ClearCacheIfResponseExpired(context);
 
         var requestPath = context.Request.Path.Value;
 
         var imageIndex = UrlUtils.GetImageIndexFromRequest(requestPath);
 
-        ValidateCachingDerectoryExistence();
-
-        if (isExpiresValueParsed && expires.Subtract(DateTime.Now) <= TimeSpan.Zero)
-        {
-            _imageCachingHandler.DumpImageCache();
-        }
+        ValidateCachingDirectoryExistence();
 
         if (_imageCachingHandler.IsContained(imageIndex))
         {
@@ -83,13 +78,11 @@ public class ImageCachingMiddleware : IMiddleware
 
         var numberOfFilesInCachingFolder = _imageCachingHandler.GetNumberOfFilesInCachingFolder();
 
-        var contentType = context.Response.ContentType;
+        var shouldStreamBeWritten = context.Response.ContentType != null
+            && context.Response.ContentType!.Contains(HttpContentConstants.ImageBmp)
+            && numberOfFilesInCachingFolder < _appSettings.CachingConfigs.CacheSize;
 
-        var contentTypeIsNotNull = contentType != null;
-
-        if (contentTypeIsNotNull
-            && contentType!.Contains(HttpContentConstants.ImageBmp)
-            && numberOfFilesInCachingFolder < _appSettings.CachingConfigs.CacheSize)
+        if (shouldStreamBeWritten)
         {
             memoryStream.Position = default;
 
@@ -110,13 +103,31 @@ public class ImageCachingMiddleware : IMiddleware
             _appSettings.CachingConfigs.CachingFolder,
             imageIndex, FileNameConstants.BmpExtension);
 
-    private void ValidateCachingDerectoryExistence()
+    private void ValidateCachingDirectoryExistence()
     {
         var doesDirectoryExist = _imageCachingHandler.DoesCachingDirectoryExist();
 
         if (!doesDirectoryExist)
         {
             _imageCachingHandler.CreateCachingFolder();
+        }
+    }
+
+    private async void ClearCacheIfResponseExpired(HttpContext context)
+    {
+        if (context.Response.Headers.ContainsKey("expires"))
+        {
+            var isExpiresValueParsed = DateTime.TryParse(context.Response.Headers["expires"], out var expires);
+
+            if (!isExpiresValueParsed)
+            {
+                throw new BadHttpRequestException("Incorrect image index format.");
+            }
+            else
+            if (expires.Subtract(DateTime.Now) <= TimeSpan.Zero)
+            {
+                _imageCachingHandler.DumpImageCache();
+            }
         }
     }
 }

@@ -43,7 +43,7 @@ public class ImageCachingHandler : IImageCachingHandler
 
     public byte[] GetImageFromCache(int index)
     {
-        var filePath = string.Concat(_cachingFolder, index, FileNameConstants.BmpExtension);
+        var filePath = CreateImagePathWithIndex(index);
 
         var fileInfo = new FileInfo(filePath);
 
@@ -66,5 +66,9 @@ public class ImageCachingHandler : IImageCachingHandler
         }
     }
 
-    public bool DoesCachingDirectoryExist() => Directory.Exists(_cachingFolder);
+    public bool DoesCachingDirectoryExist() =>
+        Directory.Exists(_cachingFolder);
+
+    private string CreateImagePathWithIndex(int index) =>
+        string.Concat(_cachingFolder, index, FileNameConstants.BmpExtension);
 }
