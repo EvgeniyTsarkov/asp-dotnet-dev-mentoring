@@ -113,7 +113,7 @@ public class ImageCachingMiddleware : IMiddleware
         }
     }
 
-    private async void ClearCacheIfResponseExpired(HttpContext context)
+    private void ClearCacheIfResponseExpired(HttpContext context)
     {
         if (context.Response.Headers.ContainsKey("expires"))
         {
