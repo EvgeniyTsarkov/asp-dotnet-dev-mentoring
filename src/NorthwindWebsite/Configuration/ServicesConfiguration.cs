@@ -2,6 +2,7 @@
 using NorthwindWebsite.Business.Services.Implementations;
 using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Filters;
 using NorthwindWebsite.Infrastructure.Repositories.Implementation;
 using NorthwindWebsite.Infrastructure.Repositories.Interfaces;
 using NorthwindWebsite.Middleware;
@@ -17,7 +18,8 @@ public static class ServicesConfiguration
     public static void AddServicesConfiguration(
         this IServiceCollection services, AppSettings appSettings)
     {
-        services.AddControllersWithViews();
+        services.AddControllersWithViews(options => 
+            options.Filters.Add<LoggingActionFilter>());
 
         services.AddDbContextConfiguration(appSettings.ConnectionStrings.Default);
 
