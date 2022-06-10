@@ -17,6 +17,7 @@ public class LoggingActionFilter : IActionFilter
         _appSettings = appSettings;
         _loggingEnabled = appSettings.SerilogConfiguration.ActionsLogging;
     }
+
     public void OnActionExecuting(ActionExecutingContext context)
     {
         if (_loggingEnabled)
