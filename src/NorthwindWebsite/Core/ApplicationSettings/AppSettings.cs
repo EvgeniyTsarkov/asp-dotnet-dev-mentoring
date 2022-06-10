@@ -1,4 +1,5 @@
 ﻿using NetEscapades.Configuration.Validation;
+using NorthwindWebsite.Core.ApplicationSettings.CachingFiles;
 
 namespace NorthwindWebsite.Core.ApplicationSettings;
 
@@ -16,6 +17,8 @@ public class AppSettings : IValidatable
 
     public FileUploadOptions FileUploadOptions { get; set; }
 
+    public CachingConfigs CachingConfigs { get; set;  }
+
     public AppSettings GetAppSettings(IConfiguration configuration) =>
         new()
         {
@@ -25,6 +28,7 @@ public class AppSettings : IValidatable
             Localization = configuration.GetSection(nameof(Localization)).Get<Localization>(),
             SerilogConfiguration = configuration.GetSection(nameof(Serilog)).Get<SerilogConfig>(),
             FileUploadOptions = configuration.GetSection(nameof(FileUploadOptions)).Get<FileUploadOptions>(),
+            CachingConfigs = configuration.GetSection(nameof(CachingConfigs)).Get<CachingConfigs>()
         };
 
     public void Validate()

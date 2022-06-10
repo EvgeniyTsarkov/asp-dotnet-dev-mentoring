@@ -8,10 +8,14 @@ namespace NorthwindWebsite.Services.Implementations;
 public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _categoryRepository;
+    private readonly ILogger<CategoryService> _logger;
 
-    public CategoryService(ICategoryRepository categoryRepository)
+    public CategoryService(
+        ICategoryRepository categoryRepository,
+        ILogger<CategoryService> logger)
     {
         _categoryRepository = categoryRepository;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<Category>> GetAll() =>
@@ -47,6 +51,10 @@ public class CategoryService : ICategoryService
         await _categoryRepository.Update(category);
     }
 
-    public async Task<byte[]> GetImage(int id) =>
-        await _categoryRepository.GetImage(id);
+    public async Task<byte[]> GetImage(int id)
+    {
+        _logger.LogWarning("Getting image from database.");
+
+        return await _categoryRepository.GetImage(id);
+    }
 }

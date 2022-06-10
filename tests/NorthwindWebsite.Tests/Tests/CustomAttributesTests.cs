@@ -12,8 +12,7 @@ public class CustomAttributesTests
     private const int NormalFileSize = 2_000_000;
 
     private readonly Mock<IServiceProvider> _serviceProviderMock = new();
-    private readonly CategoriesTestDataProvider _dataProvider = new();
-    private readonly AppSettings _appSettings = new AppSettings
+    private readonly AppSettings _appSettings = new()
     {
         FileUploadOptions = new FileUploadOptions
         {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NorthwindWebsite.Business.Models;
+using NorthwindWebsite.Core.Constants;
 using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.Controllers;
@@ -56,7 +57,7 @@ public class CategoriesController : Controller
             return NotFound();
         }
 
-        return File(imageByteArray, "image/bmp");
+        return File(imageByteArray, HttpContentConstants.ImageBmp);
     }
 
     public IActionResult BackToCategories() =>
