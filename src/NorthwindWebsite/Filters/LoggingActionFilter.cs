@@ -30,9 +30,7 @@ public class LoggingFilter : IActionFilter
         _logger.LogWarning(string.Format("Path: {0}", context.HttpContext.Request.Path));
         _logger.LogWarning("Request headers:");
 
-        context.HttpContext.Request.Headers.ToList()
-            .ForEach(header =>
-                _logger.LogWarning($"{header.Key}: {header.Value}"));
+        LogHeaders(context.HttpContext.Request.Headers);
     }
 
     public void OnActionExecuted(ActionExecutedContext context)
@@ -46,12 +44,14 @@ public class LoggingFilter : IActionFilter
         _logger.LogWarning(string.Format("Status code: {0}", context.HttpContext.Response.StatusCode));
         _logger.LogWarning(string.Format("Response headers:"));
 
-        context.HttpContext.Response.Headers.ToList()
-            .ForEach(header =>
-                _logger.LogWarning($"{header.Key}: {header.Value}"));
+        LogHeaders(context.HttpContext.Response.Headers);
 
         var containsBody = context.HttpContext.Response.Body.CanRead;
 
         _logger.LogWarning(string.Format("Contains body: {0}", containsBody));
     }
+
+    private void LogHeaders(IHeaderDictionary headers) =>
+        headers.ToList().ForEach(header =>
+                _logger.LogWarning($"{header.Key}: {header.Value}"));
 }
