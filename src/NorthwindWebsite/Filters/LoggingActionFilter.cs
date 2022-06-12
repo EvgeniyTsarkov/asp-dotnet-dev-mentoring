@@ -73,7 +73,8 @@ public class LoggingFilter : IActionFilter
 
         context.Request.Body.Position = 0;
 
-        using (var bodyReader = new StreamReader(context.Request.Body, Encoding.ASCII, true, 1024, leaveOpen: true))
+        using (var bodyReader = new StreamReader(context.Request.Body, Encoding.ASCII, 
+            detectEncodingFromByteOrderMarks: true, bufferSize: 1024, leaveOpen: true))
         {
             body = await bodyReader.ReadToEndAsync();
         };
