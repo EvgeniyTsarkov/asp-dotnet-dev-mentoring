@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using NorthwindWebsite.Core.ApplicationSettings;
+using System.Text;
 
 namespace NorthwindWebsite.Filters;
 
 public class LoggingFilter : IActionFilter
 {
     private readonly ILogger<LoggingFilter> _logger;
-    private readonly AppSettings _appSettings;
     private readonly bool _isLoggingEnabled;
 
     public LoggingFilter(
@@ -14,23 +14,35 @@ public class LoggingFilter : IActionFilter
         AppSettings appSettings)
     {
         _logger = logger;
-        _appSettings = appSettings;
         _isLoggingEnabled = appSettings.SerilogConfiguration.ActionsLoggingEnabled;
     }
 
-    public void OnActionExecuting(ActionExecutingContext context)
+    public async void OnActionExecuting(ActionExecutingContext context)
     {
         if (!_isLoggingEnabled)
         {
             return;
         }
 
-        _logger.LogWarning(string.Format("Action '{0}' started...", context.ActionDescriptor.DisplayName));
-        _logger.LogWarning(string.Format("Method: {0}", context.HttpContext.Request.Method));
-        _logger.LogWarning(string.Format("Path: {0}", context.HttpContext.Request.Path));
-        _logger.LogWarning("Request headers:");
+        _logger.LogInformation(string.Format("Action '{0}' started...", context.ActionDescriptor.DisplayName));
+        _logger.LogInformation(string.Format("Method: {0}", context.HttpContext.Request.Method));
+        _logger.LogInformation(string.Format("Path: {0}", context.HttpContext.Request.Path));
+        _logger.LogInformation("Request headers:");
 
-        LogHeaders(context.HttpContext.Request.Headers);
+        LogHeaders(context.HttpContext.Request.Headers, "Request");
+
+        var containsBody = context.HttpContext.Request.ContentLength != null;
+
+        if (!containsBody)
+        {
+            return;
+        }
+
+        _logger.LogInformation(string.Format("Contains body: {0}", containsBody));
+
+        var requestBody = await RequestBodyToString(context.HttpContext);
+
+        _logger.LogInformation(string.Format("RequestBody: {0}", requestBody));
     }
 
     public void OnActionExecuted(ActionExecutedContext context)
@@ -40,18 +52,34 @@ public class LoggingFilter : IActionFilter
             return;
         }
 
-        _logger.LogWarning(string.Format("Action '{0}' finished...", context.ActionDescriptor.DisplayName));
-        _logger.LogWarning(string.Format("Status code: {0}", context.HttpContext.Response.StatusCode));
-        _logger.LogWarning(string.Format("Response headers:"));
+        _logger.LogInformation(string.Format("Action '{0}' finished...", context.ActionDescriptor.DisplayName));
+        _logger.LogInformation(string.Format("Status code: {0}", context.HttpContext.Response.StatusCode));
+        _logger.LogInformation(string.Format("Response headers:"));
 
-        LogHeaders(context.HttpContext.Response.Headers);
-
-        var containsBody = context.HttpContext.Response.Body.CanRead;
-
-        _logger.LogWarning(string.Format("Contains body: {0}", containsBody));
+        LogHeaders(context.HttpContext.Response.Headers, "Response");
     }
 
-    private void LogHeaders(IHeaderDictionary headers) =>
+    private void LogHeaders(IHeaderDictionary headers, string contextType)
+    {
+        _logger.LogInformation($"{contextType} headers:");
+
         headers.ToList().ForEach(header =>
-                _logger.LogWarning($"{header.Key}: {header.Value}"));
+                _logger.LogInformation($"{header.Key}: {header.Value}"));
+    }
+
+    private static async Task<string> RequestBodyToString(HttpContext context)
+    {
+        var body = string.Empty;
+
+        context.Request.Body.Position = 0;
+
+        using (var bodyReader = new StreamReader(context.Request.Body, Encoding.ASCII, true, 1024, leaveOpen: true))
+        {
+            body = await bodyReader.ReadToEndAsync();
+        };
+
+        context.Request.Body.Position = 0;
+
+        return body;
+    }
 }

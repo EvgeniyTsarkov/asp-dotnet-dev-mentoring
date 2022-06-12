@@ -18,7 +18,7 @@ public static class ServicesConfiguration
     public static void AddServicesConfiguration(
         this IServiceCollection services, AppSettings appSettings)
     {
-        services.AddControllersWithViews(options => 
+        services.AddControllersWithViews(options =>
             options.Filters.Add<LoggingFilter>());
 
         services.AddDbContextConfiguration(appSettings.ConnectionStrings.Default);
