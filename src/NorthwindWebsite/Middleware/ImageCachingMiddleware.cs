@@ -37,8 +37,6 @@ public class ImageCachingMiddleware : IMiddleware
 
             if (isImageIndexParsed)
             {
-                _logger.LogWarning("Getting image from cache");
-
                 await GetImageFromCache(context, index);
             }
         }

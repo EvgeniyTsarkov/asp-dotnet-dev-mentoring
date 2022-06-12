@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Localization;
 using NorthwindWebsite.Core.ApplicationSettings;
-using NorthwindWebsite.Core.Constants;
-using NorthwindWebsite.Middleware;
 
 namespace NorthwindWebsite.Configuration;
 
@@ -25,6 +23,12 @@ public static class MiddlewareConfiguration
         {
             app.UseDeveloperExceptionPage();
         }
+
+        app.Use(async (context, next) =>
+        {
+            context.Request.EnableBuffering();
+            await next();
+        });
 
         app.UseRequestLocalization(new RequestLocalizationOptions
         {
