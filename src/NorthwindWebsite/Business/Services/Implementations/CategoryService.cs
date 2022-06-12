@@ -53,8 +53,6 @@ public class CategoryService : ICategoryService
 
     public async Task<byte[]> GetImage(int id)
     {
-        _logger.LogWarning("Getting image from database.");
-
         return await _categoryRepository.GetImage(id);
     }
 }

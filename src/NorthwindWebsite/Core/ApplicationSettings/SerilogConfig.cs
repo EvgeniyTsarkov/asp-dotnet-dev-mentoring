@@ -8,6 +8,8 @@ namespace NorthwindWebsite.Core.ApplicationSettings
     {
         public MinimumLevel MinimumLevel { get; set; }
 
+        public bool ActionsLoggingEnabled { get; set; }
+
         [Required]
         public List<WriteTo> WriteTo { get; set; }
 
