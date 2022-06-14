@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Northwind</title>
+    <title>@ViewData["Title"] - Northwind Website</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -45,24 +45,14 @@
             </nav>
         }
     </header>
+    <center class="align-content-center">
+        <img class="header-image img-fluid" src="~/images/groceries-header.png">
+    </center>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
-    @if (IsSectionDefined("customFooter"))
-    {
-        @RenderSection("customFooter")
-    }
-    else
-    {
-        <footer id="footer" class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2022 - Northwind Website - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-    }
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
