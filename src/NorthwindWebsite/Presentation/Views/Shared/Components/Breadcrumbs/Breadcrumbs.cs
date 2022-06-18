@@ -21,40 +21,40 @@ public class Breadcrumbs : ViewComponent
 
     private static List<string> ProcessSpecialCases(string path)
     {
-        var pathAsArray = path.Split('/');
+        var originalPathSegments = path.Split('/');
 
-        var pathAsList = new List<string>();
+        var breadcrumbPathSegments = new List<string>();
 
-        foreach (var node in pathAsArray)
+        foreach (var node in originalPathSegments)
         {
             if (node == HandleActionName)
             {
-                if (pathAsArray.Last() == HandleActionName)
+                if (originalPathSegments.Last() == HandleActionName)
                 {
-                    pathAsList.Add("Create new");
+                    breadcrumbPathSegments.Add("Create new");
                     continue;
                 }
                 else
                 {
-                    pathAsList.Add("Edit");
+                    breadcrumbPathSegments.Add("Edit");
                     break;
                 }
             }
 
             if (node == ImageUploadActionName)
             {
-                pathAsList.Add("Image Upload");
+                breadcrumbPathSegments.Add("Image Upload");
                 break;
             }
 
-            pathAsList.Add(node);
+            breadcrumbPathSegments.Add(node);
         }
 
-        if (pathAsList.Contains("Home/"))
+        if (breadcrumbPathSegments.Contains(NavigationStartPoint))
         {
-            pathAsList.Remove("Home/");
+            breadcrumbPathSegments.Remove(NavigationStartPoint);
         }
 
-        return pathAsList;
+        return breadcrumbPathSegments;
     }
 }
