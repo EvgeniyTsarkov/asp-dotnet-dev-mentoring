@@ -33,7 +33,7 @@
             @foreach (var category in firstRowCategories)
             {
                 <td>
-                    <northwind-image id="@category.CategoryId">
+                    <northwind-image id="@category.CategoryId" text="Image for category @category.CategoryId">
                         @Html.NorthwindImageLink(@category.CategoryId, @imageWidth, @imageHeight, @imageType)
                     </northwind-image>
                 </td>
@@ -50,7 +50,7 @@
             @foreach (var category in secondRowCategories)
             {
                 <td>
-                    <northwind-image id="@category.CategoryId">
+                    <northwind-image id="@category.CategoryId" text="Image for category @category.CategoryId">
                         @Html.NorthwindImageLink(@category.CategoryId, @imageWidth, @imageHeight, @imageType)
                     </northwind-image>
                 </td>
