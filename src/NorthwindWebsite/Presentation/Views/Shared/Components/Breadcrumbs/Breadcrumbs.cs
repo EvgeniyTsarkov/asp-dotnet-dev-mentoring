@@ -12,48 +12,49 @@ public class Breadcrumbs : ViewComponent
     {
         var path = HttpContext.Request.Path.ToString();
 
-        var processedArray = ProcessSpecialCases(path);
+        var processedPathAsList = ProcessSpecialCases(path);
 
-        var readyBreadcrumbs = string.Join(" > ", processedArray);
+        var breadcrumbs = NavigationStartPoint + string.Join(" > ", processedPathAsList);
 
-        var breadcrembs = string.Concat(NavigationStartPoint, readyBreadcrumbs);
-
-        return View("_Breadcrumbs", breadcrembs);
+        return View("_Breadcrumbs", breadcrumbs);
     }
 
-    private static string[] ProcessSpecialCases(string path)
+    private static List<string> ProcessSpecialCases(string path)
     {
         var pathAsArray = path.Split('/');
 
-        for (var i = 0; i < pathAsArray.Length; i++)
+        var pathAsList = new List<string>();
+
+        foreach (var node in pathAsArray)
         {
-            if (pathAsArray[i] == HandleActionName)
+            if (node == HandleActionName)
             {
                 if (pathAsArray.Last() == HandleActionName)
                 {
-                    pathAsArray[i] = "Create New";
+                    pathAsList.Add("Create new");
+                    continue;
                 }
                 else
                 {
-                    pathAsArray[i] = "Edit";
-                    var lastElementValue = pathAsArray.Last();
-                    pathAsArray = pathAsArray.Where(item => item != lastElementValue).ToArray();
+                    pathAsList.Add("Edit");
+                    break;
                 }
             }
 
-            if (pathAsArray[i] == ImageUploadActionName)
+            if (node == ImageUploadActionName)
             {
-                pathAsArray[i] = "Image Upload";
-                var lastElementValue = pathAsArray.Last();
-                pathAsArray = pathAsArray.Where(item => item != lastElementValue).ToArray();
+                pathAsList.Add("Image Upload");
+                break;
             }
 
-            if (pathAsArray[i] == NavigationStartPoint)
-            {
-                pathAsArray = pathAsArray.Where(item => item != "Home/").ToArray();
-            }
+            pathAsList.Add(node);
         }
 
-        return pathAsArray;
+        if (pathAsList.Contains("Home/"))
+        {
+            pathAsList.Remove("Home/");
+        }
+
+        return pathAsList;
     }
 }
