@@ -1,5 +1,7 @@
 ﻿@using NorthwindWebsite.Business.Models
 @using NorthwindWebsite.Infrastructure.Entities
+@using NorthwindWebsite.Presentation.HtmlHelpers
+@addTagHelper *, NorthwindWebsite
 
 @model List<Category>
 
@@ -31,10 +33,9 @@
             @foreach (var category in firstRowCategories)
             {
                 <td>
-                    <a href="@Url.Action("ImageUpload", new { id = category.CategoryId})">
-                        <img src="@Url.Action("Images", new { id = category.CategoryId})"
-                         width=@imageWidth, height=@imageHeight type=@imageType />
-                    </a>
+                    <northwind-image id="@category.CategoryId">
+                        @Html.NorthwindImageLink(@category.CategoryId, @imageWidth, @imageHeight, @imageType)
+                    </northwind-image>
                 </td>
             }
         <tr class="text-center">
@@ -49,10 +50,9 @@
             @foreach (var category in secondRowCategories)
             {
                 <td>
-                    <a href="@Url.Action("ImageUpload", new { id = category.CategoryId})">
-                        <img src="@Url.Action("Images", new { id = category.CategoryId})"
-                         width=@imageWidth, height=@imageHeight type=@imageType />
-                    </a>
+                    <northwind-image id="@category.CategoryId">
+                        @Html.NorthwindImageLink(@category.CategoryId, @imageWidth, @imageHeight, @imageType)
+                    </northwind-image>
                 </td>
             }
         </tr>
