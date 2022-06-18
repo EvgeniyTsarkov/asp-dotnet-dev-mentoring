@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Text;
 
 namespace NorthwindWebsite.Presentation.Views.Shared.Components.Breadcrumps;
 
@@ -13,46 +12,48 @@ public class Breadcrumbs : ViewComponent
     {
         var path = HttpContext.Request.Path.ToString();
 
-        var breadcrumps = new StringBuilder(NavigationStartPoint);
+        var processedArray = ProcessSpecialCases(path);
 
-        var processedPath = ProcessSpecialCases(path);
+        var readyBreadcrumbs = string.Join(" > ", processedArray);
 
-        breadcrumps.Append(processedPath.Replace("/", " > "));
+        var breadcrembs = string.Concat(NavigationStartPoint, readyBreadcrumbs);
 
-        return View("_Breadcrumbs", breadcrumps);
+        return View("_Breadcrumbs", breadcrembs);
     }
 
-    private static StringBuilder ProcessSpecialCases(string path)
+    private static string[] ProcessSpecialCases(string path)
     {
-        var processedPath = new StringBuilder(string.Empty);
+        var pathAsArray = path.Split('/');
 
-        if (path.Contains(HandleActionName))
+        for (var i = 0; i < pathAsArray.Length; i++)
         {
-            if (path.EndsWith(HandleActionName))
+            if (pathAsArray[i] == HandleActionName)
             {
-                processedPath.Append(path.Replace(HandleActionName, "Create New"));
+                if (pathAsArray.Last() == HandleActionName)
+                {
+                    pathAsArray[i] = "Create New";
+                }
+                else
+                {
+                    pathAsArray[i] = "Edit";
+                    var lastElementValue = pathAsArray.Last();
+                    pathAsArray = pathAsArray.Where(item => item != lastElementValue).ToArray();
+                }
             }
-            else
+
+            if (pathAsArray[i] == ImageUploadActionName)
             {
-                var pathElements = path.Split(HandleActionName);
-                processedPath.Append(pathElements[0] + "Edit");
+                pathAsArray[i] = "Image Upload";
+                var lastElementValue = pathAsArray.Last();
+                pathAsArray = pathAsArray.Where(item => item != lastElementValue).ToArray();
+            }
+
+            if (pathAsArray[i] == NavigationStartPoint)
+            {
+                pathAsArray = pathAsArray.Where(item => item != "Home/").ToArray();
             }
         }
-        else if (path.Contains(ImageUploadActionName))
-        {
-            var pathElements = path.Split(ImageUploadActionName);
-            processedPath.Append(pathElements[0] + "Image Upload");
-        }
-        else
-        {
-            processedPath.Append(path);
-        }
 
-        if (path.Contains(NavigationStartPoint))
-        {
-            processedPath.Replace("Home/", string.Empty);
-        }
-
-        return processedPath;
+        return pathAsArray;
     }
 }
