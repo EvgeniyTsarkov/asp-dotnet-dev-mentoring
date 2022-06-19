@@ -5,7 +5,7 @@ namespace NorthwindWebsite.Presentation.HtmlHelpers;
 [HtmlTargetElement("northwind-image", TagStructure = TagStructure.NormalOrSelfClosing)]
 public class NorthwindImageTagHelper : TagHelper
 {
-    private const string ImageUploadLinkPatern = "/Categories/ImageUpload/";
+    private const string ImageUploadLink = "/Categories/ImageUpload/";
 
     public int Id { get; set; }
 
@@ -15,7 +15,7 @@ public class NorthwindImageTagHelper : TagHelper
     {
         output.TagName = "a";
 
-        var uploadImageLink = string.Concat(ImageUploadLinkPatern, Id);
+        var uploadImageLink = string.Concat(ImageUploadLink, Id);
 
         output.Attributes.SetAttribute("href", uploadImageLink);
 
