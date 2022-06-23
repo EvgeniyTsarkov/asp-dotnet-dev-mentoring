@@ -47,5 +47,7 @@ public static class ServicesConfiguration
         services.AddScoped<ISupplierRepository, SupplierRepository>();
 
         services.AddResponseCaching();
+
+        services.AddRouting(options => options.LowercaseUrls = true);
     }
 }
