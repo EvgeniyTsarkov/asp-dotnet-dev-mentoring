@@ -16,7 +16,7 @@ public class CategoriesController : ControllerBase
 
     [HttpGet(Name = nameof(GetCategories))]
     [ProducesResponseType(200)]
-    public async Task<IActionResult> GetCategories()
+    public async Task<ActionResult> GetCategories()
     {
         var categories = await _categoryService.GetAll();
 

@@ -16,7 +16,7 @@ public class ProductsController : ControllerBase
 
     [HttpGet(Name = nameof(GetProducts))]
     [ProducesResponseType(200)]
-    public async Task<IActionResult> GetProducts()
+    public async Task<ActionResult> GetProducts()
     {
         var products = await _productService.GetAll();
 

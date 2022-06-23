@@ -2,11 +2,11 @@
 
 namespace NorthwindWebsite.API.Controllers;
 
-[Route("/api")]
+[Route("api")]
 [ApiController]
-public class RootController : Controller
+public class RootController : ControllerBase
 {
-    public IActionResult GetRoot()
+    public ActionResult GetRoot()
     {
         var response = new
         {
