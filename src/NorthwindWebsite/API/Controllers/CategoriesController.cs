@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NorthwindWebsite.Infrastructure.Entities;
 using NorthwindWebsite.Services.Interfaces;
 
 namespace NorthwindWebsite.API.Controllers;
@@ -15,11 +16,11 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet(Name = nameof(GetCategories))]
-    [ProducesResponseType(200)]
-    public async Task<ActionResult> GetCategories()
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<Category>>> GetCategories()
     {
         var categories = await _categoryService.GetAll();
 
-        return Ok(categories.ToList());
+        return categories.ToList();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NorthwindWebsite.Business.Services.Interfaces;
+using NorthwindWebsite.Entities;
 
 namespace NorthwindWebsite.API.Controllers;
 
@@ -15,11 +16,11 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet(Name = nameof(GetProducts))]
-    [ProducesResponseType(200)]
-    public async Task<ActionResult> GetProducts()
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<Product>>> GetProducts()
     {
         var products = await _productService.GetAll();
 
-        return Ok(products.ToList());
+        return products.Products;
     }
 }

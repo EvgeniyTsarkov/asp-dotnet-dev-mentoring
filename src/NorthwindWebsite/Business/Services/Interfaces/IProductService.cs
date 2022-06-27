@@ -5,7 +5,7 @@ namespace NorthwindWebsite.Business.Services.Interfaces;
 
 public interface IProductService
 {
-    Task<IEnumerable<Product>> GetAll();
+    Task<ProductsDto> GetAll();
 
     Task<ProductsDto> GetProducts();
 
