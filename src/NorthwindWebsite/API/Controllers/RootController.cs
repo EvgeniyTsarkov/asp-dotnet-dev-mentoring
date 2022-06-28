@@ -6,14 +6,10 @@ namespace NorthwindWebsite.API.Controllers;
 [ApiController]
 public class RootController : ControllerBase
 {
-    public ActionResult GetRoot()
-    {
-        var response = new
+    public ActionResult<object> GetRoot() =>
+        new
         {
             products = new { href = Url.Link(nameof(ProductsController.GetProducts), null) },
             categories = new { href = Url.Link(nameof(CategoriesController.GetCategories), null) }
         };
-
-        return Ok(response);
-    }
 }
