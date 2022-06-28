@@ -26,6 +26,13 @@ public class ProductService : IProductService
         _supplierService = supplierService;
     }
 
+    public async Task<ProductsDto> GetAll() =>
+        new ProductsDto
+        {
+            Products = await _productRepository.GetAll()
+        };
+
+
     public async Task<ProductsDto> GetProducts()
     {
         var productsListDto = new ProductsDto();
