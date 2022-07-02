@@ -1,0 +1,26 @@
+﻿<h1>Categories from API</h1>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<link rel="stylesheet" href="~/css/categories-from-api.css" />
+
+<div>
+    <ul id="categories" />
+</div>
+
+<script>
+    let $categoriesList = $('#categories');
+    let apiUrl = '../api/categories/';
+    let method = 'GET';
+
+    $(function(){
+        $.ajax({
+        type: method,
+        url: apiUrl,
+        success: function(categories) {
+           $.each(categories, function(i, category){
+                $categoriesList.append('<li class="list-item">' + category.categoryName);
+                });
+            }
+        });
+    });
+</script>

@@ -60,6 +60,9 @@ public class CategoriesController : Controller
         return File(imageByteArray, HttpContentConstants.ImageBmp);
     }
 
+    public IActionResult FromApi() =>
+        View("FromApi");
+
     public IActionResult BackToCategories() =>
         RedirectToAction("Index");
 }

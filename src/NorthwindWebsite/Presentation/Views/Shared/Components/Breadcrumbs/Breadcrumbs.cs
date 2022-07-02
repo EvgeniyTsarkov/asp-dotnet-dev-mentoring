@@ -4,13 +4,17 @@ namespace NorthwindWebsite.Presentation.Views.Shared.Components.Breadcrumps;
 
 public class Breadcrumbs : ViewComponent
 {
-    private const string NavigationStartPoint = "Home";
-    private const string HandleActionName = "Handle";
-    private const string ImageUploadActionName = "ImageUpload";
+    private const string NavigationStartPoint = "home";
+    private const string HandleActionName = "handle";
+    private const string ImageUploadActionName = "imageupload";
+    private const string FromApiActionName = "fromapi";
+
 
     public IViewComponentResult Invoke()
     {
-        var path = HttpContext.Request.Path.ToString();
+        var path = HttpContext.Request.Path
+            .ToString()
+            .ToLower();
 
         var processedPathAsList = ProcessSpecialCases(path);
 
@@ -31,19 +35,25 @@ public class Breadcrumbs : ViewComponent
             {
                 if (originalPathSegments.Last() == HandleActionName)
                 {
-                    breadcrumbPathSegments.Add("Create new");
+                    breadcrumbPathSegments.Add("create new");
                     continue;
                 }
                 else
                 {
-                    breadcrumbPathSegments.Add("Edit");
+                    breadcrumbPathSegments.Add("edit");
                     break;
                 }
             }
 
             if (node == ImageUploadActionName)
             {
-                breadcrumbPathSegments.Add("Image Upload");
+                breadcrumbPathSegments.Add("image upload");
+                break;
+            }
+
+            if (node == FromApiActionName) 
+            {
+                breadcrumbPathSegments.Add("from api");
                 break;
             }
 
