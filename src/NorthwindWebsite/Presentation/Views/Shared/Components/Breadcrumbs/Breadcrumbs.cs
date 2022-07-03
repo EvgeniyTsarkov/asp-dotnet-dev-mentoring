@@ -7,8 +7,8 @@ public class Breadcrumbs : ViewComponent
     private const string NavigationStartPoint = "home";
     private const string HandleActionName = "handle";
     private const string ImageUploadActionName = "imageupload";
-    private const string FromApiActionName = "fromapi";
-
+    private const string FromApiJsActionName = "fromapijs";
+    private const string FromApiDotNetActionName = "fromapidotnet";
 
     public IViewComponentResult Invoke()
     {
@@ -51,7 +51,7 @@ public class Breadcrumbs : ViewComponent
                 break;
             }
 
-            if (node == FromApiActionName) 
+            if (node == FromApiJsActionName || node == FromApiDotNetActionName)
             {
                 breadcrumbPathSegments.Add("from api");
                 break;

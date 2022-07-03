@@ -1,7 +1,7 @@
-﻿<h1>Categories from API</h1>
+﻿<h1>Categories from API with Javascript</h1>
 
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
-<link rel="stylesheet" href="~/css/categories-from-api.css" />
+<link rel="stylesheet" href="~/css/entities-from-api.css" />
 
 <div>
     <ul id="categories" />
@@ -18,7 +18,7 @@
         url: apiUrl,
         success: function(categories) {
            $.each(categories, function(i, category){
-                $categoriesList.append('<li class="list-item">' + category.categoryName);
+                $categoriesList.append('<li class="list-item">' + category.categoryName + "</li>");
                 });
             }
         });
