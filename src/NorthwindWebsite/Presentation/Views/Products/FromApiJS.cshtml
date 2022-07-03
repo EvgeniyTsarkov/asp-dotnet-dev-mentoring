@@ -18,7 +18,7 @@
         url: apiUrl,
         success: function(products) {
            $.each(products, function(i, product){
-                $productsList.append('<li class="list-item">' + product.ProductName + "</li>");
+                $productsList.append('<li class="list-item">' + product.productName + "</li>");
                 });
             }
         });

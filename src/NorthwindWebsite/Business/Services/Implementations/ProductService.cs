@@ -32,6 +32,11 @@ public class ProductService : IProductService
             Products = await _productRepository.GetAll()
         };
 
+    public async Task<ProductsDto> GetSimpleProducts() =>
+        new ProductsDto
+        {
+            Products = await _productRepository.GetSimpleProductsRepresentation()
+        };
 
     public async Task<ProductsDto> GetProducts()
     {
