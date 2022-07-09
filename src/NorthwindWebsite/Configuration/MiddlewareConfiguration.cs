@@ -24,6 +24,8 @@ public static class MiddlewareConfiguration
             app.UseDeveloperExceptionPage();
         }
 
+        app.UseCors("AllowCors");
+
         app.Use(async (context, next) =>
         {
             context.Request.EnableBuffering();
