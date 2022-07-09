@@ -79,12 +79,6 @@ public class ProductsController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult FromApiJs() =>
-        View("FromApiJs");
-
-    public IActionResult FromApiDotNet() =>
-        View("FromApiDotNet");
-
     [ActionName("BackToProducts")]
     public IActionResult BackToMain() => RedirectToAction("Index");
 }
