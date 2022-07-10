@@ -49,7 +49,5 @@ public static class ServicesConfiguration
         services.AddResponseCaching();
 
         services.AddRouting(options => options.LowercaseUrls = true);
-
-        services.AddCors(options => options.AddPolicy("AllowCors", builder => builder.AllowAnyOrigin()));
     }
 }

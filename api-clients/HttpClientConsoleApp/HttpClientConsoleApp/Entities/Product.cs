@@ -1,6 +1,6 @@
 ﻿namespace HttpClientConsoleApp.Entities;
 
-class Product
+public class Product
 {
     public int ProductId { get; set; }
 
@@ -22,7 +22,5 @@ class Product
 
     public bool Discontinued { get; set; }
 
-    public virtual Category? Category { get; set; }
-
-    public virtual Supplier? Supplier { get; set; }
+    public Category Category { get; set; }
 }

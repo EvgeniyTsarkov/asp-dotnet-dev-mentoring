@@ -20,11 +20,12 @@
 </html>
 <script>
 
-    let productsApiUrl = 'https://localhost:7087/api/products';
-    let categoriesApiUrl = 'https://localhost:7087/api/categories';
+    const baseDomain = 'https://localhost:7087/api/';
+    const productsApiUrl = 'products';
+    const categoriesApiUrl = 'categories';
 
     $(document).ready(function () {
-        $.getJSON(productsApiUrl)
+        $.getJSON(baseDomain + productsApiUrl)
             .done(function (data) {
                 $.each(data, function (i, product) {
                     $('<li>', { text: product.productName }).appendTo($('#products'));
@@ -33,7 +34,7 @@
     });
 
     $(document).ready(function () {
-        $.getJSON(categoriesApiUrl)
+        $.getJSON(baseDomain + categoriesApiUrl)
             .done(function (data) {
                 $.each(data, function (i, category) {
                     $('<li>', { text: category.categoryName }).appendTo($('#categories'));
