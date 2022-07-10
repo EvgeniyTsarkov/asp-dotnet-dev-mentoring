@@ -46,6 +46,9 @@ public class ProductService : IProductService
         return productsListDto;
     }
 
+    public async Task<Product> GetProduct(int id) =>
+        await _productRepository.Get(id, true);
+
     public async Task<ProductHandleDto> GetProductModel(int id)
     {
         var productToCreateOrUpdate = new ProductHandleDto

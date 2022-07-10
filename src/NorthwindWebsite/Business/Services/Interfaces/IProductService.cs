@@ -11,6 +11,8 @@ public interface IProductService
 
     Task<ProductHandleDto> GetProductModel(int id);
 
+    Task<Product> GetProduct(int id);
+
     Task<Product> Create(Product productToCreate);
 
     Task<Product> Update(Product productToUpdate);
