@@ -6,8 +6,9 @@ namespace HttpClientConsoleApp;
 
 public class Program
 {
-    private const string GetProductsUrl = "https://localhost:7087/api/products";
-    private const string GetCategoriesUrl = "https://localhost:7087/api/categories";
+    private const string BaseUrl = "https://localhost:7087/api/";
+    private const string GetProductsUrl = "products";
+    private const string GetCategoriesUrl = "categories";
     private const string ContentTypeHeaderValue = "application/json";
 
     static HttpClient client = new HttpClient();
@@ -68,9 +69,9 @@ public class Program
 
         try
         {
-            var categories = await GetCategoriesAsync(GetCategoriesUrl);
+            var categories = await GetCategoriesAsync(BaseUrl + GetCategoriesUrl);
 
-            var products = await GetProductsAsync(GetProductsUrl);
+            var products = await GetProductsAsync(BaseUrl + GetProductsUrl);
 
             ShowCategories(categories);
 
