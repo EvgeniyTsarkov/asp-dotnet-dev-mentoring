@@ -35,6 +35,7 @@ public class ProductsController : ControllerBase
         {
             return NotFound();
         }
+
         return product;
     }
 
