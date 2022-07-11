@@ -19,7 +19,7 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<Product>>> GetProducts()
     {
-        var products = await _productService.GetAll();
+        var products = await _productService.GetSimpleProducts();
 
         return products.Products;
     }

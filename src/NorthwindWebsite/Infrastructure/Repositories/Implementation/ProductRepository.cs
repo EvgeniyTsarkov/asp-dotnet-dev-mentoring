@@ -29,6 +29,9 @@ public class ProductRepository : BaseRepository<Product>, IProductRepository
         .Take(limit)
         .ToListAsync();
 
+    public async Task<List<Product>> GetSimpleProductsRepresentation() =>
+        await _context.Products.ToListAsync();
+
     public async Task<Product> Get(int id, bool skipRelatedItems)
     {
         if (skipRelatedItems)

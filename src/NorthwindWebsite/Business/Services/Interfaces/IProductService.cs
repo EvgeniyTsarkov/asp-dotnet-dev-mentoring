@@ -9,6 +9,8 @@ public interface IProductService
 
     Task<ProductsDto> GetProducts();
 
+    Task<ProductsDto> GetSimpleProducts();
+
     Task<ProductHandleDto> GetProductModel(int id);
 
     Task<Product> GetProduct(int id);

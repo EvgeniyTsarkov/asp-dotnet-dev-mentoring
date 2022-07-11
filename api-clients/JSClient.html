@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+    <h2>List of Products</h2>
+    <div>
+        <ul id="products" />
+    </div>
+
+    <h2> List of Categories</h2>
+    <div>
+        <ul id="categories">
+    </div>
+</body>
+</html>
+<script>
+
+    const baseDomain = 'https://localhost:7087/api/';
+    const productsApiUrl = 'products';
+    const categoriesApiUrl = 'categories';
+
+    $(document).ready(function () {
+        $.getJSON(baseDomain + productsApiUrl)
+            .done(function (data) {
+                $.each(data, function (i, product) {
+                    $('<li>', { text: product.productName }).appendTo($('#products'));
+                });
+            });
+    });
+
+    $(document).ready(function () {
+        $.getJSON(baseDomain + categoriesApiUrl)
+            .done(function (data) {
+                $.each(data, function (i, category) {
+                    $('<li>', { text: category.categoryName }).appendTo($('#categories'));
+                });
+            });
+    });
+</script>
