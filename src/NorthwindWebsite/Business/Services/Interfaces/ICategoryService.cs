@@ -7,6 +7,10 @@ public interface ICategoryService
 {
     Task<IEnumerable<Category>> GetAll();
 
+    Task<Category> Get(int id);
+
+    Task Update(Category category);
+
     Task<Dictionary<int, string>> GetCategoryOptions();
 
     Task<FileUploadDto> GetFileUploadModel(int id);

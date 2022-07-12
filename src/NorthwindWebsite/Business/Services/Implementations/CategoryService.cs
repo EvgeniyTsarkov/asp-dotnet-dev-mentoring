@@ -21,12 +21,18 @@ public class CategoryService : ICategoryService
     public async Task<IEnumerable<Category>> GetAll() =>
         await _categoryRepository.GetAll();
 
+    public async Task<Category> Get(int id) =>
+        await _categoryRepository.Get(c => c.CategoryId == id);
+
     public async Task<Dictionary<int, string>> GetCategoryOptions()
     {
         var categories = await _categoryRepository.GetAll();
 
         return categories.ToDictionary(c => c.CategoryId, c => c.CategoryName);
     }
+
+    public async Task Update(Category category) => 
+        await _categoryRepository.Update(category);
 
     public async Task<FileUploadDto> GetFileUploadModel(int id)
     {
