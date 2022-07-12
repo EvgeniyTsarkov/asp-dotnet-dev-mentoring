@@ -27,7 +27,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet("id/{categoryId:int}/image")]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetImage(int categoryId)
     {
         var picture = await _categoryService.GetImage(categoryId);
@@ -40,9 +40,8 @@ public class CategoriesController : ControllerBase
         return File(picture, FileFormat);
     }
 
-
     [HttpPut("id/{categoryId:int}/image")]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UploadImage(
         int categoryId,
         [FromBody] ImageDto imageDto)
