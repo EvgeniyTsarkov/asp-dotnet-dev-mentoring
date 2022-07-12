@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthwindWebsite.Tests", "t
 		{70B772E2-F44A-442A-86F7-29BD64138CD5} = {70B772E2-F44A-442A-86F7-29BD64138CD5}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindWebsite.Tests.API", "NorthwindWebsite.Tests.API\NorthwindWebsite.Tests.API.csproj", "{90222BF6-4E65-4FE6-A901-AAC24FB2ADF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{2E97AC62-5E4E-40EB-A63B-B1503487B6E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E97AC62-5E4E-40EB-A63B-B1503487B6E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E97AC62-5E4E-40EB-A63B-B1503487B6E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90222BF6-4E65-4FE6-A901-AAC24FB2ADF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90222BF6-4E65-4FE6-A901-AAC24FB2ADF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90222BF6-4E65-4FE6-A901-AAC24FB2ADF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90222BF6-4E65-4FE6-A901-AAC24FB2ADF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
