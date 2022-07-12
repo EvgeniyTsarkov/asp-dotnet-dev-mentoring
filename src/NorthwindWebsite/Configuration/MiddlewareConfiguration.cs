@@ -25,10 +25,10 @@ public static class MiddlewareConfiguration
         }
 
         app.UseCors(x => x
-        .SetIsOriginAllowed(_ => true)
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials());
+            .SetIsOriginAllowed(_ => true)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
 
         app.Use(async (context, next) =>
         {
@@ -40,6 +40,10 @@ public static class MiddlewareConfiguration
         {
             DefaultRequestCulture = new RequestCulture(appSettings.Localization.Default)
         });
+
+        app.UseOpenApi();
+
+        app.UseSwaggerUi3();
 
         app.UseResponseCaching();
 
