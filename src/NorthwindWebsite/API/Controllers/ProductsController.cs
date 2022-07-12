@@ -16,7 +16,6 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet(Name = nameof(GetProducts))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<Product>>> GetProducts()
     {
         var products = await _productService.GetSimpleProducts();
@@ -24,9 +23,8 @@ public class ProductsController : ControllerBase
         return products.Products;
     }
 
-    [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Product>> GetById(int id)
     {
         var product = await _productService.GetProduct(id);
@@ -40,8 +38,8 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Product),StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Product>> Create(Product product)
     {
         if (!ModelState.IsValid)
@@ -55,9 +53,8 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Product>> Update(Product productUpdate)
     {
         if (!ModelState.IsValid)
@@ -77,18 +74,11 @@ public class ProductsController : ControllerBase
         return productUpdate;
     }
 
-    [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpDelete("{id:int}")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteById(int id)
     {
-        var productToDelete = await _productService.GetProduct(id);
-
-        if (productToDelete == null)
-        {
-            return NotFound();
-        }
-
         await _productService.Delete(id);
 
         return NoContent();

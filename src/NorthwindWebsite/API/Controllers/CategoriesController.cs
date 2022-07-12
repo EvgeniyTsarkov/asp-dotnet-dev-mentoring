@@ -19,7 +19,6 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet(Name = nameof(GetCategories))]
-    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<Category>>> GetCategories()
     {
         var categories = await _categoryService.GetAll();
@@ -27,8 +26,7 @@ public class CategoriesController : ControllerBase
         return categories.ToList();
     }
 
-    [HttpGet("{categoryId}/image")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [HttpGet("id/{categoryId:int}/image")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetImage(int categoryId)
     {
@@ -43,9 +41,8 @@ public class CategoriesController : ControllerBase
     }
 
 
-    [HttpPut("{categoryId}/image")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [HttpPut("id/{categoryId:int}/image")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UploadImage(
         int categoryId,
         [FromBody] ImageDto imageDto)
@@ -54,7 +51,7 @@ public class CategoriesController : ControllerBase
 
         if (category == null)
         {
-            return BadRequest();
+            return NotFound("Unable to find category by the provided id.");
         }
 
         category.Picture = Convert.FromBase64String(imageDto.Image);

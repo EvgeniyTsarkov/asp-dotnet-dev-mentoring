@@ -52,7 +52,7 @@ public class ProductService : IProductService
     }
 
     public async Task<Product> GetProduct(int id) =>
-        await _productRepository.Get(id, true);
+        await _productRepository.Get(id, skipRelatedItems: true);
 
     public async Task<ProductHandleDto> GetProductModel(int id)
     {
