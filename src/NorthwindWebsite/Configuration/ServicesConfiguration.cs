@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Razor;
 using NorthwindWebsite.Business.Services.Implementations;
 using NorthwindWebsite.Business.Services.Interfaces;
@@ -56,5 +57,50 @@ public static class ServicesConfiguration
         services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<NorthwindContext>();
+
+        services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 6;
+            options.Password.RequiredUniqueChars = 1;
+
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            options.Lockout.MaxFailedAccessAttempts = 5;
+            options.Lockout.AllowedForNewUsers = true;
+
+            options.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            options.User.RequireUniqueEmail = false;
+        });
+
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.Cookie.Name = "MyAuth.Cookie";
+            options.Cookie.HttpOnly = true;
+            options.ExpireTimeSpan = TimeSpan.FromDays(5);
+
+            options.LoginPath = "/Identity/Account/Login";
+            options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            options.SlidingExpiration = true;
+        });
+        services.AddHttpContextAccessor();
+        services.AddTransient<SignInManager<ApplicationUser>>();
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+            options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+            options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            options.DefaultSignOutScheme = IdentityConstants.TwoFactorUserIdScheme;
+        })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(IdentityConstants.ApplicationScheme)
+            .AddCookie(IdentityConstants.TwoFactorUserIdScheme)
+            .AddExternalCookie();
+
+        services.AddRazorPages();
     }
 }
