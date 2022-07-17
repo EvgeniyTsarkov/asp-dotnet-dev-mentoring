@@ -60,6 +60,7 @@ public static class ServicesConfiguration
 
         services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddRoles<IdentityRole>()
+            .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<NorthwindContext>();
 
         services.Configure<IdentityOptions>(options =>

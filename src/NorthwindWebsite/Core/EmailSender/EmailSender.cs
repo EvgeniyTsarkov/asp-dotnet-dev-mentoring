@@ -16,7 +16,7 @@ public class EmailSender : IEmailSender
 
     public Task SendEmailAsync(string email, string subject, string message)
     {
-        return Execute(Options.SendGridKey, subject, message, email);
+        return Execute(Options.SendGridApiKey, subject, message, email);
     }
 
     public Task Execute(string apiKey, string subject, string message, string email)
@@ -41,5 +41,5 @@ public class EmailSender : IEmailSender
 
 public class AuthMessageSenderOptions
 {
-    public string SendGridKey { get; set; }
+    public string SendGridApiKey { get; set; }
 }

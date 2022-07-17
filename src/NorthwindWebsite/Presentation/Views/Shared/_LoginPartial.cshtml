@@ -6,7 +6,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <table>
+    <table style="width:auto; margin-right: 0px; margin-left: auto">
         <tr>
             <td>
                 <a id="manage" class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @UserManager.GetUserName(User)!</a>

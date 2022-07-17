@@ -1,5 +1,7 @@
 using NorthwindWebsite.Configuration;
 using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Core.EmailSender;
+using SendGrid.Extensions.DependencyInjection;
 using Serilog;
 using System.Text.Json;
 
@@ -10,6 +12,8 @@ var appSettings = new AppSettings().GetAppSettings(builder.Configuration);
 builder.Services.AddSingleton(appSettings);
 
 builder.Services.AddServicesConfiguration(appSettings);
+
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 builder.ConfigureLogger(appSettings);
 
