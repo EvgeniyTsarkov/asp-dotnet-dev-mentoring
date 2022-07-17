@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
 using NorthwindWebsite.Business.Services.Implementations;
 using NorthwindWebsite.Business.Services.Interfaces;
 using NorthwindWebsite.Core.ApplicationSettings;
+using NorthwindWebsite.Core.EmailSender;
 using NorthwindWebsite.Filters;
 using NorthwindWebsite.Infrastructure;
 using NorthwindWebsite.Infrastructure.Entities;
@@ -49,6 +51,8 @@ public static class ServicesConfiguration
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ISupplierRepository, SupplierRepository>();
+
+        services.AddTransient<IEmailSender, EmailSender>();
 
         services.AddResponseCaching();
 
