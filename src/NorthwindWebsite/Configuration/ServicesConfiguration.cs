@@ -49,5 +49,7 @@ public static class ServicesConfiguration
         services.AddResponseCaching();
 
         services.AddRouting(options => options.LowercaseUrls = true);
+
+        services.AddSwaggerDocument();
     }
 }
