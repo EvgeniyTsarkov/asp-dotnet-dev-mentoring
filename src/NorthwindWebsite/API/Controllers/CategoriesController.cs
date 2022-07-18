@@ -21,7 +21,8 @@ public class CategoriesController : ControllerBase
     /// <summary>
     /// Returns all categories from database.
     /// </summary>
-    /// <returns><see cref="Task">Representing an asynchronous operarion.</returns>
+    /// <response code="200">All categories are sucessfully retrieved from the database.</response>
+    /// <returns><see cref="Task"/>Representing an asynchronous operarion.</returns>
     [HttpGet(Name = nameof(GetCategories))]
     public async Task<ActionResult<List<Category>>> GetCategories()
     {
@@ -34,8 +35,9 @@ public class CategoriesController : ControllerBase
     /// Returns and image for a category by id.
     /// </summary>
     /// <param name="categoryId">Id of the category that contains the image.</param>
+    /// <response code="200">The image is returned for the category by id.</response>
     /// <response code="404">Unable to find a category with the mentioned id.</response>
-    /// <returns><see cref="Task">Represents an asynchronous operation.</returns>
+    /// <returns><see cref="Task"/>Represents an asynchronous operation.</returns>
     [HttpGet("id/{categoryId:int}/image")]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult> GetImage(int categoryId)
@@ -54,9 +56,10 @@ public class CategoriesController : ControllerBase
     /// Saves mthe image to the database for the category with the specified id.
     /// </summary>
     /// <param name="categoryId">Id of the category the image will be saved to.</param>
-    /// <param name="imageDto"><see cref="ImageDto"></param>
+    /// <param name="imageDto"><see cref="ImageDto"/></param>
+    /// <response code="200">The image in successfully added/updated for the category.</response>
     /// <response code="404">Unable to find a category with the mentioned id.</response>
-    /// <returns><see cref="Task">Represents an asynchronous operation.</returns>
+    /// <returns><see cref="Task"/>Represents an asynchronous operation.</returns>
     [HttpPut("id/{categoryId:int}/image")]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UploadImage(
