@@ -15,6 +15,11 @@ public class ProductsController : ControllerBase
         _productService = productService;
     }
 
+    /// <summary>
+    /// Returns all products from the database.
+    /// </summary>
+    /// <response code="200">Returns all products from the database.</response>
+    /// <returns><see cref="Task"/>Represents an asynchronous operation.</returns>
     [HttpGet(Name = nameof(GetProducts))]
     public async Task<ActionResult<List<Product>>> GetProducts()
     {
@@ -23,6 +28,12 @@ public class ProductsController : ControllerBase
         return products.Products;
     }
 
+    /// <summary>
+    /// Returns a product from the database by id.
+    /// </summary>
+    /// <param name="id">Product id.</param>
+    /// <response code="200">Returns product by id.</response>
+    /// <returns><see cref="Task"/>Represents an asynchronous operation.</returns>
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Product>> GetById(int id)
@@ -37,6 +48,13 @@ public class ProductsController : ControllerBase
         return product;
     }
 
+    /// <summary>
+    /// Creates a product in the database.
+    /// </summary>
+    /// <param name="product"><see cref="Product"/></param>
+    /// <response code="201">Product successfully created in the database.</response>
+    /// <response code="400">The product does not have all the required values or these values are incorrect.</response>
+    /// <returns><see cref="Task"/>Represents an asynchronous operation.</returns>
     [HttpPost]
     [ProducesResponseType(typeof(Product), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
@@ -52,6 +70,14 @@ public class ProductsController : ControllerBase
         return CreatedAtAction(nameof(Create), product);
     }
 
+    /// <summary>
+    /// Updates a product in the database.
+    /// </summary>
+    /// <param name="productUpdate"><see cref="Product"/></param>
+    /// <response code="200">The product is successfully updated.</response>
+    /// <response code="400">The product does not have all the required values or these values are incorrect.</response>
+    /// <response code="404">The product to be updated is not found in the database.</response>
+    /// <returns><see cref="Task"/>Represents an asynchronous operation.</returns>
     [HttpPut]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
@@ -74,6 +100,13 @@ public class ProductsController : ControllerBase
         return productUpdate;
     }
 
+    /// <summary>
+    /// Deletes a product in the database.
+    /// </summary>
+    /// <param name="id">Id of the product to be deleted.</param>
+    /// <response code="204">The product is successfully deleted from the database.</response>
+    /// <response code="404">The product to be deleted is not found in the database.</response>
+    /// <returns><see cref="Task"/>Represents an asynchronous operation.</returns>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(typeof(void), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]

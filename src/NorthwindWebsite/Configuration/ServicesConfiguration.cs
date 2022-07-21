@@ -107,5 +107,7 @@ public static class ServicesConfiguration
             .AddExternalCookie();
 
         services.AddRazorPages();
+
+        services.AddSwaggerDocument();
     }
 }
