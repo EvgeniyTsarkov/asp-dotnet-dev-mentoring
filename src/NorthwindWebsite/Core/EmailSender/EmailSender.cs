@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
+using NorthwindWebsite.Core.ApplicationSettings;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
@@ -7,9 +8,14 @@ namespace NorthwindWebsite.Core.EmailSender;
 
 public class EmailSender : IEmailSender
 {
-    public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+    private readonly AppSettings _appSettings; 
+
+    public EmailSender(
+        IOptions<AuthMessageSenderOptions> optionsAccessor,
+        AppSettings appSettings)
     {
         Options = optionsAccessor.Value;
+        _appSettings = appSettings;
     }
 
     public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
@@ -19,12 +25,13 @@ public class EmailSender : IEmailSender
         return Execute(Options.SendGridApiKey, subject, message, email);
     }
 
-    public Task Execute(string apiKey, string subject, string message, string email)
+    private Task Execute(string apiKey, string subject, string message, string email)
     {
         var client = new SendGridClient(apiKey);
         var msg = new SendGridMessage()
         {
-            From = new EmailAddress("evg.tsarkov@gmail.com", "Northwind Training App"),
+            From = new EmailAddress(_appSettings.EmailSenderConfigs.SendersEmail, 
+                _appSettings.EmailSenderConfigs.SendersName),
             Subject = subject,
             PlainTextContent = message,
             HtmlContent = message
@@ -37,9 +44,4 @@ public class EmailSender : IEmailSender
 
         return client.SendEmailAsync(msg);
     }
-}
-
-public class AuthMessageSenderOptions
-{
-    public string SendGridApiKey { get; set; }
 }
