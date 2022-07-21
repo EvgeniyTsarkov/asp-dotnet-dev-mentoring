@@ -6,92 +6,91 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using NorthwindWebsite.Infrastructure.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace NorthwindWebsite.Areas.Identity.Pages.Account
+namespace NorthwindWebsite.Areas.Identity.Pages.Account;
+
+[AllowAnonymous]
+public class LoginModel : PageModel
 {
-    [AllowAnonymous]
-    public class LoginModel : PageModel
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly ILogger<LoginModel> _logger;
+
+    public LoginModel(SignInManager<ApplicationUser> signInManager,
+        ILogger<LoginModel> logger,
+        UserManager<ApplicationUser> userManager)
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _logger = logger;
+    }
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager,
-            ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+    [BindProperty]
+    public InputModel Input { get; set; }
+
+    public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+    public string ReturnUrl { get; set; }
+
+    [TempData]
+    public string ErrorMessage { get; set; }
+
+    public class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+    }
+
+    public async Task OnGetAsync(string returnUrl = null)
+    {
+        if (!string.IsNullOrEmpty(ErrorMessage))
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
+            ModelState.AddModelError(string.Empty, ErrorMessage);
         }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+        returnUrl ??= Url.Content("~/");
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-        public string ReturnUrl { get; set; }
+        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-        [TempData]
-        public string ErrorMessage { get; set; }
+        ReturnUrl = returnUrl;
+    }
 
-        public class InputModel
+    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+    {
+        returnUrl ??= Url.Content("~/");
+
+        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+        var result = await _signInManager.PasswordSignInAsync(
+            Input.Email,
+            Input.Password,
+            Input.RememberMe,
+            lockoutOnFailure: false);
+        if (result.Succeeded)
         {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-
-            [Required]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
-
-            [Display(Name = "Remember me?")]
-            public bool RememberMe { get; set; }
+            _logger.LogInformation("User logged in.");
+            return LocalRedirect(returnUrl);
         }
-
-        public async Task OnGetAsync(string returnUrl = null)
+        if (result.IsLockedOut)
         {
-            if (!string.IsNullOrEmpty(ErrorMessage))
-            {
-                ModelState.AddModelError(string.Empty, ErrorMessage);
-            }
-
-            returnUrl ??= Url.Content("~/");
-
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            ReturnUrl = returnUrl;
+            _logger.LogWarning("User account locked out.");
+            return RedirectToPage("./Lockout");
         }
-
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        else
         {
-            returnUrl ??= Url.Content("~/");
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User logged in.");
-                return LocalRedirect(returnUrl);
-            }
-            if (result.RequiresTwoFactor)
-            {
-                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-            }
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User account locked out.");
-                return RedirectToPage("./Lockout");
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return Page();
-            }
-
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return Page();
         }
+
+        return Page();
     }
 }
