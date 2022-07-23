@@ -22,26 +22,28 @@
             <nav class="navbar navbar-dark fixed-top">
                 <div class="container-fluid">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Northwind</a>
-                    <partial name="_LoginPartial">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <!--- spans are used for css to create hamburger lines --->
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="identity-options">
+                        <partial name="_LoginPartial">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <!--- spans are used for css to create hamburger lines --->
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </nav>
         }

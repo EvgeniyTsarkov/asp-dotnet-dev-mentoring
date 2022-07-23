@@ -106,3 +106,8 @@
     transform: none;
     opacity: 1;
 }
+
+.identity-options{
+    display:flex;
+    justify-content: flex-end;
+}
