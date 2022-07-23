@@ -1,19 +1,15 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using NorthwindWebsite.Core.Utils;
 using NorthwindWebsite.Infrastructure.Entities;
+using NorthwindWebsite.Presentation.Utils;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
+
 
 namespace IdentityExample.Areas.Identity.Pages.Account;
 
@@ -55,7 +51,7 @@ public class ForgotPasswordModel : PageModel
         }
 
         var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        code = StringUtils.EncodeCode(code);
+        code = WebUtils.EncodeToWeb(code);
         var callbackUrl = Url.Page(
             "/Account/ResetPassword",
             pageHandler: null,

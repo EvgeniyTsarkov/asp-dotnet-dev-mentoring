@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using NorthwindWebsite.Core.Constants;
 using NorthwindWebsite.Infrastructure.Entities;
+using NorthwindWebsite.Presentation.Utils;
 using System.ComponentModel.DataAnnotations;
 
 namespace NorthwindWebsite.Areas.Identity.Pages.Account;

@@ -1,4 +1,4 @@
-﻿namespace NorthwindWebsite.Core.Constants
+﻿namespace NorthwindWebsite.Presentation.Utils
 {
     public static class UrlConstants
     {

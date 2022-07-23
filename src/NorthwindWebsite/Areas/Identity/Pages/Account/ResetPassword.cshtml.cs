@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using NorthwindWebsite.Infrastructure.Entities;
+using NorthwindWebsite.Presentation.Utils;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -52,7 +53,7 @@ public class ResetPasswordModel : PageModel
 
         Input = new InputModel
         {
-            Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+            Code = WebUtils.DecodeFromWeb(code)
         };
 
         return Page();
