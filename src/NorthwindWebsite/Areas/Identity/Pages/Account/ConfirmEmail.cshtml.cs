@@ -27,7 +27,7 @@ public class ConfirmEmailModel : PageModel
 
     public async Task<IActionResult> OnGetAsync(string userId, string code)
     {
-        if (userId == null || string.IsNullOrWhiteSpace(code))
+        if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
         {
             return RedirectToPage("/Index");
         }
@@ -41,6 +41,7 @@ public class ConfirmEmailModel : PageModel
         code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
         var result = await _userManager.ConfirmEmailAsync(user, code);
         StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+
         return Page();
     }
 }

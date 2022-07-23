@@ -11,6 +11,20 @@ namespace NorthwindWebsite.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class LoginModel : PageModel
 {
+    public class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+    }
+
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ILogger<LoginModel> _logger;
@@ -33,20 +47,6 @@ public class LoginModel : PageModel
 
     [TempData]
     public string ErrorMessage { get; set; }
-
-    public class InputModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
-
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
-    }
 
     public async Task OnGetAsync(string returnUrl = null)
     {
@@ -85,12 +85,8 @@ public class LoginModel : PageModel
             _logger.LogWarning("User account locked out.");
             return RedirectToPage("./Lockout");
         }
-        else
-        {
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-            return Page();
-        }
 
+        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
         return Page();
     }
 }

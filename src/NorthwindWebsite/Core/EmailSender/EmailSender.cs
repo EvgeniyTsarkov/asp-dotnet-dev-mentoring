@@ -8,7 +8,7 @@ namespace NorthwindWebsite.Core.EmailSender;
 
 public class EmailSender : IEmailSender
 {
-    private readonly AppSettings _appSettings; 
+    private readonly AppSettings _appSettings;
 
     public EmailSender(
         IOptions<AuthMessageSenderOptions> optionsAccessor,
@@ -20,17 +20,15 @@ public class EmailSender : IEmailSender
 
     public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
 
-    public Task SendEmailAsync(string email, string subject, string message)
-    {
-        return Execute(Options.SendGridApiKey, subject, message, email);
-    }
+    public Task SendEmailAsync(string email, string subject, string message) =>
+        Execute(Options.SendGridApiKey, subject, message, email);
 
     private Task Execute(string apiKey, string subject, string message, string email)
     {
         var client = new SendGridClient(apiKey);
         var msg = new SendGridMessage()
         {
-            From = new EmailAddress(_appSettings.EmailSenderConfigs.SendersEmail, 
+            From = new EmailAddress(_appSettings.EmailSenderConfigs.SendersEmail,
                 _appSettings.EmailSenderConfigs.SendersName),
             Subject = subject,
             PlainTextContent = message,
@@ -40,7 +38,7 @@ public class EmailSender : IEmailSender
 
         // Disable click tracking.
         // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
-        msg.SetClickTracking(false, false);
+        msg.SetClickTracking(enable: false, enableText: false);
 
         return client.SendEmailAsync(msg);
     }

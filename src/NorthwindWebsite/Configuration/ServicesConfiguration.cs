@@ -52,7 +52,7 @@ public static class ServicesConfiguration
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ISupplierRepository, SupplierRepository>();
 
-        services.AddScoped<IEmailSender, EmailSender>();
+        services.AddSingleton<IEmailSender, EmailSender>();
 
         services.AddResponseCaching();
 

@@ -38,5 +38,6 @@ public class AppSettings : IValidatable
     {
         ConnectionStrings.Validate();
         SerilogConfiguration.Validate();
+        EmailSenderConfigs.Validate();
     }
 }
