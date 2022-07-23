@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NorthwindWebsite.Core.Constants;
 using NorthwindWebsite.Infrastructure.Entities;
 using System.ComponentModel.DataAnnotations;
 
@@ -55,7 +56,7 @@ public class LoginModel : PageModel
             ModelState.AddModelError(string.Empty, ErrorMessage);
         }
 
-        returnUrl ??= Url.Content("~/");
+        returnUrl ??= Url.Content(UrlConstants.ReturnToHomepageUrl);
 
         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
@@ -66,7 +67,7 @@ public class LoginModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(string returnUrl = null)
     {
-        returnUrl ??= Url.Content("~/");
+        returnUrl ??= Url.Content(UrlConstants.ReturnToHomepageUrl);
 
         ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
