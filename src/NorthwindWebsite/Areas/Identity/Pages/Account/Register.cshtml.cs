@@ -63,14 +63,14 @@ public class RegisterModel : PageModel
     public async Task OnGetAsync(string returnUrl = null)
     {
         ReturnUrl = returnUrl;
-        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        ExternalLogins = await GetExternalLogins();
     }
 
     public async Task<IActionResult> OnPostAsync(string returnUrl = null)
     {
         returnUrl ??= Url.Content(UrlConstants.ReturnToHomepageUrl);
 
-        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        ExternalLogins = await GetExternalLogins();
 
         if (!ModelState.IsValid)
         {
@@ -113,4 +113,7 @@ public class RegisterModel : PageModel
         await _signInManager.SignInAsync(user, isPersistent: false);
         return LocalRedirect(returnUrl);
     }
+
+    private async Task<IList<AuthenticationScheme>> GetExternalLogins() =>
+        (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 }

@@ -92,7 +92,7 @@ public static class ServicesConfiguration
             options.SlidingExpiration = true;
         });
         services.AddHttpContextAccessor();
-        services.AddTransient<SignInManager<ApplicationUser>>();
+        services.AddScoped<SignInManager<ApplicationUser>>();
 
         services.AddAuthentication(options =>
         {
