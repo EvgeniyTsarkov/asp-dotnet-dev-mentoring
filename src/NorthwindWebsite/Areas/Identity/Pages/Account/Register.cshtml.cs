@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using NorthwindWebsite.Core.Constants;
+using NorthwindWebsite.Core.Utils;
 using NorthwindWebsite.Infrastructure.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -92,7 +93,7 @@ public class RegisterModel : PageModel
         _logger.LogInformation("User created a new account with password.");
 
         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        code = StringUtils.EncodeCode(code);
         var callbackUrl = Url.Page(
             "/Account/ConfirmEmail",
             pageHandler: null,

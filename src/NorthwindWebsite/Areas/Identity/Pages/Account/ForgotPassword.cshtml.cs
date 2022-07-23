@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using NorthwindWebsite.Core.Utils;
 using NorthwindWebsite.Infrastructure.Entities;
 
 namespace IdentityExample.Areas.Identity.Pages.Account;
@@ -54,7 +55,7 @@ public class ForgotPasswordModel : PageModel
         }
 
         var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        code = StringUtils.EncodeCode(code);
         var callbackUrl = Url.Page(
             "/Account/ResetPassword",
             pageHandler: null,

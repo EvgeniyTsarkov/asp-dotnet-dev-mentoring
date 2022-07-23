@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using NorthwindWebsite.Core.Utils;
 using NorthwindWebsite.Infrastructure.Entities;
 using System.Text;
 
@@ -47,7 +48,7 @@ public class RegisterConfirmationModel : PageModel
         {
             var userId = await _userManager.GetUserIdAsync(user);
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            code = StringUtils.EncodeCode(code);
             EmailConfirmationUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
