@@ -17,7 +17,9 @@ public class AppSettings : IValidatable
 
     public FileUploadOptions FileUploadOptions { get; set; }
 
-    public CachingConfigs CachingConfigs { get; set;  }
+    public CachingConfigs CachingConfigs { get; set; }
+
+    public EmailSenderConfigs EmailSenderConfigs { get; set; }
 
     public AppSettings GetAppSettings(IConfiguration configuration) =>
         new()
@@ -28,12 +30,14 @@ public class AppSettings : IValidatable
             Localization = configuration.GetSection(nameof(Localization)).Get<Localization>(),
             SerilogConfiguration = configuration.GetSection(nameof(Serilog)).Get<SerilogConfig>(),
             FileUploadOptions = configuration.GetSection(nameof(FileUploadOptions)).Get<FileUploadOptions>(),
-            CachingConfigs = configuration.GetSection(nameof(CachingConfigs)).Get<CachingConfigs>()
+            CachingConfigs = configuration.GetSection(nameof(CachingConfigs)).Get<CachingConfigs>(),
+            EmailSenderConfigs = configuration.GetSection(nameof(EmailSenderConfigs)).Get<EmailSenderConfigs>()
         };
 
     public void Validate()
     {
         ConnectionStrings.Validate();
         SerilogConfiguration.Validate();
+        EmailSenderConfigs.Validate();
     }
 }

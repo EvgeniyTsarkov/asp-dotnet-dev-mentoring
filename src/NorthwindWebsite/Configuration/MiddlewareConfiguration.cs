@@ -55,7 +55,11 @@ public static class MiddlewareConfiguration
 
         app.UseRouting();
 
+        app.UseAuthentication();
+
         app.UseAuthorization();
+
+        app.MapRazorPages();
 
         app.ConfigureRouting();
     }
