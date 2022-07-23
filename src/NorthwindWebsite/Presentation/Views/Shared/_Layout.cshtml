@@ -2,7 +2,9 @@
 <html lang="en">
 
 @{
-    var headerSectionName = "Header";
+    const string headerSectionName = "Header";
+    const string customFooterName = "customFooter";
+    const string breadcrumbsName = "Breadcrumbs";
 }
 
 <head>
@@ -55,14 +57,14 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @await Component.InvokeAsync("Breadcrumbs")
+            @await Component.InvokeAsync(@breadcrumbsName)
             @RenderBody()
         </main>
     </div>
 
-    @if (IsSectionDefined("customFooter"))
+    @if (IsSectionDefined(@customFooterName))
     {
-        @RenderSection("customFooter")
+        @RenderSection(@customFooterName)
     }
     else
     {
