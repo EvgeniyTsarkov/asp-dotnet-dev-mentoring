@@ -22,7 +22,7 @@ namespace NorthwindWebsite.Configuration;
 public static class ServicesConfiguration
 {
     public static void AddServicesConfiguration(
-        this IServiceCollection services, AppSettings appSettings)
+        this IServiceCollection services, AppSettings appSettings, IConfiguration configuration)
     {
         services.AddControllersWithViews(options =>
             options.Filters.Add<LoggingFilter>());
@@ -107,6 +107,12 @@ public static class ServicesConfiguration
             .AddExternalCookie();
 
         services.AddRazorPages();
+
+        services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
+        {
+            microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
+            microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+        });
 
         services.AddSwaggerDocument();
     }
