@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -22,7 +22,9 @@ namespace NorthwindWebsite.Configuration;
 public static class ServicesConfiguration
 {
     public static void AddServicesConfiguration(
-        this IServiceCollection services, AppSettings appSettings, IConfiguration configuration)
+        this IServiceCollection services,
+        AppSettings appSettings,
+        IConfiguration configuration)
     {
         services.AddControllersWithViews(options =>
             options.Filters.Add<LoggingFilter>());
@@ -101,18 +103,20 @@ public static class ServicesConfiguration
             options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             options.DefaultSignOutScheme = IdentityConstants.TwoFactorUserIdScheme;
         })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(IdentityConstants.ApplicationScheme)
             .AddCookie(IdentityConstants.TwoFactorUserIdScheme)
             .AddExternalCookie();
-
-        services.AddRazorPages();
 
         services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
         {
             microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
             microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
         });
+
+        services.AddAuthentication().AddAzureAD(options =>
+                configuration.Bind("AzureAd", options)).AddCookie();
+
+        services.AddRazorPages();
 
         services.AddSwaggerDocument();
     }
