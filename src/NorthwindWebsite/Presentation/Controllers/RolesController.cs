@@ -6,7 +6,7 @@ using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Presentation.Controllers;
 
-//[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 [Route("Admin/Roles/")]
 public class RolesController : Controller
 {

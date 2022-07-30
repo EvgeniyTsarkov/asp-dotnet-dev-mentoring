@@ -5,7 +5,7 @@ using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Presentation.Controllers;
 
-//[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
