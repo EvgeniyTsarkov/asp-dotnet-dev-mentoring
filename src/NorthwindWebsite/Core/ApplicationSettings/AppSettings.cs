@@ -21,6 +21,10 @@ public class AppSettings : IValidatable
 
     public EmailSenderConfigs EmailSenderConfigs { get; set; }
 
+    public MicrosoftAccountConfig MicrosoftAccountConfig { get; set; }
+
+    public AzureAdConfigs AzureAdConfigs { get; set; }
+
     public AppSettings GetAppSettings(IConfiguration configuration) =>
         new()
         {
@@ -31,7 +35,20 @@ public class AppSettings : IValidatable
             SerilogConfiguration = configuration.GetSection(nameof(Serilog)).Get<SerilogConfig>(),
             FileUploadOptions = configuration.GetSection(nameof(FileUploadOptions)).Get<FileUploadOptions>(),
             CachingConfigs = configuration.GetSection(nameof(CachingConfigs)).Get<CachingConfigs>(),
-            EmailSenderConfigs = configuration.GetSection(nameof(EmailSenderConfigs)).Get<EmailSenderConfigs>()
+            EmailSenderConfigs = configuration.GetSection(nameof(EmailSenderConfigs)).Get<EmailSenderConfigs>(),
+            MicrosoftAccountConfig = new MicrosoftAccountConfig
+            {
+                ClientId = configuration["Authentication:Microsoft:ClientId"],
+                ClientSecret = configuration["Authentication:Microsoft:ClientSecret"]
+            },
+            AzureAdConfigs = new AzureAdConfigs
+            {
+                Instance = configuration.GetValue<string>("AzureAdConfigs:Instance"),
+                ClientId = configuration["Authentication:Microsoft:ClientId"],
+                TenantId = configuration.GetValue<string>("Authentication:AzureId:TenantId"),
+                CallbackPath = configuration.GetValue<string>("AzureAdConfigs:CallbackPath"),
+                CookieSchemeName = configuration.GetValue<string>("AzureAdConfigs:CookieSchemeName")
+            }
         };
 
     public void Validate()

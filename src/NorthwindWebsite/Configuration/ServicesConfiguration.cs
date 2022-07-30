@@ -23,8 +23,7 @@ public static class ServicesConfiguration
 {
     public static void AddServicesConfiguration(
         this IServiceCollection services,
-        AppSettings appSettings,
-        IConfiguration configuration)
+        AppSettings appSettings)
     {
         services.AddControllersWithViews(options =>
             options.Filters.Add<LoggingFilter>());
@@ -109,12 +108,18 @@ public static class ServicesConfiguration
 
         services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
         {
-            microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
-            microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+            microsoftOptions.ClientId = appSettings.MicrosoftAccountConfig.ClientId;
+            microsoftOptions.ClientSecret = appSettings.MicrosoftAccountConfig.ClientSecret;
         });
 
         services.AddAuthentication().AddAzureAD(options =>
-                configuration.Bind("AzureAd", options)).AddCookie();
+        {
+            options.Instance = appSettings.AzureAdConfigs.Instance;
+            options.ClientId = appSettings.AzureAdConfigs.ClientId;
+            options.TenantId = appSettings.AzureAdConfigs.TenantId;
+            options.CallbackPath = appSettings.AzureAdConfigs.CallbackPath;
+            options.CookieSchemeName = appSettings.AzureAdConfigs.CookieSchemeName;
+        }).AddCookie();
 
         services.AddRazorPages();
 

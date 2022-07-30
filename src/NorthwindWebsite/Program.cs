@@ -11,7 +11,7 @@ var appSettings = new AppSettings().GetAppSettings(builder.Configuration);
 
 builder.Services.AddSingleton(appSettings);
 
-builder.Services.AddServicesConfiguration(appSettings, builder.Configuration);
+builder.Services.AddServicesConfiguration(appSettings);
 
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
