@@ -25,6 +25,8 @@ public class AppSettings : IValidatable
 
     public AzureAdConfigs AzureAdConfigs { get; set; }
 
+    private const string AzureClient = "Authentication:Microsoft:ClientId";
+
     public AppSettings GetAppSettings(IConfiguration configuration) =>
         new()
         {
@@ -38,13 +40,13 @@ public class AppSettings : IValidatable
             EmailSenderConfigs = configuration.GetSection(nameof(EmailSenderConfigs)).Get<EmailSenderConfigs>(),
             MicrosoftAccountConfig = new MicrosoftAccountConfig
             {
-                ClientId = configuration["Authentication:Microsoft:ClientId"],
+                ClientId = configuration[AzureClient],
                 ClientSecret = configuration["Authentication:Microsoft:ClientSecret"]
             },
             AzureAdConfigs = new AzureAdConfigs
             {
                 Instance = configuration.GetValue<string>("AzureAdConfigs:Instance"),
-                ClientId = configuration["Authentication:Microsoft:ClientId"],
+                ClientId = configuration[AzureClient],
                 TenantId = configuration.GetValue<string>("Authentication:AzureId:TenantId"),
                 CallbackPath = configuration.GetValue<string>("AzureAdConfigs:CallbackPath"),
                 CookieSchemeName = configuration.GetValue<string>("AzureAdConfigs:CookieSchemeName")

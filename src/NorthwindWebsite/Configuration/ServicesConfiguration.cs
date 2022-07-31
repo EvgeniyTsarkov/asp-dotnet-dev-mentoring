@@ -106,13 +106,13 @@ public static class ServicesConfiguration
             .AddCookie(IdentityConstants.TwoFactorUserIdScheme)
             .AddExternalCookie();
 
-        services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
+        services.AddAuthentication()
+            .AddMicrosoftAccount(microsoftOptions =>
         {
             microsoftOptions.ClientId = appSettings.MicrosoftAccountConfig.ClientId;
             microsoftOptions.ClientSecret = appSettings.MicrosoftAccountConfig.ClientSecret;
-        });
-
-        services.AddAuthentication().AddAzureAD(options =>
+        })
+            .AddAzureAD(options =>
         {
             options.Instance = appSettings.AzureAdConfigs.Instance;
             options.ClientId = appSettings.AzureAdConfigs.ClientId;

@@ -64,8 +64,8 @@ namespace IdentityExample.Areas.Identity.Pages.Account
         {
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Page(
-                "./ExternalLogin", 
-                pageHandler: "Callback", 
+                "./ExternalLogin",
+                pageHandler: "Callback",
                 values: new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
@@ -98,8 +98,8 @@ namespace IdentityExample.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 _logger.LogInformation(
-                    "{Name} logged in with {LoginProvider} provider.", 
-                    externalLoginInfo.Principal.Identity.Name, 
+                    "{Name} logged in with {LoginProvider} provider.",
+                    externalLoginInfo.Principal.Identity.Name,
                     externalLoginInfo.LoginProvider);
 
                 return LocalRedirect(returnUrl);
@@ -165,7 +165,7 @@ namespace IdentityExample.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code },
                         protocol: Request.Scheme);
 
-                    await Task.Run(() => _emailSender.SendEmailAsync(
+                    Task.Run(() => _emailSender.SendEmailAsync(
                         Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."));
 
