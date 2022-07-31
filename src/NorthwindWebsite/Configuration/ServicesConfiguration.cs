@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -22,7 +22,8 @@ namespace NorthwindWebsite.Configuration;
 public static class ServicesConfiguration
 {
     public static void AddServicesConfiguration(
-        this IServiceCollection services, AppSettings appSettings)
+        this IServiceCollection services,
+        AppSettings appSettings)
     {
         services.AddControllersWithViews(options =>
             options.Filters.Add<LoggingFilter>());
@@ -101,10 +102,24 @@ public static class ServicesConfiguration
             options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             options.DefaultSignOutScheme = IdentityConstants.TwoFactorUserIdScheme;
         })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(IdentityConstants.ApplicationScheme)
             .AddCookie(IdentityConstants.TwoFactorUserIdScheme)
             .AddExternalCookie();
+
+        services.AddAuthentication()
+            .AddMicrosoftAccount(microsoftOptions =>
+        {
+            microsoftOptions.ClientId = appSettings.MicrosoftAccountConfig.ClientId;
+            microsoftOptions.ClientSecret = appSettings.MicrosoftAccountConfig.ClientSecret;
+        })
+            .AddAzureAD(options =>
+        {
+            options.Instance = appSettings.AzureAdConfigs.Instance;
+            options.ClientId = appSettings.AzureAdConfigs.ClientId;
+            options.TenantId = appSettings.AzureAdConfigs.TenantId;
+            options.CallbackPath = appSettings.AzureAdConfigs.CallbackPath;
+            options.CookieSchemeName = appSettings.AzureAdConfigs.CookieSchemeName;
+        }).AddCookie();
 
         services.AddRazorPages();
 
