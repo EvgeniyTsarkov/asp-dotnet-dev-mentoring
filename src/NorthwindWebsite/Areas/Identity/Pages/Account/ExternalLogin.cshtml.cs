@@ -58,7 +58,7 @@ namespace IdentityExample.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
-        public IActionResult OnGet() => RedirectToPage("./Login");
+        public IActionResult OnGet() => RedirectToPage(UrlConstants.RedirectToLoginUrl);
 
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
@@ -79,14 +79,14 @@ namespace IdentityExample.Areas.Identity.Pages.Account
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
 
-                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                return RedirectToPage(UrlConstants.RedirectToLoginUrl, new { ReturnUrl = returnUrl });
             }
             var externalLoginInfo = await _signInManager.GetExternalLoginInfoAsync();
             if (externalLoginInfo == null)
             {
                 ErrorMessage = "Error loading external login information.";
 
-                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                return RedirectToPage(UrlConstants.RedirectToLoginUrl, new { ReturnUrl = returnUrl });
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -101,6 +101,7 @@ namespace IdentityExample.Areas.Identity.Pages.Account
                     "{Name} logged in with {LoginProvider} provider.", 
                     externalLoginInfo.Principal.Identity.Name, 
                     externalLoginInfo.LoginProvider);
+
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
@@ -130,7 +131,7 @@ namespace IdentityExample.Areas.Identity.Pages.Account
             if (externalLoginInfo == null)
             {
                 ErrorMessage = "Error loading external login information during confirmation.";
-                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+                return RedirectToPage(UrlConstants.RedirectToLoginUrl, new { ReturnUrl = returnUrl });
             }
 
             if (ModelState.IsValid)
