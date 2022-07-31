@@ -5,12 +5,10 @@ namespace NorthwindWebsite.Business.Models;
 public class ChangeRoleModel
 {
     public string UserId { get; set; }
+
     public string UserEmail { get; set; }
-    public List<IdentityRole> AllRoles { get; set; }
-    public IList<string> UserRoles { get; set; }
-    public ChangeRoleModel()
-    {
-        AllRoles = new List<IdentityRole>();
-        UserRoles = new List<string>();
-    }
+
+    public IList<IdentityRole> AllRoles { get; set; } = new List<IdentityRole>();
+
+    public IList<string> UserRoles { get; set; } = new List<string>();
 }

@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NorthwindWebsite.Business.Models;
+using NorthwindWebsite.Core.Utils;
 using NorthwindWebsite.Infrastructure.Entities;
 
 namespace NorthwindWebsite.Presentation.Controllers;
 
-[Authorize(Roles = "Admin")]
-[Route("Admin/Roles/")]
+[Authorize(Roles = RolesConstants.Admin)]
 public class RolesController : Controller
 {
     private readonly RoleManager<IdentityRole> _roleManager;
@@ -27,14 +27,12 @@ public class RolesController : Controller
     {
         var roles = _roleManager.Roles.ToList();
 
-        return View("Admin/Roles/Index", roles);
+        return View(roles);
     }
 
-    //[Route("Create")]
-    public IActionResult Create() => View("Admin/Roles/Create");
+    public IActionResult Create() => View();
 
     [HttpPost]
-    //[Route("Create")]
     public async Task<IActionResult> Create(string name)
     {
         if (!string.IsNullOrEmpty(name))
@@ -43,21 +41,18 @@ public class RolesController : Controller
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
-            else
+
+            foreach (var error in result.Errors)
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                ModelState.AddModelError(string.Empty, error.Description);
             }
         }
 
         return View(name);
     }
 
-    [HttpDelete]
     public async Task<IActionResult> Delete(string id)
     {
         var role = await _roleManager.FindByIdAsync(id);
@@ -67,55 +62,54 @@ public class RolesController : Controller
             await _roleManager.DeleteAsync(role);
         }
 
-        return RedirectToAction("Index");
+        return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
-    [Route("Edit/{userId}")]
     public async Task<IActionResult> Edit(string userId)
     {
         var user = await _userManager.FindByIdAsync(userId);
 
-        if (user != null)
+        if (user == null)
         {
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            var allRoles = _roleManager.Roles.ToList();
-
-            var model = new ChangeRoleModel
-            {
-                UserId = user.Id,
-                UserEmail = user.Email,
-                UserRoles = userRoles,
-                AllRoles = allRoles
-            };
-
-            return View("Admin/Roles/Edit", model);
+            return NotFound();
         }
 
-        return NotFound();
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        var allRoles = _roleManager.Roles.ToList();
+
+        var model = new ChangeRoleModel
+        {
+            UserId = user.Id,
+            UserEmail = user.Email,
+            UserRoles = userRoles,
+            AllRoles = allRoles
+        };
+
+        return View(model);
     }
 
     [HttpPost]
-    [Route("Edit/{userId}")]
     public async Task<IActionResult> Edit(string userId, List<string> roles)
     {
-        ApplicationUser user = await _userManager.FindByIdAsync(userId);
-        if (user != null)
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
         {
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            var addedRoles = roles.Except(userRoles);
-
-            var removedRoles = userRoles.Except(roles);
-
-            await _userManager.AddToRolesAsync(user, addedRoles);
-
-            await _userManager.RemoveFromRolesAsync(user, removedRoles);
-
-            return RedirectToAction("Index");
+            return NotFound();
         }
 
-        return NotFound();
+        var userRoles = await _userManager.GetRolesAsync(user);
+
+        var addedRoles = roles.Except(userRoles);
+
+        var removedRoles = userRoles.Except(roles);
+
+        await _userManager.AddToRolesAsync(user, addedRoles);
+
+        await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+        return RedirectToAction(nameof(Index));
     }
 }
