@@ -9,7 +9,7 @@ public class RootController : ControllerBase
     public ActionResult<object> GetRoot() =>
         new
         {
-            products = new { href = Url.Link(nameof(ProductsController.GetProducts), null) },
+            products = new { href = Url.Link(nameof(ApiProductsController.GetProducts), null) },
             categories = new { href = Url.Link(nameof(CategoriesController.GetCategories), null) }
         };
 }
