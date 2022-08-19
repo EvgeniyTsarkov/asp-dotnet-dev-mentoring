@@ -8,6 +8,8 @@ namespace NorthwindWebsite.Core.ApplicationSettings
         [Required]
         public string Default { get; set; }
 
+        public string AzureSqlConnectionStringPattern { get; set; }
+
         public void Validate()
         {
             Validator.ValidateObject(this, new ValidationContext(this), true);

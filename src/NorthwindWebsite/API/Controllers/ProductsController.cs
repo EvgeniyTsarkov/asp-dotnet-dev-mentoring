@@ -4,13 +4,13 @@ using NorthwindWebsite.Entities;
 
 namespace NorthwindWebsite.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/products")]
 [ApiController]
-public class ProductsController : ControllerBase
+public class ApiProductsController : ControllerBase
 {
     private readonly IProductService _productService;
 
-    public ProductsController(IProductService productService)
+    public ApiProductsController(IProductService productService)
     {
         _productService = productService;
     }
