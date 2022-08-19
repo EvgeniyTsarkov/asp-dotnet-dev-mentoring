@@ -2,18 +2,17 @@
 
 #nullable disable
 
-namespace NorthwindWebsite.Migrations
+namespace NorthwindWebsite.Migrations;
+
+public partial class AzureCreate : Migration
 {
-    public partial class AzureCreate : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
 
-        }
+    }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
 
-        }
     }
 }

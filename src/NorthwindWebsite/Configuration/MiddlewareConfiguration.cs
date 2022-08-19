@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Localization;
+﻿using Microsoft.AspNetCore.Localization;
 using NorthwindWebsite.Core.ApplicationSettings;
 
 namespace NorthwindWebsite.Configuration;
@@ -11,10 +10,7 @@ public static class MiddlewareConfiguration
     {
         //Configure the HTTP request pipeline.
 
-        app.UseForwardedHeaders(new ForwardedHeadersOptions
-        {
-            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-        });
+        app.ConfigureNginxServer();
 
         if (!app.Environment.IsDevelopment())
         {
