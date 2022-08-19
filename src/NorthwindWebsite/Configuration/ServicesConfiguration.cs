@@ -121,7 +121,9 @@ public static class ServicesConfiguration
             options.CookieSchemeName = appSettings.AzureAdConfigs.CookieSchemeName;
         }).AddCookie();
 
-        services.AddRazorPages();
+        services
+            .AddRazorPages()
+            .AddRazorRuntimeCompilation();
 
         services.AddSwaggerDocument();
     }
