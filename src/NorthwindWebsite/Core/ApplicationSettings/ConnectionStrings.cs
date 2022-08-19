@@ -8,7 +8,7 @@ namespace NorthwindWebsite.Core.ApplicationSettings
         [Required]
         public string Default { get; set; }
 
-        public string AzureSqlConnectionString { get; set; }
+        public string AzureSqlConnectionStringPattern { get; set; }
 
         public void Validate()
         {

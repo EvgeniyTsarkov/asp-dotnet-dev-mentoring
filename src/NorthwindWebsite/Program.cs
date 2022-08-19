@@ -4,7 +4,6 @@ using NorthwindWebsite.Core.EmailSender;
 using Serilog;
 using System.Text.Json;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables();
