@@ -5,7 +5,7 @@
 
 @model ProductHandleDto
 
-<link rel="stylesheet" href="~/css/forms.css" />
+<link rel="stylesheet" href="~/css/website-css-bundle.css" />
 
 @section Scripts {
     @{
@@ -38,7 +38,7 @@
 <br />
 <br />
 
-@using (Html.BeginForm(@postAction, "Products", HttpMethod.Post))
+@using (Html.BeginForm(@postAction, "Products"))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(product => product.Product.ProductId)
