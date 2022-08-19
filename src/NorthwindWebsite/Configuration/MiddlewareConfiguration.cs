@@ -10,6 +10,8 @@ public static class MiddlewareConfiguration
     {
         //Configure the HTTP request pipeline.
 
+        app.ConfigureProxyServer();
+
         if (!app.Environment.IsDevelopment())
         {
             app.ConfigureErrorHandling();

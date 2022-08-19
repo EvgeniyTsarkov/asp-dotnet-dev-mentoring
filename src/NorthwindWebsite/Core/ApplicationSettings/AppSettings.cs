@@ -25,6 +25,8 @@ public class AppSettings : IValidatable
 
     public AzureAdConfigs AzureAdConfigs { get; set; }
 
+    public AzureConnectionStringData AzureConnectionStringData { get; set; }
+
     private const string AzureClient = "Authentication:Microsoft:ClientId";
 
     public AppSettings GetAppSettings(IConfiguration configuration) =>
@@ -50,6 +52,11 @@ public class AppSettings : IValidatable
                 TenantId = configuration.GetValue<string>("Authentication:AzureId:TenantId"),
                 CallbackPath = configuration.GetValue<string>("AzureAdConfigs:CallbackPath"),
                 CookieSchemeName = configuration.GetValue<string>("AzureAdConfigs:CookieSchemeName")
+            }, 
+            AzureConnectionStringData = new AzureConnectionStringData 
+            {
+                AzureConnectionStringId = configuration.GetValue<string>("AzureConnectionStringId"),
+                AzureConnectionStringPassword = configuration.GetValue<string>("AzureConnectionStringPassword")
             }
         };
 
