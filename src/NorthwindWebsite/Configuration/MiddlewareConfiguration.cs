@@ -10,7 +10,7 @@ public static class MiddlewareConfiguration
     {
         //Configure the HTTP request pipeline.
 
-        app.ConfigureNginxServer();
+        app.ConfigureProxyServer();
 
         if (!app.Environment.IsDevelopment())
         {
